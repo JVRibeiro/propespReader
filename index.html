@@ -1,34 +1,59 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-  <title>QR Code Reader - PROPESP</title>
+  <title>QR Code Scanner Example</title>
 
-  <script type="text/javascript" src="scripts/instascan.min.js"></script>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-red.min.css" />
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+
 </head>
 
 <body>
-  <video id="preview"></video>
-  <script type="text/javascript">
-    let scanner = new Instascan.Scanner({
-      video: document.getElementById('preview')
-    });
-    scanner.addListener('scan', function(content) {
-      console.log(content);
-    });
-    Instascan.Camera.getCameras().then(function(cameras) {
-      if (cameras.length > 0) {
-        scanner.start(cameras[0]);
-      } else {
-        console.error('No cameras found.');
-      }
-    }).catch(function(e) {
-      console.error(e);
-    });
-  </script>
+  <!-- Simple header with scrollable tabs. -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header noSelect">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title">QR Code Scanner</span>
+      </div>
+      <!-- Tabs -->
+      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Ler código</a>
+        <a href="#scroll-tab-2" class="mdl-layout__tab">Salvos</a>
+      </div>
+    </header>
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">QR Code Scanner</span>
+    </div>
+
+    <main class="mdl-layout__content">
+      <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
+        <div class="page-content">
+          <!-- webcamera view component -->
+          <!--select id="webcameraChanger" onchange="cameraChange($(this).val());"></select-->
+          <video id="webcameraPreview" playsinline autoplay muted loop></video>
+        </div>
+      </section>
+      <section class="mdl-layout__tab-panel" id="scroll-tab-2">
+        <div class="page-content">
+          <!-- Your content goes here -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="text/javascript" src="external/jquery.min.js"></script>
+  <script type="text/javascript" src="external/instascan.js"></script>
+  <script type="text/javascript" src="js/scanner.js"></script>
+
 </body>
 
 </html>
