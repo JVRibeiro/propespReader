@@ -147,16 +147,3 @@ qrScan.scanStart(function (data) {
 $('document').on('ready', function () {
   $('.mdl-layout__drawer-button').removeAttr('tabindex');
 });
-
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function () {
-    navigator.serviceWorker.register('/sw.js').then(function (registration) {
-      // Registration was successful
-      alert('ServiceWorker registration successful with scope: ', registration.scope);
-    }).catch(function (err) {
-      // registration failed :(
-      alert('ServiceWorker registration failed: ', err);
-    });
-  });
-}
