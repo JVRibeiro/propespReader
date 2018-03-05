@@ -77,7 +77,7 @@ function initCamera(i) {
 
     scanner.start(selectedCam);
 } else {
-    console.error('No cameras found.');
+    alert('No cameras found.');
 }
   });
 }
