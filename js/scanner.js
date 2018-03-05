@@ -10,6 +10,21 @@ let cameraId = 0;
 scanner = {};
 
 
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js').then(function (registration) {
+      // Registration was successful
+      alert('ServiceWorker registration successful with scope: ', registration.scope);
+    }).catch(function (err) {
+      // registration failed :(
+      alert('ServiceWorker registration failed: ', err);
+    });
+  });
+}
+
+
 let qrScan = {
   // HTML element
   initHtmlElement: function (id) { // qrScan.initHtmlElement(id)
