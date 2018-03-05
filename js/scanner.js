@@ -1,8 +1,8 @@
 //HTML video component for web camera
-let videoComponent = $("#webcameraPreview");
+//let videoComponent = $("#webcameraPreview");
 
 //HTML select component for cameras change
-let webcameraChanger = $("#webcameraChanger");
+//let webcameraChanger = $("#webcameraChanger");
 
 let cameraId = 0;
 
@@ -59,8 +59,8 @@ let qrScan = {
   },
 
   //init Avaliable Cameras of current device
-  initAvaliableCameras: function (selectObject, callBack) { // qrScan.initAvaliableCameras(selectObject, callBack)
-    var max = 0;
+  initAvaliableCameras: function (callBack) { // qrScan.initAvaliableCameras(selectObject, callBack)
+    //var max = 0;
 
     Instascan.Camera.getCameras().then(function (cameras) {
       /*
@@ -77,12 +77,12 @@ let qrScan = {
       callBack();
     });
   },
-
-  //Get Selected Camera
-  getSelectedCamera: function (selectObject) { // qrScan.getSelectedCamera(selectObject)
-    return parseInt(selectObject.val());
-  },
-
+  /*
+    //Get Selected Camera
+    getSelectedCamera: function (selectObject) { // qrScan.getSelectedCamera(selectObject)
+      return parseInt(selectObject.val());
+    },
+  */
   //Init camera
   initCamera: function (i) { // qrScan.initCamera(i)
     scanner.stop();
@@ -110,12 +110,12 @@ let qrScan = {
       ondetect(content);
     });
   },
-
-  //change camera
-  cameraChange: function (cameraNum) { // qrScan.cameraChange(cameraNum)
-    qrScan.initCamera(parseInt(cameraNum));
-  },
-
+  /*
+    //change camera
+    cameraChange: function (cameraNum) { // qrScan.cameraChange(cameraNum)
+      qrScan.initCamera(parseInt(cameraNum));
+    },
+  */
   //init QrCode scanner
   initScanner: function (options) { // qrScan.initScanner(options)
     scanner = new Instascan.Scanner(options);
@@ -131,11 +131,9 @@ options = qrScan.initVideoObjectOptions("webcameraPreview");
 
 qrScan.initScanner(options);
 
-qrScan.initAvaliableCameras(webcameraChanger,
-  function () {
-    cameraId = parseInt(qrScan.getSelectedCamera(webcameraChanger));
-  }
-);
+qrScan.initAvaliableCameras(function () {
+  cameraId = 1;
+});
 
 qrScan.initCamera(cameraId);
 
