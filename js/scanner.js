@@ -4,10 +4,6 @@ let videoComponent = $("#webcameraPreview");
 //HTML select component for cameras change
 let webcameraChanger = $("#webcameraChanger");
 
-let options = {};
-//init options for scanner
-options = qrScan.initVideoObjectOptions("webcameraPreview");
-
 let cameraId = 0;
 
 //instascan scanner object
@@ -124,9 +120,9 @@ let qrScan = {
 
 
 
-
-
-
+let options = {};
+//init options for scanner
+options = qrScan.initVideoObjectOptions("webcameraPreview");
 
 qrScan.initScanner(options);
 
