@@ -1,111 +1,105 @@
 /* jshint esversion: 6 */
 
-// Force removing outline on focus
-window.addEventListener('load', function() {
+(function() {
+  // Force removing outline on focus
   $('.mdl-layout__drawer-button').removeAttr('tabindex');
 
-  $.getScript("external/instascan.js", function() {
-    console.info("Instascan loaded and executed.");
+  let cameraId = 0;
+  //instascan scanner object
+  scanner = {};
 
+  let qrScan = {
+    // HTML element
+    initHtmlElement: function(id) { // qrScan.initHtmlElement(id);
+      return document.getElementById(id);
+    },
 
+    //init video object options
+    initVideoObjectOptions: function(id) { // qrScan.initVideoObjectOptions(id);
+      scanner = {};
 
-    let cameraId = 0;
-    //instascan scanner object
-    scanner = {};
+      return {
+        // The HTML element to use for the camera's video preview. Must be a <video> element.
+        video: qrScan.initHtmlElement(id),
 
-    let qrScan = {
-      // HTML element
-      initHtmlElement: function(id) { // qrScan.initHtmlElement(id);
-        return document.getElementById(id);
-      },
+        // Whether to scan continuously for QR codes. If false, use scanner.scan() to manually scan.
+        continuous: true,
 
-      //init video object options
-      initVideoObjectOptions: function(id) { // qrScan.initVideoObjectOptions(id);
-        scanner = {};
+        // Whether to horizontally mirror the video preview.
+        mirror: false,
 
-        return {
-          // The HTML element to use for the camera's video preview. Must be a <video> element.
-          video: qrScan.initHtmlElement(id),
+        // Whether to include the scanned image data as part of the scan result.
+        captureImage: false,
 
-          // Whether to scan continuously for QR codes. If false, use scanner.scan() to manually scan.
-          continuous: true,
+        // Only applies to continuous mode. Whether to actively scan when the tab is not active.
+        backgroundScan: false,
 
-          // Whether to horizontally mirror the video preview.
-          mirror: false,
+        // The period, in milliseconds, before the same QR code will be recognized in succession.
+        refractoryPeriod: 3000,
 
-          // Whether to include the scanned image data as part of the scan result.
-          captureImage: false,
+        // Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
+        // increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
+        scanPeriod: 1
+      };
+    },
 
-          // Only applies to continuous mode. Whether to actively scan when the tab is not active.
-          backgroundScan: false,
+    //init Avaliable Cameras of current device
+    initAvaliableCameras: function(callBack) { // qrScan.initAvaliableCameras(callBack);
+      Instascan.Camera.getCameras().then(function(cameras) {
+        callBack();
+      });
+    },
 
-          // The period, in milliseconds, before the same QR code will be recognized in succession.
-          refractoryPeriod: 3000,
+    //Init camera
+    initCamera: function(i) { // qrScan.initCamera(i);
+      scanner.stop();
 
-          // Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
-          // increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
-          scanPeriod: 1
-        };
-      },
+      Instascan.Camera.getCameras().then(function(cameras) {
+        if (cameras.length > 0) {
+          var selectedCam = cameras[0];
+          $.each(cameras, (i, c) => {
+            if (c.name.indexOf('back') != -1) {
+              selectedCam = c;
+              return false;
+            }
+          });
 
-      //init Avaliable Cameras of current device
-      initAvaliableCameras: function(callBack) { // qrScan.initAvaliableCameras(callBack);
-        Instascan.Camera.getCameras().then(function(cameras) {
-          callBack();
-        });
-      },
+          scanner.start(selectedCam);
+        } else {
+          alert('No cameras found.');
+        }
+      });
+    },
 
-      //Init camera
-      initCamera: function(i) { // qrScan.initCamera(i);
-        scanner.stop();
+    scanStart: function(ondetect) { // qrScan.scanStart(ondetect);
+      //Emitted when a QR code is scanned using the camera in continuous mode (see scanner.continuous).
+      scanner.addListener('scan', function(content) {
+        ondetect(content);
+      });
+    },
 
-        Instascan.Camera.getCameras().then(function(cameras) {
-          if (cameras.length > 0) {
-            var selectedCam = cameras[0];
-            $.each(cameras, (i, c) => {
-              if (c.name.indexOf('back') != -1) {
-                selectedCam = c;
-                return false;
-              }
-            });
-
-            scanner.start(selectedCam);
-          } else {
-            alert('No cameras found.');
-          }
-        });
-      },
-
-      scanStart: function(ondetect) { // qrScan.scanStart(ondetect);
-        //Emitted when a QR code is scanned using the camera in continuous mode (see scanner.continuous).
-        scanner.addListener('scan', function(content) {
-          ondetect(content);
-        });
-      },
-
-      //init QrCode scanner
-      initScanner: function(options) { // qrScan.initScanner(options);
-        scanner = new Instascan.Scanner(options);
-      }
-    };
+    //init QrCode scanner
+    initScanner: function(options) { // qrScan.initScanner(options);
+      scanner = new Instascan.Scanner(options);
+    }
+  };
 
 
 
 
-    let options = {};
-    //init options for scanner
-    options = qrScan.initVideoObjectOptions("webcameraPreview");
+  let options = {};
+  //init options for scanner
+  options = qrScan.initVideoObjectOptions("webcameraPreview");
 
-    qrScan.initScanner(options);
+  qrScan.initScanner(options);
 
-    qrScan.initAvaliableCameras(function() {
-      cameraId = 1; // 1 = rear camera
-    });
-
-    qrScan.initCamera(cameraId);
-
-    qrScan.scanStart(function(data) {
-      alert(data);
-    });
+  qrScan.initAvaliableCameras(function() {
+    cameraId = 1; // 1 = rear camera
   });
-});
+
+  qrScan.initCamera(cameraId);
+
+  qrScan.scanStart(function(data) {
+    alert(data);
+  });
+})();
