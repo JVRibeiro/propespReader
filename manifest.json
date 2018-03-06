@@ -23,7 +23,7 @@
     }
   ],
   "display": "standalone",
-  "orientation": "landscape",
+  "orientation": "portrait",
   "theme_color": "#2e69bc",
   "background_color": "#f2f7ff",
   "start_url": "/propespReader/?utm_source=homescreen"
