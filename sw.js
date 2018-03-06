@@ -7,14 +7,15 @@ var urlsToCache = [
   'css/material.indigo-green.min.css',
   'external/material.min.js',
   'external/jquery.min.js',
-  'external/instascan.min.js'
+  'external/instascan.min.js',
+  'external/cripto-aes.min.js'
 ];
 
-self.addEventListener('install', function(event) {
+self.addEventListener('install', function (event) {
   // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME)
-    .then(function(cache) {
+    .then(function (cache) {
       // Cache armazenado
       console.log('Opened cache');
       return cache.addAll(urlsToCache);
@@ -25,10 +26,10 @@ self.addEventListener('install', function(event) {
 
 
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
   event.respondWith(
     caches.match(event.request)
-    .then(function(response) {
+    .then(function (response) {
       // Cache hit - return response
       if (response) {
         return response;
@@ -41,7 +42,7 @@ self.addEventListener('fetch', function(event) {
       var fetchRequest = event.request.clone();
 
       return fetch(fetchRequest).then(
-        function(response) {
+        function (response) {
           // Check if we received a valid response
           if (!response || response.status !== 200 || response.type !== 'basic') {
             // Code if not online
@@ -58,7 +59,7 @@ self.addEventListener('fetch', function(event) {
           var responseToCache = response.clone();
 
           caches.open(CACHE_NAME)
-            .then(function(cache) {
+            .then(function (cache) {
               cache.put(event.request, responseToCache);
             });
 

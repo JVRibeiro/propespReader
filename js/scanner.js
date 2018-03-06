@@ -90,7 +90,11 @@ let qrScan = {
     //alert(data);
     data = data.replace(/\n/gi, '');
     qrScan.data.push(JSON.parse(data));
-    console.log(JSON.stringify(data));
+    //console.log(JSON.stringify(data));
+
+    let encrypted = CryptoJS.AES.encrypt(qrScan.data, "propespti2013");
+
+    localStorage.setItem('data', encrypted)
   }
 };
 
