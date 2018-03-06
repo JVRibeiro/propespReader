@@ -4,7 +4,7 @@
 window.addEventListener('load', function() {
   $('.mdl-layout__drawer-button').removeAttr('tabindex');
 
-  $.getScript("../external/instascan.js", function() {
+  $.getScript("external/instascan.js", function() {
     console.info("Instascan loaded and executed.");
 
 
