@@ -92,7 +92,9 @@ let qrScan = {
     qrScan.data.push(JSON.parse(data));
     //console.log(JSON.stringify(data));
 
-    let encrypted = CryptoJS.AES.encrypt(qrScan.data, "propespti2013");
+    let actual = JSON.stringify(qrScan.data);
+
+    let encrypted = CryptoJS.AES.encrypt(actual, "propespti2013");
 
     localStorage.setItem('data', encrypted)
   }
