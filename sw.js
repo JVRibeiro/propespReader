@@ -1,4 +1,4 @@
-var CACHE_NAME = 'scannerCache?v=0.0.28';
+var CACHE_NAME = 'scannerCache?v=0.0.29';
 var urlsToCache = [
   '/',
   'css/material-icons.css',
