@@ -7,7 +7,7 @@ var urlsToCache = [
   'css/material.indigo-green.min.css',
   'external/material.min.js',
   'external/jquery.min.js',
-  'external/instascan.js'
+  'external/instascan.min.js'
 ];
 
 self.addEventListener('install', function(event) {
@@ -15,6 +15,7 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
     .then(function(cache) {
+      // Cache armazenado
       console.log('Opened cache');
       return cache.addAll(urlsToCache);
     })
@@ -43,8 +44,12 @@ self.addEventListener('fetch', function(event) {
         function(response) {
           // Check if we received a valid response
           if (!response || response.status !== 200 || response.type !== 'basic') {
+            // Code if not online
+            alert('Você está offline.');
             return response;
           }
+
+          // Code if online
 
           // IMPORTANT: Clone the response. A response is a stream
           // and because we want the browser to consume the response

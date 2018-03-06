@@ -64,9 +64,10 @@
             }
           });
 
+          console.log('Camera: ' + selectedCam);
           scanner.start(selectedCam);
         } else {
-          alert('No cameras found.');
+          alert('Nenhuma camera encontrada.');
         }
       });
     },
