@@ -1,6 +1,6 @@
 var CACHE_NAME = 'scannerCache';
 var urlsToCache = [
-  '/propespReader/',
+  'index.html',
   'js/scanner.js',
   'external/instascan.js',
   'external/jquery.min.js',
