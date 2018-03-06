@@ -1,8 +1,7 @@
 var CACHE_NAME = 'scannerCache';
 var urlsToCache = [
-  'index.html',
-  '/external/instascan.js',
-  '/external/jquery.min.js'
+  'external/instascan.js',
+  'external/jquery.min.js'
 ];
 
 self.addEventListener('install', function(event) {
