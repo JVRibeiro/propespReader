@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 //HTML video component for web camera
 //let videoComponent = $("#webcameraPreview");
 
@@ -17,12 +19,12 @@ scanner = {};
 
 let qrScan = {
   // HTML element
-  initHtmlElement: function (id) { // qrScan.initHtmlElement(id)
+  initHtmlElement: function(id) { // qrScan.initHtmlElement(id)
     return document.getElementById(id);
   },
 
   //init video object options
-  initVideoObjectOptions: function (id) { // qrScan.initVideoObjectOptions(id)
+  initVideoObjectOptions: function(id) { // qrScan.initVideoObjectOptions(id)
     scanner = {};
 
     return {
@@ -55,14 +57,14 @@ let qrScan = {
       // Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
       // increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
       scanPeriod: 2
-    }
+    };
   },
 
   //init Avaliable Cameras of current device
-  initAvaliableCameras: function (callBack) { // qrScan.initAvaliableCameras(selectObject, callBack)
+  initAvaliableCameras: function(callBack) { // qrScan.initAvaliableCameras(selectObject, callBack)
     //var max = 0;
 
-    Instascan.Camera.getCameras().then(function (cameras) {
+    Instascan.Camera.getCameras().then(function(cameras) {
       /*
             for (var i = 0; i < cameras.length; i++) {
               var o = $("<option value='" + i + "'></option>");
@@ -84,10 +86,10 @@ let qrScan = {
     },
   */
   //Init camera
-  initCamera: function (i) { // qrScan.initCamera(i)
+  initCamera: function(i) { // qrScan.initCamera(i)
     scanner.stop();
 
-    Instascan.Camera.getCameras().then(function (cameras) {
+    Instascan.Camera.getCameras().then(function(cameras) {
       if (cameras.length > 0) {
         var selectedCam = cameras[0];
         $.each(cameras, (i, c) => {
@@ -104,9 +106,9 @@ let qrScan = {
     });
   },
 
-  scanStart: function (ondetect) { // qrScan.scanStart(ondetect)
+  scanStart: function(ondetect) { // qrScan.scanStart(ondetect)
     //Emitted when a QR code is scanned using the camera in continuous mode (see scanner.continuous).
-    scanner.addListener('scan', function (content) {
+    scanner.addListener('scan', function(content) {
       ondetect(content);
     });
   },
@@ -117,7 +119,7 @@ let qrScan = {
     },
   */
   //init QrCode scanner
-  initScanner: function (options) { // qrScan.initScanner(options)
+  initScanner: function(options) { // qrScan.initScanner(options)
     scanner = new Instascan.Scanner(options);
   }
 };
@@ -131,17 +133,17 @@ options = qrScan.initVideoObjectOptions("webcameraPreview");
 
 qrScan.initScanner(options);
 
-qrScan.initAvaliableCameras(function () {
+qrScan.initAvaliableCameras(function() {
   cameraId = 1;
 });
 
 qrScan.initCamera(cameraId);
 
 
-qrScan.scanStart(function (data) {
+qrScan.scanStart(function(data) {
   alert(data);
 });
 
-$('document').on('ready', function () {
+$('document').on('ready', function() {
   $('.mdl-layout__drawer-button').removeAttr('tabindex');
 });
