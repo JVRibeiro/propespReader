@@ -98,7 +98,7 @@ let qrScan = {
     // let dec = CryptoJS.AES.decrypt(localStorage.getItem('data'), "propespti2013");
     // dec.toString(CryptoJS.enc.Utf8);
 
-    localStorage.setItem('data', encrypted);
+    localStorage.setItem('data', enc);
   }
 };
 
