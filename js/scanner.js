@@ -88,7 +88,7 @@ let qrScan = {
 
   saveScannedData: function (data) { // qrScan.saveScannedData(data);
     //alert(data);
-    qrScan.data.push(data);
+    qrScan.data.push(JSON.parse(data));
     console.log(JSON.stringify(data));
   }
 };
