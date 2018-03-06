@@ -1,7 +1,6 @@
-var CACHE_NAME = 'scannerCache?v=0.0.22';
+var CACHE_NAME = 'scannerCache?v=0.0.23';
 var urlsToCache = [
   '/',
-  'js/scanner.js?v=0.0.22',
   'css/material-icons.css',
   'fonts/material-icons.woff2',
   'css/material.indigo-green.min.css',
