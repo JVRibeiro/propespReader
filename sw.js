@@ -1,4 +1,4 @@
-var CACHE_NAME = 'scannerCache-v0.0.25';
+var CACHE_NAME = 'scannerCache-v0.0.26';
 var urlsToCache = [
   '/',
   'css/material-icons.css',
@@ -20,6 +20,8 @@ self.addEventListener('install', function (event) {
       return cache.addAll(urlsToCache);
     })
   );
+
+  self.skipWaiting();
 });
 
 
