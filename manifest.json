@@ -17,8 +17,8 @@
       "sizes": "192x192"
     }
   ],
-  "start_url": "index.html?launcher=true",
   "display": "standalone",
   "orientation": "landscape",
-  "theme_color": "#2e69bc"
+  "theme_color": "#2e69bc",
+  "start_url": "/?utm_source=homescreen"
 }
