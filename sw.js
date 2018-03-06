@@ -1,4 +1,4 @@
-var CACHE_NAME = 'scannerCache';
+var CACHE_NAME = 'scannerCache?v=0.0.22';
 var urlsToCache = [
   '/',
   'js/scanner.js?v=0.0.22',
