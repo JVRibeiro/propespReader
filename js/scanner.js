@@ -1,7 +1,6 @@
 /* jshint esversion: 6 */
 
 let cameraId = 0;
-
 //instascan scanner object
 scanner = {};
 
@@ -101,6 +100,6 @@ qrScan.scanStart(function(data) {
 });
 
 // Force removing outline on focus
-$('document').on('ready', function() {
-  document.querySelector('.mdl-layout__drawer-button').removeAttribute('tabindex');
+window.addEventListener('load', function() {
+  $('.mdl-layout__drawer-button').removeAttr('tabindex');
 });
