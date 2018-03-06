@@ -1,5 +1,6 @@
 var CACHE_NAME = 'scannerCache';
 var urlsToCache = [
+  'index.html',
   'external/instascan.js',
   'external/jquery.min.js',
   'css/material-icons.css',

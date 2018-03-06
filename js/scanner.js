@@ -44,7 +44,7 @@ window.addEventListener('load', function() {
 
           // Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
           // increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
-          scanPeriod: 2
+          scanPeriod: 1
         };
       },
 
