@@ -5,6 +5,7 @@ var urlsToCache = [
   'external/instascan.js',
   'external/jquery.min.js',
   'css/material-icons.css',
+  'https://fonts.gstatic.com/s/materialicons/v36/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
   'css/material.indigo-green.min.css',
   'external/material.min.js'
 ];
