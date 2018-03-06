@@ -1,7 +1,7 @@
 var CACHE_NAME = 'scannerCache';
 var urlsToCache = [
   '/',
-  'js/scanner.js?v=0.0.20',
+  'js/scanner.js?v=0.0.21',
   'css/material-icons.css',
   'fonts/material-icons.woff2',
   'css/material.indigo-green.min.css',
@@ -32,6 +32,7 @@ self.addEventListener('fetch', function (event) {
     .then(function (response) {
       // Cache hit - return response
       if (response) {
+        console.log('Update cache');
         return response;
       }
 
