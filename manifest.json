@@ -20,5 +20,6 @@
   "display": "standalone",
   "orientation": "landscape",
   "theme_color": "#2e69bc",
+  "background_color": "#f2f7ff",
   "start_url": "/?utm_source=homescreen"
 }
