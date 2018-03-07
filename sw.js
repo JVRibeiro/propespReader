@@ -74,15 +74,3 @@ self.addEventListener('fetch', function(event) {
     })
   );
 });
-
-
-
-
-// listen to the service worker promise in index.html to see if there has been a new update.
-// condition: the service-worker.js needs to have some kind of change - e.g. increment CACHE_VERSION.
-isUpdateAvailable
-  .then(isAvailable => {
-    if (isAvailable) {
-      alert('Update available');
-    }
-  });

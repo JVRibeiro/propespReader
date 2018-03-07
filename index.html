@@ -95,6 +95,15 @@
       }
     });
 
+    // listen to the service worker promise in index.html to see if there has been a new update.
+    // condition: the service-worker.js needs to have some kind of change - e.g. increment CACHE_VERSION.
+    window.isUpdateAvailable
+      .then(isAvailable => {
+        if (isAvailable) {
+          alert('Update available');
+        }
+      });
+
     // Update:
     // this also can be incorporated right into e.g. your run() function in angular,
     // to avoid using the global namespace for such a thing.
