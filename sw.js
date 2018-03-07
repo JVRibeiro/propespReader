@@ -1,5 +1,7 @@
-var CACHE_NAME = 'scannerCache?v=0.0.30';
-var urlsToCache = [
+/* jshint esversion: 6 */
+
+let CACHE_NAME = 'scannerCache?v=0.0.30';
+let urlsToCache = [
   '/',
   'js/scanner.js',
   'css/material-icons.css',
@@ -11,11 +13,11 @@ var urlsToCache = [
   'external/cripto-aes.min.js'
 ];
 
-self.addEventListener('install', function (event) {
+self.addEventListener('install', function(event) {
   // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME)
-    .then(function (cache) {
+    .then(function(cache) {
       // Cache armazenado
       console.log('Opened cache');
       return cache.addAll(urlsToCache);
@@ -28,10 +30,10 @@ self.addEventListener('install', function (event) {
 
 
 
-self.addEventListener('fetch', function (event) {
+self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
-    .then(function (response) {
+    .then(function(response) {
       // Cache hit - return response
       if (response) {
         console.log('Update cache');
@@ -42,10 +44,10 @@ self.addEventListener('fetch', function (event) {
       // can only be consumed once. Since we are consuming this
       // once by cache and once by the browser for fetch, we need
       // to clone the response.
-      var fetchRequest = event.request.clone();
+      let fetchRequest = event.request.clone();
 
       return fetch(fetchRequest).then(
-        function (response) {
+        function(response) {
           // Check if we received a valid response
           if (!response || response.status !== 200 || response.type !== 'basic') {
             // Code if not online
@@ -59,10 +61,10 @@ self.addEventListener('fetch', function (event) {
           // and because we want the browser to consume the response
           // as well as the cache consuming the response, we need
           // to clone it so we have two streams.
-          var responseToCache = response.clone();
+          let responseToCache = response.clone();
 
           caches.open(CACHE_NAME)
-            .then(function (cache) {
+            .then(function(cache) {
               cache.put(event.request, responseToCache);
             });
 
@@ -72,3 +74,15 @@ self.addEventListener('fetch', function (event) {
     })
   );
 });
+
+
+
+
+// listen to the service worker promise in index.html to see if there has been a new update.
+// condition: the service-worker.js needs to have some kind of change - e.g. increment CACHE_VERSION.
+self.addEventListener('isUpdateAvailable')
+  .then(isAvailable => {
+    if (isAvailable) {
+      alert('Update available');
+    }
+  });
