@@ -1,9 +1,9 @@
 /* jshint esversion: 6 */
 
-let CACHE_NAME = 'scannerCache?v=0.0.30';
+let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   '/',
-  'js/scanner.js',
+  'js/scanner.js?v=0.0.30',
   'css/material-icons.css',
   'fonts/material-icons.woff2',
   'css/material.indigo-green.min.css',
