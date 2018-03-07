@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-let CACHE_VERSION = '0.0.35';
+let CACHE_VERSION = '0.0.36';
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   'index.html',
@@ -20,7 +20,7 @@ function clearOldCaches() {
     .then(keylist => {
       return Promise.all(
         keylist
-        .filter(key => key !== CACHE)
+        .filter(key => key !== CACHE_NAME)
         .map(key => caches.delete(key))
       );
     });
