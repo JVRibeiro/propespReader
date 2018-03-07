@@ -3,7 +3,7 @@
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   '/',
-  'js/scanner.js?v=0.0.32',
+  'js/scanner.js?v=0.0.33',
   'css/material-icons.css',
   'fonts/material-icons.woff2',
   'css/material.indigo-green.min.css',
