@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-let CACHE_VERSION = '0.0.37';
+let CACHE_VERSION = '0.0.38';
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   'index.html',
@@ -64,7 +64,7 @@ self.addEventListener('fetch', function(event) {
       // Cache hit - return response
       if (response) {
         // return cached file
-        console.log('cache fetch: ' + url);
+        //console.log('cache fetch: ' + url);
         return response;
       }
 
