@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-let CACHE_VERSION = '0.0.39';
+let CACHE_VERSION = '0.0.40';
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   'index.html',
@@ -33,7 +33,7 @@ self.addEventListener('install', function(event) {
     caches.open(CACHE_NAME)
     .then(function(cache) {
       // Cache armazenado
-      console.log('service worker: install '+CACHE_VERSION);
+      console.log('service worker: install ' + CACHE_VERSION);
       return cache.addAll(urlsToCache);
     })
   );
