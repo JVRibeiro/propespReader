@@ -13,18 +13,44 @@ let urlsToCache = [
   'external/cripto-aes.min.js'
 ];
 
+// clear old caches
+function clearOldCaches() {
+  return caches.keys()
+    .then(keylist => {
+      return Promise.all(
+        keylist
+        .filter(key => key !== CACHE)
+        .map(key => caches.delete(key))
+      );
+    });
+}
+
+
 self.addEventListener('install', function(event) {
   // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME)
     .then(function(cache) {
       // Cache armazenado
-      console.log('Opened cache');
+      console.log('service worker: install');
       return cache.addAll(urlsToCache);
     })
   );
 
   self.skipWaiting();
+});
+
+// application activated
+self.addEventListener('activate', event => {
+
+  console.log('service worker: activate');
+
+  // delete old caches
+  event.waitUntil(
+    clearOldCaches()
+    .then(() => self.clients.claim())
+  );
+
 });
 
 
@@ -36,6 +62,8 @@ self.addEventListener('fetch', function(event) {
     .then(function(response) {
       // Cache hit - return response
       if (response) {
+        // return cached file
+        console.log('cache fetch: ' + url);
         return response;
       }
 
@@ -49,8 +77,6 @@ self.addEventListener('fetch', function(event) {
         function(response) {
           // Check if we received a valid response
           if (!response || response.status !== 200 || response.type !== 'basic') {
-            // Code if not online
-            alert('Você está offline.');
             return response;
           }
 
