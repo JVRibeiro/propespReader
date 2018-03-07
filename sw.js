@@ -1,9 +1,10 @@
 /* jshint esversion: 6 */
 
+let CACHE_VERSION = '0.0.35';
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
-  '/',
-  'js/scanner.js?v=0.0.35',
+  'index.html',
+  'js/scanner.js',
   'css/material-icons.css',
   'fonts/material-icons.woff2',
   'css/material.indigo-green.min.css',
@@ -32,7 +33,7 @@ self.addEventListener('install', function(event) {
     caches.open(CACHE_NAME)
     .then(function(cache) {
       // Cache armazenado
-      console.log('service worker: install');
+      console.log('service worker: install '+CACHE_VERSION);
       return cache.addAll(urlsToCache);
     })
   );
