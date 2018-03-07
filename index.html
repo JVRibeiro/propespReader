@@ -1,157 +1,172 @@
 <!doctype html>
 <html lang="pt-br">
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <meta name="theme-color" content="#2e69bc" />
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="theme-color" content="#2e69bc" />
 
-  <title>PROPESP QR Code Scanner</title>
+    <title>PROPESP QR Code Scanner</title>
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="css/material-icons.css" />
-  <link rel="stylesheet" href="css/material.indigo-green.min.css" />
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/material-icons.css" />
+    <link rel="stylesheet" href="css/material.indigo-green.min.css" />
 
-  <style>
-    .page-content {
-      text-align: center;
-    }
+    <script defer src="external/material.min.js"></script>
 
-    video {
-      width: 100%;
-      height: 400px;
-      background-color: #000;
-    }
-
-    .noSelect {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-      -webkit-tap-highlight-color: transparent; // i.e. Nexus5/Chrome and Kindle Fire HD 7''
-      outline: none !important;
-      -webkit-user-modify: read-only;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    }
-
-    div:focus,
-    div:active,
-    button:focus,
-    button:active,
-    a:focus,
-    a:active {
-      outline: none;
-    }
-  </style>
-
-
-  <script defer src="external/material.min.js"></script>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('sw.js', {
-          scope: '.' // <--- THIS BIT IS REQUIRED
-        }).then(function(registration) {
-          // Registration was successful
-          console.log('ServiceWorker registration successful with scope: ' + registration.scope);
-        }).catch(function(err) {
-          // registration failed :(
-          console.log('ServiceWorker registration failed: ' + err);
-        });
-      });
-    }
-
-    // make the whole serviceworker process into a promise so later on we can
-    // listen to it and in case new content is available a toast will be shown
-    window.isUpdateAvailable = new Promise(function(resolve, reject) {
-      // lazy way of disabling service workers while developing
-      if ('serviceWorker' in navigator && ['localhost', '127'].indexOf(location.hostname) === -1) {
-        // register service worker file
-        navigator.serviceWorker.register('sw.js')
-          .then(reg => {
-            reg.onupdatefound = () => {
-              const installingWorker = reg.installing;
-              installingWorker.onstatechange = () => {
-                switch (installingWorker.state) {
-                  case 'installed':
-                    if (navigator.serviceWorker.controller) {
-                      // new update available
-                      resolve(true);
-                    } else {
-                      // no update available
-                      resolve(false);
-                    }
-                    break;
-                }
-              };
-            };
-          })
-          .catch(err => console.error('[SW ERROR]', err));
+    <style>
+      .page-content {
+        text-align: center;
       }
-    });
 
-    // listen to the service worker promise in index.html to see if there has been a new update.
-    // condition: the service-worker.js needs to have some kind of change - e.g. increment CACHE_VERSION.
-    window['isUpdateAvailable']
-      .then(isAvailable => {
-        if (isAvailable) {
-          alert('update available');
+      video {
+        width: 100%;
+        height: 400px;
+        background-color: #000;
+      }
+
+      .noSelect {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: transparent; // i.e. Nexus5/Chrome and Kindle Fire HD 7''
+        outline: none !important;
+        -webkit-user-modify: read-only;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+
+      div:focus,
+      div:active,
+      button:focus,
+      button:active,
+      a:focus,
+      a:active {
+        outline: none;
+      }
+    </style>
+
+    <script>
+      if ('serviceWorker' in navigator)
+      {
+        window.addEventListener('load', function()
+        {
+          navigator.serviceWorker.register('sw.js',
+          {
+            scope: '.' // <--- THIS BIT IS REQUIRED
+          }).then(function(registration)
+          {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ' + registration.scope);
+          }).catch(function(err)
+          {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ' + err);
+          });
+        });
+      }
+
+      // make the whole serviceworker process into a promise so later on we can
+      // listen to it and in case new content is available a toast will be shown
+      window.isUpdateAvailable = new Promise(function(resolve, reject)
+      {
+        // lazy way of disabling service workers while developing
+        if ('serviceWorker' in navigator && ['localhost', '127'].indexOf(location.hostname) === -1)
+        {
+          // register service worker file
+          navigator.serviceWorker.register('sw.js')
+            .then(reg =>
+            {
+              reg.onupdatefound = () =>
+              {
+                const installingWorker = reg.installing;
+                installingWorker.onstatechange = () =>
+                {
+                  switch (installingWorker.state)
+                  {
+                    case 'installed':
+                      if (navigator.serviceWorker.controller)
+                      {
+                        // new update available
+                        resolve(true);
+                      }
+                      else
+                      {
+                        // no update available
+                        resolve(false);
+                      }
+                      break;
+                  }
+                };
+              };
+            })
+            .catch(err => console.error('[SW ERROR]', err));
         }
       });
 
-    // Update:
-    // this also can be incorporated right into e.g. your run() function in angular,
-    // to avoid using the global namespace for such a thing.
-    // because the registering of a service worker doesn't need to be executed on the first load of the page.
-  </script>
+      // listen to the service worker promise in index.html to see if there has been a new update.
+      // condition: the service-worker.js needs to have some kind of change - e.g. increment CACHE_VERSION.
+      window['isUpdateAvailable']
+        .then(isAvailable =>
+        {
+          if (isAvailable)
+          {
+            alert('update available');
+          }
+        });
 
-  <script type="text/javascript" src="external/jquery.min.js"></script>
+      // Update:
+      // this also can be incorporated right into e.g. your run() function in angular,
+      // to avoid using the global namespace for such a thing.
+      // because the registering of a service worker doesn't need to be executed on the first load of the page.
+    </script>
 
-</head>
+    <script type="text/javascript" src="external/jquery.min.js"></script>
 
-<body>
-  <!-- Simple header with scrollable tabs. -->
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
-    <header class="mdl-layout__header noSelect">
-      <div class="mdl-layout__header-row">
-        <!-- Title -->
+  </head>
+
+  <body>
+    <!-- Simple header with scrollable tabs. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
+      <header class="mdl-layout__header noSelect">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">QR Code Scanner</span>
+        </div>
+        <!-- Tabs -->
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+          <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Ler código</a>
+          <a href="#scroll-tab-2" class="mdl-layout__tab">Salvos</a>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">QR Code Scanner</span>
       </div>
-      <!-- Tabs -->
-      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-        <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Ler código</a>
-        <a href="#scroll-tab-2" class="mdl-layout__tab">Salvos</a>
-      </div>
-    </header>
-    <div class="mdl-layout__drawer">
-      <span class="mdl-layout-title">QR Code Scanner</span>
+
+      <main class="mdl-layout__content">
+        <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
+          <div class="page-content">
+            <!-- webcamera view component -->
+
+            <video id="webcameraPreview" playsinline autoplay muted loop></video>
+            <!--select id="webcameraChanger" onchange="qrScan.cameraChange(parseInt($(this).val()));"></select-->
+          </div>
+        </section>
+        <section class="mdl-layout__tab-panel" id="scroll-tab-2">
+          <div class="page-content">
+            <!-- Your content goes here -->
+          </div>
+        </section>
+      </main>
     </div>
 
-    <main class="mdl-layout__content">
-      <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
-        <div class="page-content">
-          <!-- webcamera view component -->
-
-          <video id="webcameraPreview" playsinline autoplay muted loop></video>
-          <!--select id="webcameraChanger" onchange="qrScan.cameraChange(parseInt($(this).val()));"></select-->
-        </div>
-      </section>
-      <section class="mdl-layout__tab-panel" id="scroll-tab-2">
-        <div class="page-content">
-          <!-- Your content goes here -->
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <script defer src="external/cripto-aes.min.js"></script>
-  <script type="text/javascript" src="external/instascan.min.js"></script>
-  <script type="text/javascript" src="js/scanner.js"></script>
-</body>
+    <script defer src="external/cripto-aes.min.js"></script>
+    <script type="text/javascript" src="external/instascan.min.js"></script>
+    <script type="text/javascript" src="js/scanner.js"></script>
+  </body>
 
 </html>
