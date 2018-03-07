@@ -3,6 +3,7 @@
 //(function () {
 // Force removing outline on focus
 $('.mdl-layout__drawer-button').removeAttr('tabindex');
+$('#cacheVersion').html(CACHE_VERSION);
 
 let cameraId = 0;
 //instascan scanner object
