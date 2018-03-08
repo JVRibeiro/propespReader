@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-let CACHE_VERSION = '0.0.46';
+let CACHE_VERSION = '0.0.47';
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   'index.html',
@@ -14,16 +14,11 @@ let urlsToCache = [
   'external/cripto-aes.min.js'
 ];
 
-function consoleLog(a) {
-  window.document.getElementById('log').innerHTML = a;
-}
-
 // clear old caches
 function clearOldCaches() {
   return caches.keys()
     .then(keylist => {
-      console.log('old cache clear.');
-      consoleLog('old cache clear.');
+      alert('old cache clear.');
 
       return Promise.all(
         keylist
@@ -40,8 +35,7 @@ self.addEventListener('install', function(event) {
     caches.open(CACHE_NAME)
     .then(function(cache) {
       // Cache armazenado
-      console.log('service worker: install ' + CACHE_VERSION);
-      consoleLog('service worker: install ' + CACHE_VERSION);
+      alert('service worker: install ' + CACHE_VERSION);
       return cache.addAll(urlsToCache);
     })
   );
@@ -52,8 +46,7 @@ self.addEventListener('install', function(event) {
 // application activated
 self.addEventListener('activate', event => {
 
-  console.log('service worker: activate');
-  consoleLog('service worker: activate');
+  alert('service worker: activate');
 
   // delete old caches
   event.waitUntil(
@@ -73,7 +66,7 @@ self.addEventListener('fetch', function(event) {
       // Cache hit - return response
       if (response) {
         // return cached file
-        //console.log('cache fetch: ' + url);
+        //alert('cache fetch: ' + url);
         return response;
       }
 
