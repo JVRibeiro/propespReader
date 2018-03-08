@@ -96,7 +96,8 @@ let qrScan = {
     console.log("Dados lidos: "+ read);
 
     // Processed data
-    let proc = data.replace(/\\"/g, '"')
+    let proc = data.replace(/\\"/g, '"');
+        proc = proc.replace(/ /g, '');
     console.log("Dados processados: "+ proc);
 
     // Actual string Array
