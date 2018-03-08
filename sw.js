@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-let CACHE_VERSION = '0.0.52';
+let CACHE_VERSION = '0.0.53';
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   'index.html',
