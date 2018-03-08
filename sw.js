@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-let CACHE_VERSION = '0.0.45';
+let CACHE_VERSION = '0.0.46';
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   'index.html',
@@ -15,7 +15,7 @@ let urlsToCache = [
 ];
 
 function consoleLog(a) {
-  getElementById('log').innerHTML = a;
+  window.document.getElementById('log').innerHTML = a;
 }
 
 // clear old caches
