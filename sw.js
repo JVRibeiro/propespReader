@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-let CACHE_VERSION = '0.0.47';
+let CACHE_VERSION = '0.0.46';
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   'index.html',
@@ -18,7 +18,7 @@ let urlsToCache = [
 function clearOldCaches() {
   return caches.keys()
     .then(keylist => {
-      alert('old cache clear.');
+      console.log('old cache clear.');
 
       return Promise.all(
         keylist
@@ -35,7 +35,7 @@ self.addEventListener('install', function(event) {
     caches.open(CACHE_NAME)
     .then(function(cache) {
       // Cache armazenado
-      alert('service worker: install ' + CACHE_VERSION);
+      console.log('service worker: install ' + CACHE_VERSION);
       return cache.addAll(urlsToCache);
     })
   );
@@ -46,7 +46,7 @@ self.addEventListener('install', function(event) {
 // application activated
 self.addEventListener('activate', event => {
 
-  alert('service worker: activate');
+  console.log('service worker: activate');
 
   // delete old caches
   event.waitUntil(
@@ -66,7 +66,7 @@ self.addEventListener('fetch', function(event) {
       // Cache hit - return response
       if (response) {
         // return cached file
-        //alert('cache fetch: ' + url);
+        //console.log('cache fetch: ' + url);
         return response;
       }
 
