@@ -15,7 +15,7 @@ let urlsToCache = [
 ];
 
 function consoleLog(a) {
-  document.getElementById('log').innerHTML = 'a';
+  getElementById('log').innerHTML = a;
 }
 
 // clear old caches
