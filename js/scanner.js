@@ -102,8 +102,10 @@ let qrScan = {
   },
 
   saveScannedData: function (data) { // qrScan.saveScannedData(data);
+    // Read data
+    let read = data.replace(/\n/gi, '<br>');
     console.log("Dados lidos: " + data);
-    qrScan.log("Dados lidos: " + data);
+    qrScan.log("Dados lidos: " + read);
 
     // Processed data
     let proc = data.replace(/\n/gi, '');
@@ -168,7 +170,7 @@ $('.mdl-layout__tab').on('click', function() {
     console.log('Camera activated.');
     isCameraTabActive = true;
     qrScan.initCamera(cameraId);
-  } else {
+  } else if (!this.href.match("#scroll-tab-1") && isCameraTabActive) {
     console.log('Camera deactivated.');
     isCameraTabActive = false;
     scanner.stop();
