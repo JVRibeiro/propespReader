@@ -31,18 +31,19 @@ let qrScan = {
   log: function (string) { // qrScan.log(string);
     //console.log(string);
     //console.log(typeof string);
+    if (logIsEnabled) {
+      if (typeof string === 'object') {
+        string = JSON.stringify(string);
 
-    if (typeof string === 'object') {
-      string = JSON.stringify(string);
+        //console.log(typeof string);
+      }
 
-      //console.log(typeof string);
+      string = string.replace(/\x22(.*?)\x22/gi, '<span class=\'red\'>"$1"</span>');
+      string = string.replace(/(null|true|false|undefined)/gi, '<span class=\'purple\'>$1</span>');
+      string = string.replace(/(\{|\}|\[|\]|:|,|\.)/gi, '<span class=\'grey\'>$1</span>');
+
+      document.getElementById('log').innerHTML += string + '<hr>';
     }
-
-    string = string.replace(/\x22(.*?)\x22/gi, '<span class=\'red\'>"$1"</span>');
-    string = string.replace(/(null|true|false|undefined)/gi, '<span class=\'purple\'>$1</span>');
-    string = string.replace(/(\{|\}|\[|\]|:|,|\.)/gi, '<span class=\'grey\'>$1</span>');
-
-    document.getElementById('log').innerHTML += string + '<hr>';
   },
 
   //init video object options
