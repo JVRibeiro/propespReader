@@ -168,12 +168,16 @@ let qrScan = {
     },
 
     _success: function () { // qrScan.animate._success();
+      scanner.stop();
+
       $('.success')
         .removeClass('snap-status-out')
         .addClass('snap-status-in');
 
         setTimeout(function() {
           // code to execute after animation ends
+          qrScan.initCamera(cameraId);
+          
           $('.success')
             .removeClass('snap-status-in')
             .addClass('snap-status-out');
@@ -181,12 +185,16 @@ let qrScan = {
     },
 
     _error: function () { // qrScan.animate._error();
+      scanner.stop();
+
       $('.error')
         .removeClass('snap-status-out')
         .addClass('snap-status-in');
 
         setTimeout(function() {
           // code to execute after animation ends
+          qrScan.initCamera(cameraId);
+          
           $('.error')
             .removeClass('snap-status-in')
             .addClass('snap-status-out');
