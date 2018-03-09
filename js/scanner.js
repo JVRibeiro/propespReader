@@ -16,7 +16,19 @@ let qrScan = {
   },
 
   log: function (string) { // qrScan.log(string);
-    document.getElementById('log').innerHTML += '<br><br>' + string;
+    if (typeof string === 'object') {
+      string = JSON.stringify(string);
+    }
+
+    switch (true) {
+      case /^&quote;(.*)&quote;/.test(string):
+            string = '<span class=\'red\'>' + string + '</span>';
+            break;
+      default:
+        string = '<span>' + string + '</span>';
+    }
+
+    document.getElementById('log').innerHTML += string + '<hr>';
   },
 
   //init video object options
