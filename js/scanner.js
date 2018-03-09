@@ -162,13 +162,9 @@ let qrScan = {
     _snap: function () { // qrScan.animate._snap();
       let cameraCanvas = document.getElementById('cameraCanvas');
 
-      $(cameraCanvas)
-        .addClass('snap-anim')
-        .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
-          function(e) {
-          // code to execute after animation ends
-          $(this).removeClass('snap-anim');
-      });
+      $('#cameraCanvas')
+        .removeClass('snap-anim')
+        .addClass('snap-anim');
     },
 
     _success: function () { // qrScan.animate._success();
