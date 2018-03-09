@@ -6,6 +6,7 @@ $('.mdl-layout__drawer-button').removeAttr('tabindex');
 
 let cameraId = 0;
 let isCameraTabActive = true;
+let logIsEnabled;
 //instascan scanner object
 scanner = {};
 
@@ -16,14 +17,25 @@ let qrScan = {
     return document.getElementById(id);
   },
 
+  enableLog: function (bool) { // qrScan.enableLog(bool);
+    localStorage.setItem('enableLog', JSON.stringify(bool));
+    logIsEnabled = bool;
+
+    if (bool) {
+      $('.mdl-layout__tab.log, #scroll-tab-3').show();
+    } else {
+      $('.mdl-layout__tab.log, #scroll-tab-3').hide();
+    }
+  },
+
   log: function (string) { // qrScan.log(string);
-    console.log(string);
-    console.log(typeof string);
+    //console.log(string);
+    //console.log(typeof string);
 
     if (typeof string === 'object') {
       string = JSON.stringify(string);
 
-      console.log(typeof string);
+      //console.log(typeof string);
     }
 
     string = string.replace(/\x22(.*?)\x22/gi, '<span class=\'red\'>"$1"</span>');
@@ -54,7 +66,7 @@ let qrScan = {
       backgroundScan: false,
 
       // The period, in milliseconds, before the same QR code will be recognized in succession.
-      refractoryPeriod: 3000,
+      refractoryPeriod: 5000,
 
       // Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
       // increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
@@ -137,7 +149,7 @@ let qrScan = {
       //qrScan.log("Dados codificados: " + enc);
 
       localStorage.setItem('data', enc);
-
+/*
       // Decrypted data
       let dec = eval(function(d,e,a,c,b,f){b=function(a){return(a<e?"":b(parseInt(a/e)))+(35<(a%=e)?String.fromCharCode(a+29):a.toString(36));};if(!"".replace(/^/,String)){for(;a--;)f[b(a)]=c[a]||b(a);c=[function(a){return f[a];}];b=function(){return"\\w+";};a=1;}for(;a--;)c[a]&&(d=d.replace(new RegExp("\\b"+b(a)+"\\b","g"),c[a]));return d;}('1N s=["\\1f\\Y\\o\\K\\m\\n\\h\\1k\\h\\B\\h\\j\\h\\B\\h\\1j\\h\\1a\\h\\G\\h\\B\\h\\1K\\h\\1a\\h\\11\\h\\1v\\h\\11\\h\\1p\\h\\1c\\h\\13\\h\\1I\\h\\13\\h\\1p\\n\\l\\n\\h\\x\\n\\l\\n\\h\\V\\h\\O\\h\\C\\h\\17\\h\\z\\n\\l\\n\\h\\1H\\h\\U\\h\\18\\h\\O\\h\\z\\h\\J\\h\\1r\\h\\12\\h\\x\\h\\1y\\h\\1z\\h\\12\\h\\x\\h\\1e\\h\\M\\h\\X\\h\\U\\h\\18\\h\\O\\h\\z\\h\\x\\h\\C\\h\\J\\h\\X\\h\\E\\h\\C\\h\\12\\h\\z\\h\\J\\h\\U\\h\\E\\h\\19\\h\\M\\h\\x\\h\\19\\h\\M\\h\\z\\h\\1t\\h\\z\\h\\M\\h\\1u\\h\\x\\h\\1e\\h\\E\\h\\z\\h\\E\\h\\x\\h\\O\\h\\U\\h\\J\\h\\O\\h\\M\\h\\V\\h\\O\\h\\z\\h\\17\\h\\1j\\h\\1k\\h\\j\\h\\G\\n\\l\\n\\h\\U\\h\\M\\h\\O\\h\\C\\h\\E\\h\\X\\h\\M\\n\\l\\n\\n\\l\\n\\h\\1g\\h\\1w\\h\\1x\\n\\l\\n\\h\\1g\\h\\D\\R\\n\\l\\n\\h\\19\\n\\k\\L\\D\\D\\r\\Q\\r\\W\\l\\Z\\l\\y\\l\\q\\l\\N\\l\\T\\t\\H\\N\\K\\1b\\L\\1d\\r\\1J\\o\\m\\P\\k\\m\\o\\m\\A\\k\\k\\r\\1h\\1s\\1h\\l\\1b\\t\\t\\H\\1i\\r\\y\\15\\15\\t\\H\\T\\m\\y\\k\\K\\q\\m\\y\\k\\i\\i\\y\\F\\L\\q\\K\\m\\Q\\r\\S\\t\\H\\I\\Y\\T\\m\\S\\k\\F\\k\\L\\N\\K\\Q\\r\\t\\H\\I\\Y\\o\\m\\v\\k\\F\\L\\y\\K\\D\\F\\L\\1i\\r\\y\\15\\15\\t\\H\\1d\\r\\q\\m\\y\\k\\t\\H\\W\\K\\W\\m\\o\\m\\A\\k\\k\\r\\1A\\Y\\1D\\r\\o\\m\\p\\k\\16\\N\\r\\y\\t\\16\\o\\m\\p\\k\\l\\o\\m\\1l\\k\\t\\l\\q\\m\\y\\k\\t\\F\\F\\L\\I\\Y\\W\\F\\r\\o\\m\\R\\k\\l\\p\\l\\p\\l\\o\\m\\u\\k\\m\\o\\m\\w\\k\\k\\r\\o\\m\\D\\k\\t\\l\\R\\l\\H\\F\\t\\t","\\i","\\12\\Q\\E\\x\\I","\\i\\i\\i\\i\\i\\i\\i\\i\\i\\1O\\R\\j\\q\\D\\p\\Z\\i\\i\\i\\i\\i\\i\\i\\i\\j\\p\\A\\i\\j\\p\\G\\i\\j\\p\\R\\i\\j\\v\\P\\i\\j\\v\\D\\i\\j\\p\\w\\i\\j\\v\\G\\i\\j\\v\\1b\\i\\N\\X\\C\\Z\\I\\x\\J\\C\\i\\j\\v\\p\\i\\j\\w\\11\\i\\j\\P\\u\\i\\B\\q\\I\\X\\B\\C\\i\\j\\v\\u\\i\\j\\w\\w\\i\\j\\p\\u\\i\\j\\u\\D\\i\\j\\P\\G\\i\\j\\u\\w\\i\\j\\v\\o\\i\\j\\w\\1l\\i\\j\\u\\u\\i\\j\\p\\o\\i\\j\\w\\p\\i\\1f\\I\\B\\x\\C\\T\\i\\x\\N\\i\\V\\z\\x\\E\\q\\i\\j\\w\\o\\i\\j\\u\\R\\i\\j\\v\\A\\i\\j\\u\\v\\i\\j\\A\\D\\i\\j\\A\\P\\i\\j\\u\\P\\i\\j\\A\\u\\i\\j\\u\\A\\i\\j\\w\\G\\i\\13\\S\\B\\i\\j\\A\\o\\i\\j\\v\\18\\i\\j\\A\\17\\i\\j\\p\\p\\i\\j\\w\\1a\\i\\C\\q\\V\\i\\1c\\q\\T\\11\\j\\Q\\i\\j\\v\\w\\i\\q\\13\\S\\E","","\\N\\B\\J\\U\\G\\z\\S\\B\\G\\J\\y\\q","\\B\\q\\Q\\E\\S\\Z\\q","\\h\\V\\16","\\h\\W","\\T"];1q(14(b,c,d,e,f,g){f=14(a){10(a<c?s[4]:f(1B(a/c)))+((a=a%c)>1C?1m[s[5]](a+1E):a.1F(1G))};1n(!s[4][s[6]](/^/,1m)){1o(d--){g[f(d)]=e[d]||f(d)};e=[14(a){10 g[a]}];f=14(){10 s[7]};d=1};1o(d--){1n(e[d]){b=b[s[6]](1L 1M(s[8]+f(d)+s[8],s[9]),e[d])}};10 b}(s[0],1P,1Q,s[3][s[2]](s[1]),0,{}))', // jshint ignore:line
   62,115,"                 x5C x7C x78 x5D x2C x5B x22 x39 x37 x65 x28 _0x9cd4 x29 x33 x36 x32 x69 x64 x68 x34 x72 x6E x31 x6C x7D x43 x7B x74 x6F x3D x3B x6B x66 x6A x35 x70 x30 x61 x67 x6D x77 x62 x75 x20 x63 return x45 x73 x76 function x2D x2B x41 x44 x71 x42 x46 x52 x47 x4B x53 x79 x2F x48 x7A x4A x38 String if while x49 eval x56 x5E x54 x55 x4F x57 x58 x4D x4E x59 parseInt 35 x5A 29 toString 36 x50 x4C x21 x51 new RegExp var x5F 62 64".split(" "),0,{}));
@@ -146,6 +158,7 @@ let qrScan = {
 
       console.log("Dados decodificados: " + decString);
       //qrScan.log("Dados decodificados: " + decString);
+*/
     }
     else {
       // Animation
@@ -207,6 +220,12 @@ let qrScan = {
   }
 };
 
+
+if (localStorage.getItem('enableLog') === null || localStorage.getItem('enableLog') === 'false') {
+  qrScan.enableLog(false);
+} else if (localStorage.getItem('enableLog') === 'true') {
+  qrScan.enableLog(true);
+}
 
 
 let options = {};
