@@ -1,12 +1,19 @@
 #cameraCanvas {
   width: 100%;
   height: 500px;
+  position: absolute;
+  overflow: hidden;
+}
+
+#cameraCanvas .frame {
+  width: 100%;
+  height: 100%;
   background-image: url(../img/ui/qr-frame.png);
-  background-size: 100%;
+  background-size: 100% auto;
   background-position: 50%;
   background-repeat: no-repeat;
   position: absolute;
-  overflow: hidden;
+  opacity: 0;
 }
 
 #cameraCanvas .success {
