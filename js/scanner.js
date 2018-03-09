@@ -6,7 +6,7 @@ $('.mdl-layout__drawer-button').removeAttr('tabindex');
 
 let cameraId = 0;
 let isCameraTabActive = true;
-let logIsEnabled, snapTimeout, toastTimeout;
+let selectedCam, logIsEnabled, snapTimeout, toastTimeout;
 //instascan scanner object
 scanner = {};
 
@@ -88,7 +88,7 @@ let qrScan = {
 
     Instascan.Camera.getCameras().then(function (cameras) {
       if (cameras.length > 0) {
-        var selectedCam = cameras[0];
+        selectedCam = cameras[0];
         $.each(cameras, (i, c) => {
           if (c.name.indexOf('back') != -1) {
             selectedCam = c;
@@ -261,7 +261,7 @@ $('.mdl-layout__tab').on('click', function() {
   if (this.href.match("#scroll-tab-1") && !isCameraTabActive) {
     console.log('Camera activated.');
     isCameraTabActive = true;
-    qrScan.initCamera(cameraId);
+    scanner.start(selectedCam);
   } else if (!this.href.match("#scroll-tab-1") && isCameraTabActive) {
     console.log('Camera deactivated.');
     isCameraTabActive = false;
