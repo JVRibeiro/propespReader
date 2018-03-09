@@ -45,7 +45,7 @@
 
 .snap-anim {
   animation-name: snap-anim;
-  animation-duration: 1s;
+  animation-duration: .5s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
   opacity: 1;
@@ -63,7 +63,7 @@
 
 .snap-status-in {
   animation-name: snap-status-in;
-  animation-duration: .5s;
+  animation-duration: .3s;
   animation-delay: 1s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
@@ -76,13 +76,13 @@
   }
   100% {
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 }
 
 .snap-status-out {
   animation-name: snap-status-out;
-  animation-duration: .5s;
+  animation-duration: .3s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
@@ -90,7 +90,7 @@
 @keyframes snap-status-out {
   0% {
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
   100% {
     opacity: 0;
