@@ -17,12 +17,14 @@ let qrScan = {
   },
 
   log: function (string) { // qrScan.log(string);
-    if (typeof string === 'object') {
-      console.log(typeof string);
-      string = JSON.stringify(string);
-    }
-
+    console.log(string);
     console.log(typeof string);
+
+    if (typeof string === 'object') {
+      string = JSON.stringify(string);
+
+      console.log(typeof string);
+    }
 
     string = string.replace(/\x22(.*?)\x22/gi, '<span class=\'red\'>"$1"</span>');
 
@@ -81,7 +83,7 @@ let qrScan = {
         });
 
         console.log(selectedCam);
-        qrScan.log('Camera: ' + selectedCam);
+        qrScan.log('Camera: ' + JSON.stringify(selectedCam));
 
         scanner.start(selectedCam);
       } else {
