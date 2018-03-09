@@ -31,7 +31,6 @@ let qrScan = {
     string = string.replace(/(\{|\}|\[|\]|:|,|\.)/gi, '<span class=\'grey\'>$1</span>');
 
     document.getElementById('log').innerHTML += string + '<hr>';
-    document.querySelector('.mdl-layout__content').scrollTop = document.querySelector('.mdl-layout__content').scrollHeight;
   },
 
   //init video object options
@@ -179,6 +178,10 @@ $('.mdl-layout__tab').on('click', function() {
     console.log('Camera deactivated.');
     isCameraTabActive = false;
     scanner.stop();
+  } else if (!this.href.match("#scroll-tab-1") && !isCameraTabActive) {
+    if (this.href.match("#scroll-tab-3")) {
+      document.querySelector('.mdl-layout__content').scrollTop = document.querySelector('.mdl-layout__content').scrollHeight;
+    }
   }
 });
 //})();
