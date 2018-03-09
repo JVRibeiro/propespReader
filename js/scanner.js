@@ -7,6 +7,7 @@ $('.mdl-layout__drawer-button').removeAttr('tabindex');
 let cameraId = 0;
 let isCameraTabActive = true;
 let logIsEnabled;
+let snapTimeout;
 //instascan scanner object
 scanner = {};
 
@@ -187,27 +188,29 @@ let qrScan = {
 
     _success: function () { // qrScan.animate._success();
       $('.error').removeClass('snap-status-in snap-status-out');
+      if (snapTimeout != undefined) clearTimeout(snapTimeout);
 
       $('.success')
           .removeClass('snap-status-in snap-status-out')
           .addClass('snap-status-in');
 
-        setTimeout(function() {
-          // code to execute after animation ends
-          $('.success')
-            .removeClass('snap-status-in')
+          snapTimeout = setTimeout(function() {
+            // code to execute after animation ends
+            $('.success')
+              .removeClass('snap-status-in')
             .addClass('snap-status-out');
         },3000);
     },
 
     _error: function () { // qrScan.animate._error();
       $('.success').removeClass('snap-status-in snap-status-out');
+      if (snapTimeout != undefined) clearTimeout(snapTimeout);
 
       $('.error')
         .removeClass('snap-status-in snap-status-out')
         .addClass('snap-status-in');
 
-        setTimeout(function() {
+        snapTimeout = setTimeout(function() {
           // code to execute after animation ends
           $('.error')
             .removeClass('snap-status-in')
