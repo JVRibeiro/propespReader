@@ -67,7 +67,7 @@ let qrScan = {
       backgroundScan: false,
 
       // The period, in milliseconds, before the same QR code will be recognized in succession.
-      refractoryPeriod: 5000,
+      refractoryPeriod: 4000,
 
       // Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
       // increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
@@ -186,13 +186,9 @@ let qrScan = {
     },
 
     _success: function () { // qrScan.animate._success();
-      if ($('.success').hasClass('snap-status-out')) {
-        $('.success')
-          .removeClass('snap-status-out')
+      $('.success')
+          .removeClass('snap-status-in snap-status-out')
           .addClass('snap-status-in');
-      } else {
-        $('.success').addClass('snap-status-in');
-      }
 
         setTimeout(function() {
           // code to execute after animation ends
@@ -203,13 +199,9 @@ let qrScan = {
     },
 
     _error: function () { // qrScan.animate._error();
-      if ($('.error').hasClass('snap-status-out')) {
-        $('.error')
-          .removeClass('snap-status-out')
-          .addClass('snap-status-in');
-      } else {
-        $('.error').addClass('snap-status-in');
-      }
+      $('.error')
+        .removeClass('snap-status-in snap-status-out')
+        .addClass('snap-status-in');
 
         setTimeout(function() {
           // code to execute after animation ends
