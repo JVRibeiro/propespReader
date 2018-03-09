@@ -172,16 +172,16 @@ let qrScan = {
     },
 
     _success: function () { // qrScan.animate._success();
-      scanner.stop();
-
-      $('.success')
-        .removeClass('snap-status-out')
-        .addClass('snap-status-in');
+      if ($('.success').hasClass('snap-status-out')) {
+        $('.success')
+          .removeClass('snap-status-out')
+          .addClass('snap-status-in');
+      } else {
+        $('.success').addClass('snap-status-in');
+      }
 
         setTimeout(function() {
           // code to execute after animation ends
-          qrScan.initCamera(cameraId);
-
           $('.success')
             .removeClass('snap-status-in')
             .addClass('snap-status-out');
@@ -189,16 +189,16 @@ let qrScan = {
     },
 
     _error: function () { // qrScan.animate._error();
-      scanner.stop();
-
-      $('.error')
-        .removeClass('snap-status-out')
-        .addClass('snap-status-in');
+      if ($('.error').hasClass('snap-status-out')) {
+        $('.error')
+          .removeClass('snap-status-out')
+          .addClass('snap-status-in');
+      } else {
+        $('.error').addClass('snap-status-in');
+      }
 
         setTimeout(function() {
           // code to execute after animation ends
-          qrScan.initCamera(cameraId);
-
           $('.error')
             .removeClass('snap-status-in')
             .addClass('snap-status-out');
