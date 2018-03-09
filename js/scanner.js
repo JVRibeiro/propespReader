@@ -106,6 +106,8 @@ let qrScan = {
   },
 
   saveScannedData: function (data) { // qrScan.saveScannedData(data);
+    qrScan.animate._snap();
+
     // Read data
     let read = data.replace(/\n/gi, '<br>');
     console.log("Dados lidos: " + data);
@@ -119,8 +121,8 @@ let qrScan = {
 
     // If matches: {"propesp":{(.*)}}
     if (proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\: \x7b(.*)\x7d\x7d/g)) {
-      // Animation snap
-      qrScan.animate._snap();
+      // Animation
+      qrScan.animate._success();
 
       qrScan.data.push(JSON.parse(data));
 
@@ -147,7 +149,9 @@ let qrScan = {
       //qrScan.log("Dados decodificados: " + decString);
     }
     else {
-      alert('QR Code inválido!\n\nEscaneie um QR Code pertencente à PROPESP.');
+      // Animation
+      qrScan.animate._error();
+
       console.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
       qrScan.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
     }
@@ -164,6 +168,32 @@ let qrScan = {
           function(e) {
           // code to execute after animation ends
           $(this).removeClass('snap-anim');
+      });
+    },
+
+    _success: function () { // qrScan.animate._success();
+      $('.success')
+        .removeClass('snap-status-out')
+        .addClass('snap-status-in')
+        .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+          function(e) {
+          // code to execute after animation ends
+          $(this)
+            .removeClass('snap-status-in')
+            .addClass('snap-status-out');
+      });
+    },
+
+    _error: function () { // qrScan.animate._error();
+      $('.error')
+        .removeClass('snap-status-out')
+        .addClass('snap-status-in')
+        .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+          function(e) {
+          // code to execute after animation ends
+          $(this)
+            .removeClass('snap-status-in')
+            .addClass('snap-status-out');
       });
     }
   }
