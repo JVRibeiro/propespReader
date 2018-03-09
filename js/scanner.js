@@ -189,7 +189,7 @@ let qrScan = {
     _success: function () { // qrScan.animate._success();
       let notification = document.querySelector('.mdl-js-snackbar');
 
-      $(notification).removeClass('mdl-snackbar--active');
+      $('#snap-status-toast').removeClass('mdl-snackbar--active');
       notification.MaterialSnackbar.showSnackbar(
         {
           message: 'Dados salvos!'
@@ -214,7 +214,7 @@ let qrScan = {
     _error: function () { // qrScan.animate._error();
       let notification = document.querySelector('.mdl-js-snackbar');
 
-      $(notification).removeClass('mdl-snackbar--active');
+      $('#snap-status-toast').removeClass('mdl-snackbar--active');
       notification.MaterialSnackbar.showSnackbar(
         {
           message: 'QR Code inválido!'
