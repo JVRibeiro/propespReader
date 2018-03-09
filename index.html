@@ -156,6 +156,7 @@
       <span class="mdl-layout-title">QR Code Scanner</span>
     </div>
 
+    <!-- Ler codigo -->
     <main class="mdl-layout__content">
       <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
         <div class="page-content">
@@ -166,17 +167,23 @@
             <div class="offline"></div>
           </div>
           <video id="webcameraPreview" playsinline autoplay muted loop></video>
-          <div id="cacheVersion"></div>
+
+          <div id="snap-status-toast" class="mdl-js-snackbar mdl-snackbar">
+            <div class="mdl-snackbar__text"></div>
+            <button class="mdl-snackbar__action" type="button"></button>
+          </div>
           <!--select id="webcameraChanger" onchange="qrScan.cameraChange(parseInt($(this).val()));"></select-->
         </div>
       </section>
 
+      <!-- Salvos -->
       <section class="mdl-layout__tab-panel" id="scroll-tab-2">
         <div class="page-content">
           <!-- Your content goes here -->
         </div>
       </section>
 
+      <!-- Log -->
       <section class="mdl-layout__tab-panel" id="scroll-tab-3">
         <div class="page-content">
           <div id='log'></div>

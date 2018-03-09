@@ -187,6 +187,15 @@ let qrScan = {
     },
 
     _success: function () { // qrScan.animate._success();
+      let notification = document.querySelector('.mdl-js-snackbar');
+
+      $(notification).removeClass('mdl-snackbar--active');
+      notification.MaterialSnackbar.showSnackbar(
+        {
+          message: 'Dados salvos!'
+        }
+      );
+
       $('.error').removeClass('snap-status-in snap-status-out');
       if (snapTimeout != undefined) clearTimeout(snapTimeout);
 
@@ -203,6 +212,15 @@ let qrScan = {
     },
 
     _error: function () { // qrScan.animate._error();
+      let notification = document.querySelector('.mdl-js-snackbar');
+
+      $(notification).removeClass('mdl-snackbar--active');
+      notification.MaterialSnackbar.showSnackbar(
+        {
+          message: 'QR Code inválido!'
+        }
+      );
+
       $('.success').removeClass('snap-status-in snap-status-out');
       if (snapTimeout != undefined) clearTimeout(snapTimeout);
 
