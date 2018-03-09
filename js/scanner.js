@@ -18,6 +18,7 @@ let qrScan = {
 
   log: function (string) { // qrScan.log(string);
     if (typeof string === 'object') {
+      console.log(typeof string);
       string = JSON.stringify(string);
     }
 
