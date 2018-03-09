@@ -1,7 +1,37 @@
-#webcameraPreviewAnimation {
+#cameraCanvas {
   width: 100%;
   height: 400px;
   position: absolute;
+}
+
+#cameraCanvas .success {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: url(img/ui/ic_done_48dp.svg);
+  background-size: 48px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+#cameraCanvas .error {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: url(img/ui/ic_clear_48dp.svg);
+  background-size: 48px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+#cameraCanvas .offline {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: url(img/ui/ic_offline_pin_24px.svg);
+  background-size: 48px;
+  background-repeat: no-repeat;
+  background-position: 50%;
 }
 
 /* Animations */

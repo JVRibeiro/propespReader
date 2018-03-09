@@ -4,6 +4,7 @@ let CACHE_VERSION = '0.0.63';
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   'index.html',
+  'css/main.css',
   'js/scanner.js',
   'css/material-icons.css',
   'fonts/material-icons.woff2',
