@@ -27,6 +27,8 @@ let qrScan = {
     }
 
     string = string.replace(/\x22(.*?)\x22/gi, '<span class=\'red\'>"$1"</span>');
+    string = string.replace(/(null|true|false|undefined)/gi, '<span class=\'purple\'>"$1"</span>');
+    string = string.replace(/(\{|\}|\[|\]|:|,|\.)/gi, '<span class=\'grey\'>"$1"</span>');
 
     document.getElementById('log').innerHTML += string + '<hr>';
     document.querySelector('.mdl-layout__content').scrollTop = document.querySelector('.mdl-layout__content').scrollHeight;
