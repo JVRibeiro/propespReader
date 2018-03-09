@@ -21,13 +21,7 @@ let qrScan = {
       string = JSON.stringify(string);
     }
 
-    switch (true) {
-      case /(^\x22(.*)\x22)/.test(string):
-            string = '<span class=\'red\'>' + string + '</span>';
-            break;
-      default:
-        string = '<span>' + string + '</span>';
-    }
+    string = string.replace(/\x22(.*?)\x22/gi, '<span class=\'red\'>"$1"</span>');
 
     document.getElementById('log').innerHTML += string + '<hr>';
     document.querySelector('.mdl-layout__content').scrollTop = document.querySelector('.mdl-layout__content').scrollHeight;
@@ -84,7 +78,7 @@ let qrScan = {
         });
 
         console.log(selectedCam);
-        qrScan.log(selectedCam);
+        qrScan.log('Camera: ' + selectedCam);
 
         scanner.start(selectedCam);
       } else {
