@@ -10,6 +10,7 @@
   <title>PROPESP QR Code Scanner</title>
 
   <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/material-icons.css" />
   <link rel="stylesheet" href="css/material.indigo-green.min.css" />
 
@@ -159,7 +160,11 @@
       <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
         <div class="page-content">
           <!-- webcamera view component -->
-
+          <div id="webcameraPreviewAnimation">
+            <div id="success"></div>
+            <div id="error"></div>
+            <div id="offline"></div>
+          </div>
           <video id="webcameraPreview" playsinline autoplay muted loop></video>
           <div id="cacheVersion"></div>
           <!--select id="webcameraChanger" onchange="qrScan.cameraChange(parseInt($(this).val()));"></select-->
