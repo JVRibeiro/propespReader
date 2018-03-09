@@ -163,8 +163,12 @@ let qrScan = {
       let cameraCanvas = document.getElementById('cameraCanvas');
 
       $('#cameraCanvas')
-        .removeClass('snap-anim')
-        .addClass('snap-anim');
+        .addClass('snap-anim')
+        .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+          function(e) {
+          // code to execute after animation ends
+          $('#cameraCanvas').removeClass('snap-anim');
+      });
     },
 
     _success: function () { // qrScan.animate._success();
@@ -177,7 +181,7 @@ let qrScan = {
         setTimeout(function() {
           // code to execute after animation ends
           qrScan.initCamera(cameraId);
-          
+
           $('.success')
             .removeClass('snap-status-in')
             .addClass('snap-status-out');
@@ -194,7 +198,7 @@ let qrScan = {
         setTimeout(function() {
           // code to execute after animation ends
           qrScan.initCamera(cameraId);
-          
+
           $('.error')
             .removeClass('snap-status-in')
             .addClass('snap-status-out');
