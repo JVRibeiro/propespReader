@@ -1,6 +1,6 @@
 #cameraCanvas {
   width: 100%;
-  height: 560px;
+  height: 500px;
   background-image: url(../img/ui/qr-frame.png);
   background-size: 100%;
   background-position: 50%;
@@ -49,16 +49,16 @@
 
 .snap-anim {
   -webkit-animation-name: snap-anim;
-          animation-name: snap-anim;
+  animation-name: snap-anim;
   -webkit-animation-duration: .5s;
-          animation-duration: .5s;
+  animation-duration: .5s;
   -webkit-animation-iteration-count: 1;
-          animation-iteration-count: 1;
+  animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
   opacity: 1;
   -webkit-box-shadow: inset 0 0 30px 15px rgba(255, 255, 255, 0.7);
-          box-shadow: inset 0 0 30px 15px rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 0 30px 15px rgba(255, 255, 255, 0.7);
 }
 
 @-webkit-keyframes snap-anim {
@@ -81,27 +81,27 @@
 
 .snap-status-in {
   -webkit-animation-name: snap-status-in;
-          animation-name: snap-status-in;
+  animation-name: snap-status-in;
   -webkit-animation-duration: .3s;
-          animation-duration: .3s;
+  animation-duration: .3s;
   -webkit-animation-delay: 1s;
-          animation-delay: 1s;
+  animation-delay: 1s;
   -webkit-animation-iteration-count: 1;
-          animation-iteration-count: 1;
+  animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes snap-status-in {
   0% {
     opacity: 0;
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   100% {
     opacity: 1;
     -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    transform: scale(1.2);
   }
 }
 
@@ -109,36 +109,36 @@
   0% {
     opacity: 0;
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   100% {
     opacity: 1;
     -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    transform: scale(1.2);
   }
 }
 
 .snap-status-out {
   -webkit-animation-name: snap-status-out;
-          animation-name: snap-status-out;
+  animation-name: snap-status-out;
   -webkit-animation-duration: .3s;
-          animation-duration: .3s;
+  animation-duration: .3s;
   -webkit-animation-iteration-count: 1;
-          animation-iteration-count: 1;
+  animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes snap-status-out {
   0% {
     opacity: 1;
     -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    transform: scale(1.2);
   }
   100% {
     opacity: 0;
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 
@@ -146,11 +146,11 @@
   0% {
     opacity: 1;
     -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    transform: scale(1.2);
   }
   100% {
     opacity: 0;
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
