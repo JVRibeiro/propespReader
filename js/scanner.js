@@ -5,6 +5,7 @@
 $('.mdl-layout__drawer-button').removeAttr('tabindex');
 
 let cameraId = 0;
+let isCameraTabActive = true;
 //instascan scanner object
 scanner = {};
 
@@ -21,7 +22,7 @@ let qrScan = {
     }
 
     switch (true) {
-      case /^&quote;(.*)&quote;/.test(string):
+      case /(^\x22(.*)\x22)/.test(string):
             string = '<span class=\'red\'>' + string + '</span>';
             break;
       default:
@@ -29,6 +30,7 @@ let qrScan = {
     }
 
     document.getElementById('log').innerHTML += string + '<hr>';
+    document.querySelector('.mdl-layout__content').scrollTop = document.querySelector('.mdl-layout__content').scrollHeight;
   },
 
   //init video object options
@@ -163,5 +165,17 @@ qrScan.initCamera(cameraId);
 
 qrScan.scanStart(function (data) {
   qrScan.saveScannedData(data);
+});
+
+$('.mdl-layout__tab').on('click', function() {
+  if (this.href.match("#scroll-tab-1") && !isCameraTabActive) {
+    console.log('Camera activated.');
+    isCameraTabActive = true;
+    qrScan.initCamera(cameraId);
+  } else {
+    console.log('Camera deactivated.');
+    isCameraTabActive = false;
+    scanner.stop();
+  }
 });
 //})();
