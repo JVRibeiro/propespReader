@@ -174,7 +174,7 @@ let qrScan = {
   /* Animations */
   animate: {
     _snap: function () { // qrScan.animate._snap();
-      let cameraCanvas = document.getElementById('cameraCanvas');
+      $('#cameraCanvas').removeClass('snap-anim');
 
       $('#cameraCanvas')
         .addClass('snap-anim')
@@ -186,6 +186,8 @@ let qrScan = {
     },
 
     _success: function () { // qrScan.animate._success();
+      $('.error').removeClass('snap-status-in snap-status-out');
+
       $('.success')
           .removeClass('snap-status-in snap-status-out')
           .addClass('snap-status-in');
@@ -199,6 +201,8 @@ let qrScan = {
     },
 
     _error: function () { // qrScan.animate._error();
+      $('.success').removeClass('snap-status-in snap-status-out');
+
       $('.error')
         .removeClass('snap-status-in snap-status-out')
         .addClass('snap-status-in');
