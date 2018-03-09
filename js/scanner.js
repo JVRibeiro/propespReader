@@ -179,7 +179,7 @@ let qrScan = {
     _snap: function () { // qrScan.animate._snap();
       $('#cameraCanvas .frame').removeClass('snap-anim');
 
-      $('#cameraCanvas.frame ')
+      $('#cameraCanvas .frame ')
         .addClass('snap-anim')
         .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
           function(e) {
