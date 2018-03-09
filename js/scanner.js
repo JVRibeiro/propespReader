@@ -261,11 +261,15 @@ $('.mdl-layout__tab').on('click', function() {
   if (this.href.match("#scroll-tab-1") && !isCameraTabActive) {
     console.log('Camera activated.');
     isCameraTabActive = true;
+
     scanner.start(selectedCam);
   } else if (!this.href.match("#scroll-tab-1") && isCameraTabActive) {
     console.log('Camera deactivated.');
     isCameraTabActive = false;
-    scanner.stop();
+
+    setTimeout(function () {
+      scanner.stop();
+    }, 15000);
   }
 
   if (this.href.match("#scroll-tab-3")) {
