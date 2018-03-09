@@ -119,6 +119,9 @@ let qrScan = {
 
     // If matches: {"propesp":{(.*)}}
     if (proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\: \x7b(.*)\x7d\x7d/g)) {
+      // Animation snap
+      qrScan.animate._snap();
+
       qrScan.data.push(JSON.parse(data));
 
       // Actual string Array
@@ -147,6 +150,21 @@ let qrScan = {
       alert('QR Code inválido!\n\nEscaneie um QR Code pertencente à PROPESP.');
       console.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
       qrScan.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
+    }
+  },
+
+  /* Animations */
+  animate: {
+    _snap: function () { // qrScan.animate._snap();
+      let webcameraPreviewAnimation = document.getElementById('webcameraPreviewAnimation');
+
+      $(webcameraPreviewAnimation)
+        .addClass('snap-anim')
+        .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+          function(e) {
+          // code to execute after animation ends
+          $(this).removeClass('snap-anim');
+      });
     }
   }
 };

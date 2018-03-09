@@ -1,1 +1,1 @@
-.snap-anim{animation:snap-anim 1s ease 1 forwards;box-shadow:inset 0 0 30px 10px #fff}@keyframes snap-anim{0%,100%{opacity:0}50%{opacity:1}}
+#webcameraPreviewAnimation{width:100%;height:400px;position:absolute}.snap-anim{animation:snap-anim 1s ease 1 forwards;box-shadow:inset 0 0 30px 10px #fff}@keyframes snap-anim{0%,100%{opacity:0}50%{opacity:1}}
