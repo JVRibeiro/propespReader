@@ -178,10 +178,8 @@ $('.mdl-layout__tab').on('click', function() {
     console.log('Camera deactivated.');
     isCameraTabActive = false;
     scanner.stop();
-  } else if (!this.href.match("#scroll-tab-1") && !isCameraTabActive) {
-    if (this.href.match("#scroll-tab-3")) {
+  } else if (this.href.match("#scroll-tab-3")) {
       document.querySelector('.mdl-layout__content').scrollTop = document.querySelector('.mdl-layout__content').scrollHeight;
-    }
   }
 });
 //})();
