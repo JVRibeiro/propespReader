@@ -17,10 +17,11 @@ let qrScan = {
   },
 
   log: function (string) { // qrScan.log(string);
+    console.log(typeof string);
     if (typeof string === 'object') {
       string = JSON.stringify(string);
     }
- 
+
     string = string.replace(/\x22(.*?)\x22/gi, '<span class=\'red\'>"$1"</span>');
 
     document.getElementById('log').innerHTML += string + '<hr>';
