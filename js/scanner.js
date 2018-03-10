@@ -250,9 +250,11 @@ qrScan.initAvaliableCameras(function () {
   cameraId = 1; // 1 = rear camera
 });
 
-qrScan.initCamera(cameraId);
+$('document').on('ready',function () {
+  qrScan.initCamera(cameraId);
 
-qrScan.scanStart(function (data) {
-  qrScan.saveScannedData(data);
+  qrScan.scanStart(function (data) {
+    qrScan.saveScannedData(data);
+  });
 });
 //})();
