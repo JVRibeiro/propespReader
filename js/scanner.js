@@ -81,11 +81,6 @@ let qrScan = {
     });
   },
 
-  //init QrCode scanner
-  initScanner: function (options) { // qrScan.initScanner(options);
-    scanner = new Instascan.Scanner(options);
-  },
-
   //Init camera
   initCamera: function (i) { // qrScan.initCamera(i);
     scanner.stop();
@@ -171,6 +166,11 @@ let qrScan = {
 
       qrScan.animate._showToast('QR Code inválido!');
     }
+  },
+
+  //init QrCode scanner
+  initScanner: function (options) { // qrScan.initScanner(options);
+    scanner = new Instascan.Scanner(options);
   },
 
   /* Animations */
