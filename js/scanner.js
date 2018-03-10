@@ -82,7 +82,7 @@ let qrScan = {
 
   //Init camera
   initCamera: function (i) { // qrScan.initCamera(i);
-    scanner.stop();
+    //scanner.stop();
 
     Instascan.Camera.getCameras().then(function (cameras) {
       if (cameras.length > 0) {
