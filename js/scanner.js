@@ -6,7 +6,7 @@ $('.mdl-layout__drawer-button').removeAttr('tabindex');
 
 let cameraId = 0;
 let isCameraTabActive = true;
-let selectedCam, logIsEnabled, snapTimeout, toastTimeout;
+let logIsEnabled, snapTimeout, toastTimeout;
 //instascan scanner object
 scanner = {};
 
@@ -32,7 +32,7 @@ let qrScan = {
     //console.log(string);
     //console.log(typeof string);
     if (logIsEnabled) {
-      if (typeof string === 'object') {
+      if (typeof string != 'string') {
         string = JSON.stringify(string);
 
         //console.log(typeof string);
@@ -64,7 +64,7 @@ let qrScan = {
       captureImage: false,
 
       // Only applies to continuous mode. Whether to actively scan when the tab is not active.
-      backgroundScan: false,
+      backgroundScan: true,
 
       // The period, in milliseconds, before the same QR code will be recognized in succession.
       refractoryPeriod: 4000,
@@ -88,7 +88,7 @@ let qrScan = {
 
     Instascan.Camera.getCameras().then(function (cameras) {
       if (cameras.length > 0) {
-        selectedCam = cameras[0];
+        let selectedCam = cameras[0];
         $.each(cameras, (i, c) => {
           if (c.name.indexOf('back') != -1) {
             selectedCam = c;
