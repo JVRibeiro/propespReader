@@ -244,13 +244,14 @@ let options = {};
 //init options for scanner
 options = qrScan.initVideoObjectOptions("webcameraPreview");
 
-qrScan.initScanner(options);
+
 
 qrScan.initAvaliableCameras(function () {
   cameraId = 1; // 1 = rear camera
 });
 
 $('document').on('load',function () {
+  qrScan.initScanner(options);
   qrScan.initCamera(cameraId);
 
   qrScan.scanStart(function (data) {
