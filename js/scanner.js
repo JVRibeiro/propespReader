@@ -251,7 +251,9 @@ qrScan.initAvaliableCameras(function () {
   cameraId = 1; // 1 = rear camera
 });
 
-qrScan.initCamera(cameraId);
+$('video').on('load', function () {
+  qrScan.initCamera(cameraId);
+});
 
 qrScan.scanStart(function (data) {
   qrScan.saveScannedData(data);
