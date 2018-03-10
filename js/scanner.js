@@ -256,26 +256,4 @@ qrScan.initCamera(cameraId);
 qrScan.scanStart(function (data) {
   qrScan.saveScannedData(data);
 });
-
-$('.mdl-layout__tab').on('click', function() {
-  if (this.href.match("#scroll-tab-1") && !isCameraTabActive) {
-    console.log('Camera activated.');
-    isCameraTabActive = true;
-
-    scanner.start(selectedCam);
-  } else if (!this.href.match("#scroll-tab-1") && isCameraTabActive) {
-    console.log('Camera deactivated.');
-    isCameraTabActive = false;
-
-    setTimeout(function () {
-      scanner.stop();
-    }, 15000);
-  }
-
-  if (this.href.match("#scroll-tab-3")) {
-    setTimeout(function () {
-      document.querySelector('.mdl-layout__content').scrollTop = document.querySelector('.mdl-layout__content').scrollHeight;
-    },100);
-  }
-});
 //})();
