@@ -82,7 +82,7 @@ let qrScan = {
 
   //Init camera
   initCamera: function (i) { // qrScan.initCamera(i);
-    //scanner.stop();
+    scanner.stop();
 
     Instascan.Camera.getCameras().then(function (cameras) {
       if (cameras.length > 0) {
@@ -94,7 +94,7 @@ let qrScan = {
           }
         });
 
-        //console.log(selectedCam);
+        console.log(selectedCam);
         //qrScan.log('Camera: ' + JSON.stringify(selectedCam));
 
         scanner.start(selectedCam);
@@ -114,14 +114,14 @@ let qrScan = {
   saveScannedData: function (data) { // qrScan.saveScannedData(data);
     // Read data
     let read = data.replace(/\n/gi, '<br>');
-    console.log("Dados lidos: " + data);
+    //console.log("Dados lidos: " + data);
     //qrScan.log("Dados lidos: " + read);
 
     // Processed data
     let proc = data.replace(/\n/gi, '');
         proc = proc.replace(/\\"/g, '"');
     console.log("Dados processados: " + proc);
-    qrScan.log("Dados processados: " + proc);
+    //qrScan.log("Dados processados: " + proc);
 
     // If matches: {"propesp":{(.*)}}
     if (proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\: \x7b(.*)\x7d\x7d/g)) {
@@ -133,7 +133,7 @@ let qrScan = {
 
       // Actual string Array
       let act = JSON.stringify(qrScan.data);
-      console.log("Dados salvos em RAM: " + act);
+      //console.log("Dados salvos em RAM: " + act);
       //qrScan.log("Dados salvos em RAM: " + act);
 
       // Encrypted data
@@ -160,8 +160,8 @@ let qrScan = {
       qrScan.animate._snap();
       qrScan.animate._error();
 
-      console.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
-      qrScan.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
+      //console.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
+      //qrScan.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
 
       qrScan.animate._showToast('QR Code inválido!');
     }
