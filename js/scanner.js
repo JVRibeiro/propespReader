@@ -254,6 +254,7 @@ qrScan.initAvaliableCameras(function () {
 qrScan.initCamera(cameraId);
 $('#webcameraPreview').on('load', function () {
   $(this).delay(3000).play();
+  console.log('play');
 });
 
 qrScan.scanStart(function (data) {
