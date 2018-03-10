@@ -256,6 +256,4 @@ qrScan.initCamera(cameraId);
 qrScan.scanStart(function (data) {
   qrScan.saveScannedData(data);
 });
-
-qrScan.initCamera(cameraId);
 //})();
