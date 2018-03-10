@@ -5,7 +5,6 @@
 $('.mdl-layout__drawer-button').removeAttr('tabindex');
 
 let cameraId = 0;
-let isCameraTabActive = true;
 let logIsEnabled, snapTimeout, toastTimeout;
 //instascan scanner object
 scanner = {};
@@ -82,6 +81,11 @@ let qrScan = {
     });
   },
 
+  //init QrCode scanner
+  initScanner: function (options) { // qrScan.initScanner(options);
+    scanner = new Instascan.Scanner(options);
+  },
+
   //Init camera
   initCamera: function (i) { // qrScan.initCamera(i);
     scanner.stop();
@@ -96,8 +100,8 @@ let qrScan = {
           }
         });
 
-        console.log(selectedCam);
-        qrScan.log('Camera: ' + JSON.stringify(selectedCam));
+        //console.log(selectedCam);
+        //qrScan.log('Camera: ' + JSON.stringify(selectedCam));
 
         scanner.start(selectedCam);
       } else {
@@ -111,11 +115,6 @@ let qrScan = {
     scanner.addListener('scan', function (content) {
       ondetect(content);
     });
-  },
-
-  //init QrCode scanner
-  initScanner: function (options) { // qrScan.initScanner(options);
-    scanner = new Instascan.Scanner(options);
   },
 
   saveScannedData: function (data) { // qrScan.saveScannedData(data);
