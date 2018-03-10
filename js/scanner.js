@@ -4,7 +4,6 @@
 // Force removing outline on focus
 $('.mdl-layout__drawer-button').removeAttr('tabindex');
 
-let cameraId = 0;
 let logIsEnabled, snapTimeout, toastTimeout;
 //instascan scanner object
 scanner = {};
@@ -244,18 +243,17 @@ let options = {};
 //init options for scanner
 options = qrScan.initVideoObjectOptions("webcameraPreview");
 
+let cameraId = 0;
 
+qrScan.initScanner(options);
 
 qrScan.initAvaliableCameras(function () {
   cameraId = 1; // 1 = rear camera
 });
 
-$('document').on('load',function () {
-  qrScan.initScanner(options);
-  qrScan.initCamera(cameraId);
+qrScan.initCamera(cameraId);
 
-  qrScan.scanStart(function (data) {
-    qrScan.saveScannedData(data);
-  });
+qrScan.scanStart(function (data) {
+  qrScan.saveScannedData(data);
 });
 //})();
