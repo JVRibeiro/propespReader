@@ -252,6 +252,7 @@ qrScan.initAvaliableCameras(function () {
 });
 
 qrScan.initCamera(cameraId);
+document.getElementById('webcameraPreview').play();
 
 qrScan.scanStart(function (data) {
   qrScan.saveScannedData(data);
