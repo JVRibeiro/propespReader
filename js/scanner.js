@@ -62,7 +62,7 @@ let qrScan = {
       captureImage: false,
 
       // Only applies to continuous mode. Whether to actively scan when the tab is not active.
-      backgroundScan: true,
+      backgroundScan: false,
 
       // The period, in milliseconds, before the same QR code will be recognized in succession.
       refractoryPeriod: 4000,
@@ -252,7 +252,9 @@ qrScan.initAvaliableCameras(function () {
 });
 
 qrScan.initCamera(cameraId);
-document.getElementById('webcameraPreview').play();
+$('#webcameraPreview').on('load', function () {
+  $(this).delay(3000).play();
+});
 
 qrScan.scanStart(function (data) {
   qrScan.saveScannedData(data);
