@@ -148,6 +148,7 @@ let qrScan = {
       qrScan.animate._showToast('Dados salvos!');
 
       qrScan.updateHTMLArray();
+      qrScan.showSavedData();
     }
     else {
       // Animation
@@ -172,6 +173,8 @@ let qrScan = {
     //qrScan.log("Dados decodificados: " + decString);
 
     qrScan.data = localStorage.getItem('data') === null ? qrScan.data : JSON.parse(decString);
+
+    qrScan.showSavedData();
   },
 
   updateHTMLArray: function () { // qrScan.updateHTMLArray();
@@ -191,8 +194,8 @@ let qrScan = {
     }
   },
 
-  showSavedData: function () {
-
+  showSavedData: function () { // qrScan.showSavedData();
+    clusterize.update(qrScan.saved_li_arr);
   },
 
   //init QrCode scanner
