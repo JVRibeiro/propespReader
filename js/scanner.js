@@ -169,7 +169,7 @@ let qrScan = {
 
     let decString = dec.toString(CryptoJS.enc.Utf8);
 
-    console.log("Dados decodificados: " + decString);
+    //console.log("Dados decodificados: " + decString);
     //qrScan.log("Dados decodificados: " + decString);
 
     qrScan.data = localStorage.getItem('data') === null ? qrScan.data : JSON.parse(decString);
