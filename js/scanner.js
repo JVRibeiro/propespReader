@@ -262,6 +262,7 @@ let qrScan = {
 };
 
 var clusterize = new Clusterize({
+  rows: qrScan.saved_li_arr,
   tag: 'ul',
   scrollId: 'savedQRs',
   contentId: 'savedQRs_ul',
