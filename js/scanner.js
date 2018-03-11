@@ -364,6 +364,8 @@ $('.mdl-layout__tab').on('click', function() {
   }
 });
 
-qrScan.animate._pageLoaded();
+$(window).on('load', function () {
+  qrScan.animate._pageLoaded();
+});
 
 //})();
