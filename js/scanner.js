@@ -173,8 +173,6 @@ let qrScan = {
     //qrScan.log("Dados decodificados: " + decString);
 
     qrScan.data = localStorage.getItem('data') === null ? qrScan.data : JSON.parse(decString);
-
-    qrScan.showSavedData();
   },
 
   updateHTMLArray: function () { // qrScan.updateHTMLArray();
@@ -280,6 +278,7 @@ if (localStorage.getItem('enableLog') === null || localStorage.getItem('enableLo
 if (localStorage.getItem('data') !== null) {
   qrScan.loadFromLS();
   qrScan.updateHTMLArray();
+  qrScan.showSavedData();
 }
 
 
