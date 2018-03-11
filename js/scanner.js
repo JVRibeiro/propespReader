@@ -268,6 +268,11 @@ var clusterize = new Clusterize({
   contentId: 'savedQRs_ul',
   no_data_text: 'Nenhum bolsista',
   rows_in_block: 8,
+  callbacks: {
+    clusterChanged: function() {
+      console.log('cluster changed!');
+    }
+  }
 });
 
 
