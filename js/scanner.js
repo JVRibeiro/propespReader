@@ -206,14 +206,14 @@ let qrScan = {
   /* Animations */
   animate: {
     _snap: function () { // qrScan.animate._snap();
-      $('#cameraCanvas .frame').removeClass('snap-anim');
+      $('#cameraCanvas .snap').removeClass('snap-anim');
 
-      $('#cameraCanvas .frame')
+      $('#cameraCanvas .snap')
         .addClass('snap-anim')
         .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
           function(e) {
           // code to execute after animation ends
-          $('#cameraCanvas .frame').removeClass('snap-anim');
+          $('#cameraCanvas .snap').removeClass('snap-anim');
       });
     },
 
@@ -271,7 +271,7 @@ var clusterize = new Clusterize({
   no_data_text: 'Nenhum bolsista',
   callbacks: {
     clusterChanged: function() {
-      console.log('cluster changed!');
+      //console.log('cluster changed!');
     }
   }
 });
@@ -289,7 +289,7 @@ if (localStorage.getItem('data') !== null) {
   qrScan.updateHTMLArray();
 
   clusterize.update(saved_li_arr);
-  console.log(qrScan.data.length);
+  //console.log(qrScan.data.length);
 }
 
 
