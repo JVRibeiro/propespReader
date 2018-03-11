@@ -21,6 +21,19 @@
   <link rel='icon' href='img/launcher-icon-8x.png' />
 
   <style>
+    body {
+      overflow: hidden;
+    }
+
+    #pageLoader {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #f2f7ff;
+    }
+
     .page-content {
       text-align: center;
     }
@@ -136,12 +149,17 @@
     // because the registering of a service worker doesn't need to be executed on the first load of the page.
   </script-->
 
-  <script src="external/jquery.min.js"></script>
-  <script src="external/clusterize.min.js"></script>
+  <script async src="external/jquery.min.js"></script>
 </head>
 
 <body>
-  <!-- Simple header with scrollable tabs. -->
+  <div class="preloadImgs"></div>
+  <div id="pageLoader">
+    <div class="loading-spinner">
+      <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+    </div>
+  </div>
+
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
     <header class="mdl-layout__header noSelect">
       <div class="mdl-layout__header-row">
@@ -163,7 +181,6 @@
     <main class="mdl-layout__content">
       <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
         <div class="page-content">
-          <!-- webcamera view component -->
           <div id="cameraCanvas">
             <div class="frame"></div>
             <div class="snap"></div>
@@ -171,7 +188,6 @@
             <div class="error"></div>
             <div class="loading">
               <div class="loading-spinner">
-                <!-- MDL Spinner Component with Single Color -->
                 <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
               </div>
             </div>
@@ -183,14 +199,12 @@
             <div class="mdl-snackbar__text"></div>
             <button class="mdl-snackbar__action" type="button"></button>
           </div>
-          <!--select id="webcameraChanger" onchange="qrScan.cameraChange(parseInt($(this).val()));"></select-->
         </div>
       </section>
 
       <!-- Salvos -->
       <section class="mdl-layout__tab-panel" id="scroll-tab-2">
         <div class="page-content">
-          <!-- Your content goes here -->
           <div class='savedItems'>
             <div id='scrollArea' class='clusterize-scroll'>
               <ul id="contentArea" class="mdl-list clusterize-content"></ul>
@@ -208,10 +222,10 @@
     </main>
   </div>
 
-
-  <script src="external/cripto-aes.min.js"></script>
-  <script src="external/adapter.min.js"></script>
-  <script src="external/material.min.js"></script>
+  <script src="external/clusterize.min.js"></script>
+  <script async src="external/cripto-aes.min.js"></script>
+  <script async src="external/adapter.min.js"></script>
+  <script async src="external/material.min.js"></script>
   <script src="external/instascan.min.js"></script>
   <script defer src="js/scanner.js"></script>
 </body>

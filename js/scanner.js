@@ -267,6 +267,10 @@ let qrScan = {
       } else {
         $('.loading').css('opacity', 1);
       }
+    },
+
+    _pageLoaded: function () { // qrScan.animate._pageLoaded();
+      document.getElementById('pageLoader').style.display = 'none';
     }
   }
 };
@@ -350,7 +354,7 @@ $('.mdl-layout__tab').on('click', function() {
 
     setTimeout(function () {
       scanner.stop();
-    }, 1000);
+    }, 500);
   }
 
   if (this.href.match("#scroll-tab-3")) {
@@ -359,5 +363,7 @@ $('.mdl-layout__tab').on('click', function() {
     },100);
   }
 });
+
+qrScan.animate._pageLoaded();
 
 //})();

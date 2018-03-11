@@ -1,3 +1,10 @@
+.preloadImgs {
+  background-image: url(../img/ui/qr-frame.png);
+  background-image: url(../img/ui/light/ic_done_48dp.svg);
+  background-image: url(../img/ui/light/ic_clear_48dp.svg);
+  opacity: 0;
+}
+
 #cameraCanvas {
   width: 100%;
   height: 100%;
