@@ -8,9 +8,11 @@ let logIsEnabled, snapTimeout, toastTimeout;
 //instascan scanner object
 scanner = {};
 
+let saved_li_arr = [];
+
+
 let qrScan = {
   data: [],
-  saved_li_arr: [],
 
   // HTML element
   initHtmlElement: function (id) { // qrScan.initHtmlElement(id);
@@ -148,7 +150,9 @@ let qrScan = {
       qrScan.animate._showToast('Dados salvos!');
 
       qrScan.updateHTMLArray();
-      qrScan.showSavedData();
+
+      clusterize.update(saved_li_arr);
+      console.log(qrScan.data.length);
     }
     else {
       // Animation
@@ -176,12 +180,12 @@ let qrScan = {
   },
 
   updateHTMLArray: function () { // qrScan.updateHTMLArray();
-    qrScan.saved_li_arr = [];
+    saved_li_arr = [];
 
     let data_arr_len = qrScan.data.length;
 
     for (let i = 0; i < data_arr_len; i++) {
-      qrScan.saved_li_arr.push(
+      saved_li_arr.push(
         '<li class="mdl-list__item mdl-list__item--two-line">' +
           '<span class="mdl-list__item-primary-content">' +
             '<span>' + qrScan.data[i].propesp.nome + '</span>' +
@@ -190,11 +194,6 @@ let qrScan = {
         '</li>'
       );
     }
-  },
-
-  showSavedData: function () { // qrScan.showSavedData();
-    qrScan.clusterizeUpate(qrScan.saved_li_arr);
-    console.log(qrScan.data.length);
   },
 
   //init QrCode scanner
@@ -258,29 +257,23 @@ let qrScan = {
             .addClass('snap-status-out');
         },3000);
     }
-  },
-
-  clusterize: {
-    tag: 'ul',
-    scrollId: 'savedQRs',
-    contentId: 'savedQRs_ul',
-    no_data_text: 'Nenhum bolsista',
-    rows_in_block: 10,
-    callbacks: {
-      clusterChanged: function() {
-        console.log('cluster changed!');
-      }
-    }
-  },
-
-  // @param{Array,anything (undefined is allowed)}
-  clusterizeUpate: function(array, type) { // qrScan.clusterizeUpate(array, type);
-    if (type !== undefined) cluster = new Clusterize(qrScan.clusterize);
-    cluster.update(array);
   }
 };
 
-var cluster = new Clusterize(qrScan.clusterize);
+
+var clusterize = new Clusterize({
+  rows: saved_li_arr,
+  tag: 'ul',
+  scrollId: 'scrollArea',
+  contentId: 'contentArea',
+  no_data_text: 'Nenhum bolsista',
+  callbacks: {
+    clusterChanged: function() {
+      console.log('cluster changed!');
+    }
+  }
+});
+
 
 
 if (localStorage.getItem('enableLog') === null || localStorage.getItem('enableLog') === 'false') {
@@ -292,8 +285,14 @@ if (localStorage.getItem('enableLog') === null || localStorage.getItem('enableLo
 if (localStorage.getItem('data') !== null) {
   qrScan.loadFromLS();
   qrScan.updateHTMLArray();
-  qrScan.showSavedData();
+
+  clusterize.update(saved_li_arr);
+  console.log(qrScan.data.length);
 }
+
+
+
+
 
 
 let options = {};
@@ -313,4 +312,8 @@ qrScan.initCamera(cameraId);
 qrScan.scanStart(function (data) {
   qrScan.saveScannedData(data);
 });
+
+
+
+
 //})();
