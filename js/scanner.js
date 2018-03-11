@@ -4,7 +4,8 @@
 // Force removing outline on focus
 $('.mdl-layout__drawer-button').removeAttr('tabindex');
 
-let logIsEnabled, snapTimeout, toastTimeout;
+let logIsEnabled, snapTimeout, toastTimeout, cameraGlobal;
+let isCameraTabActive = true;
 //instascan scanner object
 scanner = {};
 
@@ -102,6 +103,7 @@ let qrScan = {
         //qrScan.log('Camera: ' + JSON.stringify(selectedCam));
 
         scanner.start(selectedCam);
+        cameraGlobal = selectedCam;
       } else {
         alert('Nenhuma camera encontrada.');
       }
@@ -315,5 +317,27 @@ qrScan.scanStart(function (data) {
 
 
 
+
+$('.mdl-layout__tab').on('click', function() {
+  if (this.href.match("#scroll-tab-1") && !isCameraTabActive) {
+    //console.log('Camera activated.');
+    isCameraTabActive = true;
+
+    scanner.start(cameraGlobal);
+  } else if (!this.href.match("#scroll-tab-1") && isCameraTabActive) {
+    //console.log('Camera deactivated.');
+    isCameraTabActive = false;
+
+    setTimeout(function () {
+      scanner.stop();
+    }, 1000);
+  }
+
+  if (this.href.match("#scroll-tab-3")) {
+    setTimeout(function () {
+      document.querySelector('.mdl-layout__content').scrollTop = document.querySelector('.mdl-layout__content').scrollHeight;
+    },100);
+  }
+});
 
 //})();
