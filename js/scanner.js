@@ -31,7 +31,7 @@ let qrScan = {
       $('.mdl-layout__tab.log, #scroll-tab-3').hide();
     }
   },
-
+/*
   log: function (string) { // qrScan.log(string);
     //console.log(string);
     //console.log(typeof string);
@@ -49,7 +49,7 @@ let qrScan = {
       document.getElementById('log').innerHTML += string + '<hr>';
     }
   },
-
+*/
   //init video object options
   initVideoObjectOptions: function (id) { // qrScan.initVideoObjectOptions(id);
     scanner = {};
@@ -241,7 +241,12 @@ let qrScan = {
         // code to execute after animation ends
         $('.success')
           .removeClass('snap-status-in')
-          .addClass('snap-status-out');
+          .addClass('snap-status-out')
+          .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+            function(e) {
+            // code to execute after animation ends
+            $('.success').removeClass('snap-status-out');
+        });
       }, 3000);
     },
 
@@ -257,7 +262,12 @@ let qrScan = {
           // code to execute after animation ends
           $('.error')
             .removeClass('snap-status-in')
-            .addClass('snap-status-out');
+            .addClass('snap-status-out')
+            .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
+              function(e) {
+              // code to execute after animation ends
+              $('.error').removeClass('snap-status-out');
+          });
         },3000);
     },
 
@@ -362,10 +372,6 @@ $('.mdl-layout__tab').on('click', function() {
       document.querySelector('.mdl-layout__content').scrollTop = document.querySelector('.mdl-layout__content').scrollHeight;
     },100);
   }
-});
-
-$(window).on('load', function () {
-  qrScan.animate._pageLoaded();
 });
 
 //})();
