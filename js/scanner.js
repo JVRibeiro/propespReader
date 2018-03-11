@@ -193,7 +193,7 @@ let qrScan = {
   },
 
   showSavedData: function () { // qrScan.showSavedData();
-    clusterize.update(qrScan.saved_li_arr);
+    qrScan.clusterizeUpate(qrScan.saved_li_arr);
     console.log(qrScan.data.length);
   },
 
@@ -258,22 +258,29 @@ let qrScan = {
             .addClass('snap-status-out');
         },3000);
     }
+  },
+
+  clusterize: {
+    tag: 'ul',
+    scrollId: 'savedQRs',
+    contentId: 'savedQRs_ul',
+    no_data_text: 'Nenhum bolsista',
+    rows_in_block: 10,
+    callbacks: {
+      clusterChanged: function() {
+        console.log('cluster changed!');
+      }
+    }
+  },
+
+  // @param{Array,anything (undefined is allowed)}
+  clusterizeUpate: function(array, type) { // qrScan.clusterizeUpate(array, type);
+    if (type !== undefined) cluster = new Clusterize(qrScan.clusterize);
+    cluster.update(array);
   }
 };
 
-var clusterize = new Clusterize({
-  rows: qrScan.saved_li_arr,
-  tag: 'ul',
-  scrollId: 'savedQRs',
-  contentId: 'savedQRs_ul',
-  no_data_text: 'Nenhum bolsista',
-  rows_in_block: 8,
-  callbacks: {
-    clusterChanged: function() {
-      console.log('cluster changed!');
-    }
-  }
-});
+var cluster = new Clusterize(qrScan.clusterize);
 
 
 if (localStorage.getItem('enableLog') === null || localStorage.getItem('enableLog') === 'false') {
