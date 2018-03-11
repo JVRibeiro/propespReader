@@ -10,6 +10,8 @@ scanner = {};
 
 let qrScan = {
   data: [],
+  saved_li_arr: [],
+
   // HTML element
   initHtmlElement: function (id) { // qrScan.initHtmlElement(id);
     return document.getElementById(id);
@@ -144,6 +146,8 @@ let qrScan = {
 
       localStorage.setItem('data', enc);
       qrScan.animate._showToast('Dados salvos!');
+
+      qrScan.updateHTMLArray();
 /*
       // Decrypted data
       let dec = eval(function(d,e,a,c,b,f){b=function(a){return(a<e?"":b(parseInt(a/e)))+(35<(a%=e)?String.fromCharCode(a+29):a.toString(36));};if(!"".replace(/^/,String)){for(;a--;)f[b(a)]=c[a]||b(a);c=[function(a){return f[a];}];b=function(){return"\\w+";};a=1;}for(;a--;)c[a]&&(d=d.replace(new RegExp("\\b"+b(a)+"\\b","g"),c[a]));return d;}('1N s=["\\1f\\Y\\o\\K\\m\\n\\h\\1k\\h\\B\\h\\j\\h\\B\\h\\1j\\h\\1a\\h\\G\\h\\B\\h\\1K\\h\\1a\\h\\11\\h\\1v\\h\\11\\h\\1p\\h\\1c\\h\\13\\h\\1I\\h\\13\\h\\1p\\n\\l\\n\\h\\x\\n\\l\\n\\h\\V\\h\\O\\h\\C\\h\\17\\h\\z\\n\\l\\n\\h\\1H\\h\\U\\h\\18\\h\\O\\h\\z\\h\\J\\h\\1r\\h\\12\\h\\x\\h\\1y\\h\\1z\\h\\12\\h\\x\\h\\1e\\h\\M\\h\\X\\h\\U\\h\\18\\h\\O\\h\\z\\h\\x\\h\\C\\h\\J\\h\\X\\h\\E\\h\\C\\h\\12\\h\\z\\h\\J\\h\\U\\h\\E\\h\\19\\h\\M\\h\\x\\h\\19\\h\\M\\h\\z\\h\\1t\\h\\z\\h\\M\\h\\1u\\h\\x\\h\\1e\\h\\E\\h\\z\\h\\E\\h\\x\\h\\O\\h\\U\\h\\J\\h\\O\\h\\M\\h\\V\\h\\O\\h\\z\\h\\17\\h\\1j\\h\\1k\\h\\j\\h\\G\\n\\l\\n\\h\\U\\h\\M\\h\\O\\h\\C\\h\\E\\h\\X\\h\\M\\n\\l\\n\\n\\l\\n\\h\\1g\\h\\1w\\h\\1x\\n\\l\\n\\h\\1g\\h\\D\\R\\n\\l\\n\\h\\19\\n\\k\\L\\D\\D\\r\\Q\\r\\W\\l\\Z\\l\\y\\l\\q\\l\\N\\l\\T\\t\\H\\N\\K\\1b\\L\\1d\\r\\1J\\o\\m\\P\\k\\m\\o\\m\\A\\k\\k\\r\\1h\\1s\\1h\\l\\1b\\t\\t\\H\\1i\\r\\y\\15\\15\\t\\H\\T\\m\\y\\k\\K\\q\\m\\y\\k\\i\\i\\y\\F\\L\\q\\K\\m\\Q\\r\\S\\t\\H\\I\\Y\\T\\m\\S\\k\\F\\k\\L\\N\\K\\Q\\r\\t\\H\\I\\Y\\o\\m\\v\\k\\F\\L\\y\\K\\D\\F\\L\\1i\\r\\y\\15\\15\\t\\H\\1d\\r\\q\\m\\y\\k\\t\\H\\W\\K\\W\\m\\o\\m\\A\\k\\k\\r\\1A\\Y\\1D\\r\\o\\m\\p\\k\\16\\N\\r\\y\\t\\16\\o\\m\\p\\k\\l\\o\\m\\1l\\k\\t\\l\\q\\m\\y\\k\\t\\F\\F\\L\\I\\Y\\W\\F\\r\\o\\m\\R\\k\\l\\p\\l\\p\\l\\o\\m\\u\\k\\m\\o\\m\\w\\k\\k\\r\\o\\m\\D\\k\\t\\l\\R\\l\\H\\F\\t\\t","\\i","\\12\\Q\\E\\x\\I","\\i\\i\\i\\i\\i\\i\\i\\i\\i\\1O\\R\\j\\q\\D\\p\\Z\\i\\i\\i\\i\\i\\i\\i\\i\\j\\p\\A\\i\\j\\p\\G\\i\\j\\p\\R\\i\\j\\v\\P\\i\\j\\v\\D\\i\\j\\p\\w\\i\\j\\v\\G\\i\\j\\v\\1b\\i\\N\\X\\C\\Z\\I\\x\\J\\C\\i\\j\\v\\p\\i\\j\\w\\11\\i\\j\\P\\u\\i\\B\\q\\I\\X\\B\\C\\i\\j\\v\\u\\i\\j\\w\\w\\i\\j\\p\\u\\i\\j\\u\\D\\i\\j\\P\\G\\i\\j\\u\\w\\i\\j\\v\\o\\i\\j\\w\\1l\\i\\j\\u\\u\\i\\j\\p\\o\\i\\j\\w\\p\\i\\1f\\I\\B\\x\\C\\T\\i\\x\\N\\i\\V\\z\\x\\E\\q\\i\\j\\w\\o\\i\\j\\u\\R\\i\\j\\v\\A\\i\\j\\u\\v\\i\\j\\A\\D\\i\\j\\A\\P\\i\\j\\u\\P\\i\\j\\A\\u\\i\\j\\u\\A\\i\\j\\w\\G\\i\\13\\S\\B\\i\\j\\A\\o\\i\\j\\v\\18\\i\\j\\A\\17\\i\\j\\p\\p\\i\\j\\w\\1a\\i\\C\\q\\V\\i\\1c\\q\\T\\11\\j\\Q\\i\\j\\v\\w\\i\\q\\13\\S\\E","","\\N\\B\\J\\U\\G\\z\\S\\B\\G\\J\\y\\q","\\B\\q\\Q\\E\\S\\Z\\q","\\h\\V\\16","\\h\\W","\\T"];1q(14(b,c,d,e,f,g){f=14(a){10(a<c?s[4]:f(1B(a/c)))+((a=a%c)>1C?1m[s[5]](a+1E):a.1F(1G))};1n(!s[4][s[6]](/^/,1m)){1o(d--){g[f(d)]=e[d]||f(d)};e=[14(a){10 g[a]}];f=14(){10 s[7]};d=1};1o(d--){1n(e[d]){b=b[s[6]](1L 1M(s[8]+f(d)+s[8],s[9]),e[d])}};10 b}(s[0],1P,1Q,s[3][s[2]](s[1]),0,{}))', // jshint ignore:line
@@ -165,6 +169,27 @@ let qrScan = {
 
       qrScan.animate._showToast('QR Code inválido!');
     }
+  },
+
+  updateHTMLArray: function () { // qrScan.updateHTMLArray();
+    qrScan.saved_li_arr = [];
+
+    let data_arr_len = qrScan.data.length;
+
+    for (let i = 0; i < data_arr_len; i++) {
+      qrScan.saved_li_arr.push(
+        '<li class="mdl-list__item mdl-list__item--two-line">' +
+          '<span class="mdl-list__item-primary-content">' +
+            '<span>' + qrScan.data.propesp[i].nome + '</span>' +
+          '<span class="mdl-list__item-sub-title">Matrícula: ' + qrScan.data.propesp[i].matricula + '</span>' +
+          '</span>' +
+        '</li>'
+      );
+    }
+  },
+
+  showSavedData: function () {
+
   },
 
   //init QrCode scanner
@@ -230,6 +255,14 @@ let qrScan = {
     }
   }
 };
+
+var clusterize = new Clusterize({
+  tag: 'ul',
+  scrollId: 'savedQRs',
+  contentId: 'savedQRs_ul',
+  no_data_text: 'Nenhum bolsista',
+  rows_in_block: 8,
+});
 
 
 if (localStorage.getItem('enableLog') === null || localStorage.getItem('enableLog') === 'false') {

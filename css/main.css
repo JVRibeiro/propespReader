@@ -53,6 +53,23 @@
   opacity: 0;
 }
 
+/* Saved QRs */
+
+#savedQRs {
+  text-align: left;
+  height: 100%;
+}
+
+#savedQRs ul {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#savedQRs ul li {
+  border-bottom: 1px solid #e3e3e3;
+}
+
 /* Animations */
 
 .snap-anim {
