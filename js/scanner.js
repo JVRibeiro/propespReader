@@ -1,13 +1,14 @@
 /* jshint esversion: 6 */
 
+//instascan scanner object
+scanner = {};
+
 //(function () {
 // Force removing outline on focus
 $('.mdl-layout__drawer-button').removeAttr('tabindex');
 
 let logIsEnabled, snapTimeout, toastTimeout, cameraGlobal;
 let isCameraTabActive = true;
-//instascan scanner object
-scanner = {};
 
 let saved_li_arr = [];
 
@@ -99,7 +100,7 @@ let qrScan = {
           }
         });
 
-        console.log(selectedCam);
+        //console.log(selectedCam);
         //qrScan.log('Camera: ' + JSON.stringify(selectedCam));
 
         scanner.start(selectedCam);
@@ -154,7 +155,7 @@ let qrScan = {
       qrScan.updateHTMLArray();
 
       clusterize.update(saved_li_arr);
-      console.log(qrScan.data.length);
+      //console.log(qrScan.data.length);
     }
     else {
       // Animation
@@ -198,7 +199,7 @@ let qrScan = {
     }
   },
 
-  //init QrCode scanner
+  // create an instance of Instascan QrCode scanner
   initScanner: function (options) { // qrScan.initScanner(options);
     scanner = new Instascan.Scanner(options);
   },
@@ -258,6 +259,14 @@ let qrScan = {
             .removeClass('snap-status-in')
             .addClass('snap-status-out');
         },3000);
+    },
+
+    _loading: function (boolean) { // qrScan.animate._loading(boolean);
+      if (!boolean) {
+        $('.loading').css('opacity', 0);
+      } else {
+        $('.loading').css('opacity', 1);
+      }
     }
   }
 };
@@ -313,6 +322,17 @@ qrScan.initCamera(cameraId);
 
 qrScan.scanStart(function (data) {
   qrScan.saveScannedData(data);
+});
+
+
+
+
+scanner.addListener('active', function () {
+  qrScan.animate._loading(false);
+});
+
+scanner.addListener('inactive', function () {
+  qrScan.animate._loading(true);
 });
 
 
