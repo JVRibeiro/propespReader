@@ -148,33 +148,32 @@ let qrScan = {
     //
     else if (proc.match(/^\{(.*)\}/g) !== null &&
                proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) === null) {
-      console.log('QR possibly encoded. Validating...');
+    console.log('QR possibly encoded. Validating...');
 
-      // QR is encoded
-        console.log('QR is already encoded!');
-        console.log('QR content: ' + data);
-        console.log('Checking authencity...');
+    // QR is encoded
+      console.log('QR is already encoded!');
+      console.log('QR content: ' + data);
+      console.log('Checking authencity...');
 
-        // Decode QR
-        // Actual string Array
-        act = proc;
-        enc = act;
+      // Decode QR
+      // Actual string Array
+      act = proc;
+      enc = act;
 
 
-        // Decrypted data
-        // CryptoJS.AES.decrypt(enc, "key");
-        dec = CryptoJS.AES.decrypt(enc, "propespti2013");
-        // Decrypted data to string
-        data = dec.toString(CryptoJS.enc.Utf8);
+      // Decrypted data
+      // CryptoJS.AES.decrypt(enc, "key");
+      dec = CryptoJS.AES.decrypt(enc, "propespti2013");
+      // Decrypted data to string
+      data = dec.toString(CryptoJS.enc.Utf8);
 
-        // console.log('Decoded QR: ' + data);
+      // console.log('Decoded QR: ' + data);
 
-        // Check QR authencity
-        if (data.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
-          isQRValid = true;
-        } else {
-          isQRValid = false;
-        }
+      // Check QR authencity
+      if (data.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
+        isQRValid = true;
+      } else {
+        isQRValid = false;
       }
     }
 
