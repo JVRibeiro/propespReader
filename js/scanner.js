@@ -122,7 +122,7 @@ let qrScan = {
   },
 
   saveScannedData: function (data) { // qrScan.saveScannedData(data);
-    let read, proc, act, enc, dec;
+    let read, proc, act, enc, dec, isQRValid;
 
     if (data.match(/\n/g) !== null || data.match(/\"/g) !== null || data.match(/\s/g) !== null) {
       // console.log('QR have line breaks!');
@@ -139,41 +139,50 @@ let qrScan = {
     // console.log("Dados lidos: " + data);
     // qrScan.log("Dados lidos: " + read);
 
-    if (proc.match(/^\{(.*)\}/g) !== null) {
+    if (proc.match(/^\{(.*)\}/g) !== null &&
+        proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
       console.log('QR is not encoded!');
       console.log('QR content: ' + data);
+      console.log('Checking authencity...');
+    }
+    //
+    else if (proc.match(/^\{(.*)\}/g) !== null &&
+               proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) === null) {
+      console.log('QR possibly encoded. Validating...');
 
-      // Processed data
-      proc = data.replace(/\n/gi, '');
-      proc = proc.replace(/\\"/g, '"');
-      proc = proc.replace(/\s/g, '');
-    } else {
-
-      if (data.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) === null) {
+      // QR is encoded
         console.log('QR is already encoded!');
         console.log('QR content: ' + data);
+        console.log('Checking authencity...');
 
+        // Decode QR
         // Actual string Array
-        act = data;
+        act = proc;
         enc = act;
+
 
         // Decrypted data
         // CryptoJS.AES.decrypt(enc, "key");
         dec = CryptoJS.AES.decrypt(enc, "propespti2013");
-
+        // Decrypted data to string
         data = dec.toString(CryptoJS.enc.Utf8);
+
         // console.log('Decoded QR: ' + data);
 
-        proc = data;
+        // Check QR authencity
+        if (data.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
+          isQRValid = true;
+        } else {
+          isQRValid = false;
+        }
       }
     }
 
+    // Check QR Code authencity
+    // Is valid
+    if (isQRValid) {
+      console.log("QR Code is valid!");
 
-
-
-
-    // If matches: {"propesp":{(.*)}}
-    if (proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g)) {
       // Animation
       qrScan.animate._snap();
       qrScan.animate._success();
@@ -200,7 +209,10 @@ let qrScan = {
       clusterize.update(saved_li_arr);
       // console.log(qrScan.data.length);
     }
+    // Is invalid
     else {
+      console.log("QR Code inválido!");
+
       // console.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
       // qrScan.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
 
@@ -396,18 +408,7 @@ let qrScan = {
         actualContentId = 'contentAreaRejected';
         actualLiArr = rejected_li_arr;
 
-        clusterize = new Clusterize({
-          rows: actualLiArr,
-          tag: 'ul',
-          scrollId: actualScrollId,
-          contentId: actualContentId,
-          no_data_text: 'Nenhum bolsista',
-          callbacks: {
-            clusterChanged: function() {
-              // console.log('cluster changed!');
-            }
-          }
-        });
+        qrScan.newClusterize();
       }
 
       // remove all is-active classes from tabs
@@ -418,9 +419,48 @@ let qrScan = {
       $('.mdl-layout__tab-panel').removeClass('is-active');
       // activate desired tab panel
       $('#scroll-tab-' + tabNum).addClass('is-active');
-
-
     }
+  },
+
+  // Verify current tab selected
+  checkTab: function (target) { // qrScan.checkTab(target);
+    if (target.href.match("#scroll-tab-1")) {
+      actualScrollId = undefined;
+      actualContentId = undefined;
+      actualLiArr = undefined;
+    } else if (target.href.match("#scroll-tab-2")) {
+      actualScrollId = 'scrollAreaSaved';
+      actualContentId = 'contentAreaSaved';
+      actualLiArr = saved_li_arr;
+
+      qrScan.newClusterize();
+    } else if (target.href.match("#scroll-tab-3")) {
+      actualScrollId = 'scrollAreaRejected';
+      actualContentId = 'contentAreaRejected';
+      actualLiArr = rejected_li_arr;
+
+      qrScan.newClusterize();
+    }
+  },
+
+  // Creates a new instance of Clusterize
+  newClusterize: function () { // qrScan.newClusterize();
+    clusterize = new Clusterize({
+      rows: actualLiArr,
+      tag: 'ul',
+      scrollId: actualScrollId,
+      contentId: actualContentId,
+      no_data_text: 'Nenhum bolsista',
+      callbacks: {
+        clusterChanged: function() {
+          // console.log('cluster changed!');
+        }
+      }
+    });
+  },
+
+  clearHTML: function (elemId) { // qrScan.clearHTML(elemId);
+    document.getElementById(elemId).innerHTML = '';
   }
 };
 
@@ -448,17 +488,21 @@ if (localStorage.getItem('enableLog') === null || localStorage.getItem('enableLo
 }
 */
 
+
+// Load saved data from localStorage if it exists
 if (localStorage.getItem('data') !== null) {
   qrScan.loadFromLS('data');
   qrScan.updateHTMLArray('data');
   // console.log(qrScan.data.length);
 }
 
+// Load rejected data from localStorage if it exists
 if (localStorage.getItem('rejected') !== null) {
   qrScan.loadFromLS('rejected');
   qrScan.updateHTMLArray('rejected');
   // console.log(qrScan.data.length);
 }
+
 
 
 
@@ -485,6 +529,9 @@ qrScan.scanStart(function (data) {
 
 
 
+
+
+// Camera Event Listeners
 scanner.addListener('active', function () {
   qrScan.animate._loading(false);
 });
@@ -494,76 +541,69 @@ scanner.addListener('inactive', function () {
 });
 
 
-// Clear rejected list
-$('#clRe').on('click', function() {
-  qrScan.clearRejected();
-  setTimeout(function () {
-    qrScan.animate._changeTab(3);
-  }, 1000);
-});
 
-$('.mdl-navigation__link').click(function(){
-document.querySelector('.mdl-layout').MaterialLayout.toggleDrawer();
-});
 
-$('.mdl-layout__tab').on('click', function() {
-  if (this.href.match("#scroll-tab-1") && !isCameraTabActive) {
-    // console.log('Camera activated.');
-    isCameraTabActive = true;
+// MDL Event Listeners
+(function () {
+  /* Drawer */
+  let navLinks = document.querySelectorAll('.mdl-navigation__link');
+  let layout = document.querySelectorAll('.mdl-layout');
 
-    $('#contentAreaSaved, #contentAreaRejected').html('');
-
-    scanner.start(cameraGlobal);
-  } else if (!this.href.match("#scroll-tab-1") && isCameraTabActive) {
-    // console.log('Camera deactivated.');
-    isCameraTabActive = false;
-
-    setTimeout(function () {
-      scanner.stop();
-    }, 500);
-  }
-
-  if (this.href.match("#scroll-tab-2")) {
-    $('#contentAreaRejected').html('');
-  } else if (this.href.match("#scroll-tab-3")) {
-    $('#contentAreaSaved').html('');
-  }
-})
-.on('mousedown', function () {
-  if (this.href.match("#scroll-tab-2")) {
-    actualScrollId = 'scrollAreaSaved';
-    actualContentId = 'contentAreaSaved';
-    actualLiArr = saved_li_arr;
-
-    clusterize = new Clusterize({
-      rows: actualLiArr,
-      tag: 'ul',
-      scrollId: actualScrollId,
-      contentId: actualContentId,
-      no_data_text: 'Nenhum bolsista',
-      callbacks: {
-        clusterChanged: function() {
-          // console.log('cluster changed!');
-        }
+  for (let i = 0; i < navLinks.length; i++) {
+    // Close drawer on link click
+    navLinks[i].addEventListener('click', function() {
+      for (let j = 0; j < layout.length; j++) {
+        layout[j].MaterialLayout.toggleDrawer();
       }
     });
-  } else if (this.href.match("#scroll-tab-3")) {
-    actualScrollId = 'scrollAreaRejected';
-    actualContentId = 'contentAreaRejected';
-    actualLiArr = rejected_li_arr;
 
-    clusterize = new Clusterize({
-      rows: actualLiArr,
-      tag: 'ul',
-      scrollId: actualScrollId,
-      contentId: actualContentId,
-      no_data_text: 'Nenhum bolsista',
-      callbacks: {
-        clusterChanged: function() {
-          // console.log('cluster changed!');
-        }
-      }
+    // Clear rejected list
+    navLinks[1].addEventListener('click', function() {
+      qrScan.clearRejected();
+
+      setTimeout(function () {
+        // Go to Rejecteds tab
+        qrScan.animate._changeTab(3);
+      }, 500);
     });
   }
-});
+
+  /* Tabs */
+  $('.mdl-layout__tab')
+  .on('mousedown', function () {
+    // console.log('mousedown');
+    qrScan.checkTab(this);
+  })
+  .on('touchstart', function () {
+    // console.log('touchstart');
+    qrScan.checkTab(this);
+  })
+  .on('click', function() {
+    if (this.href.match("#scroll-tab-1") && !isCameraTabActive) {
+      // console.log('Camera activated.');
+      isCameraTabActive = true;
+
+      qrScan.clearHTML('contentAreaSaved');
+      qrScan.clearHTML('contentAreaRejected');
+
+      scanner.start(cameraGlobal);
+    } else if (!this.href.match("#scroll-tab-1") && isCameraTabActive) {
+      // console.log('Camera deactivated.');
+      isCameraTabActive = false;
+
+      setTimeout(function () {
+        scanner.stop();
+      }, 500);
+    }
+
+    if (this.href.match("#scroll-tab-2")) {
+      qrScan.clearHTML('contentAreaRejected');
+    } else if (this.href.match("#scroll-tab-3")) {
+      qrScan.clearHTML('contentAreaSaved');
+    }
+  });
+})();
+
+
+
 //})();
