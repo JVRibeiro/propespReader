@@ -439,28 +439,26 @@
       </section>
     </main>
   </div>
+  <script src="external/instascan.min.js"></script>
+  <script src="external/clusterize.min.js"></script>
+  <script src="external/cripto-aes.min.js"></script>
+  <script src="external/adapter.min.js"></script>
+  <script defer src="js/scanner.js"></script>
+  <script defer>
+    var domReady = function(ready) {
+      if (document.readyState != 'loading') return ready();
+      document.addEventListener('DOMContentLoaded', ready);
 
-</body>
-
-<script async src="external/cripto-aes.min.js"></script>
-<script async src="external/adapter.min.js"></script>
-<script async src="external/clusterize.min.js"></script>
-<script defer src="external/instascan.min.js"></script>
-<script defer src="js/scanner.js"></script>
-<script defer>
-  var domReady = function(ready) {
-    if (document.readyState != 'loading') return ready();
-    document.addEventListener('DOMContentLoaded', ready);
-
-    function _ready() {
-      document.removeEventListener('DOMContentLoaded', ready);
-      ready();
+      function _ready() {
+        document.removeEventListener('DOMContentLoaded', ready);
+        ready();
+      }
     }
-  }
 
-  domReady(function() {
-    qrScan.animate._pageLoaded();
-  });
-</script>
+    domReady(function() {
+      qrScan.animate._pageLoaded();
+    });
+  </script>
+</body>
 
 </html>
