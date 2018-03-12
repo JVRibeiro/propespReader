@@ -290,6 +290,7 @@ let qrScan = {
   },
 
   clearRejected: function () { // qrScan.clearRejected();
+    localStorage.removeItem('rejected');
     qrScan.rejected = [];
     rejected_li_arr = [];
 
@@ -449,7 +450,7 @@ scanner.addListener('inactive', function () {
 
 
 // Clear rejected list
-$('#clRj').on('click', function() {
+$('#clRe').on('click', function() {
   qrScan.clearRejected();
 });
 
