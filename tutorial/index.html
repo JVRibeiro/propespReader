@@ -376,7 +376,7 @@
       <div class="mdl-layout__tab-bar">
         <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Ler código</a>
         <a href="#scroll-tab-2" class="mdl-layout__tab">Salvos</a>
-        <a href="#scroll-tab-3" class="mdl-layout__tab">Rejeitados</a>
+        <!--a href="#scroll-tab-3" class="mdl-layout__tab log">Log</a-->
       </div>
     </header>
 
@@ -385,9 +385,9 @@
         <div class="qrScan-avatar"></div>
       </header>
       <nav class="qrScan-navigation mdl-navigation">
-        <a class="mdl-navigation__link" href="./"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Início</a>
-        <a class="mdl-navigation__link" href="#clRe" id='clRe'><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">delete</i>QRs rejeitados</a>
-        <a class="mdl-navigation__link" href="./tutorial/"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i>Tutorial</a>
+        <a class="mdl-navigation__link" href="/"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Início</a>
+        <a class="mdl-navigation__link" href="/rejected/"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">delete</i>QRs rejeitados</a>
+        <a class="mdl-navigation__link" href="/tutorial/"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i>Tutorial</a>
       </nav>
     </div>
 
@@ -420,23 +420,19 @@
       <section class="mdl-layout__tab-panel" id="scroll-tab-2">
         <div class="page-content">
           <div class='savedItems'>
-            <div id='scrollAreaSaved' class='clusterize-scroll'>
-              <ul id="contentAreaSaved" class="mdl-list clusterize-content"></ul>
+            <div id='scrollArea' class='clusterize-scroll'>
+              <ul id="contentArea" class="mdl-list clusterize-content"></ul>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Salvos -->
+      <!-- Log
       <section class="mdl-layout__tab-panel" id="scroll-tab-3">
         <div class="page-content">
-          <div class='savedItems'>
-            <div id='scrollAreaRejected' class='clusterize-scroll'>
-              <ul id="contentAreaRejected" class="mdl-list clusterize-content"></ul>
-            </div>
-          </div>
+          <div id='log'></div>
         </div>
-      </section>
+      </section-->
     </main>
   </div>
 
@@ -446,7 +442,7 @@
 <script async src="external/adapter.min.js"></script>
 <script async src="external/clusterize.min.js"></script>
 <script defer src="external/instascan.min.js"></script>
-<script defer src="js/scanner.js"></script>
+<script defer src="js/scanner.min.js"></script>
 <script defer>
   var domReady = function(ready) {
     if (document.readyState != 'loading') return ready();

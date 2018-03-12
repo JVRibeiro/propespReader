@@ -6,17 +6,17 @@
   position: absolute;
 }
 
-#scrollArea {
+.clusterize-scroll {
   text-align: left;
 }
 
-#scrollArea ul {
+.clusterize-scroll ul {
   height: 100%;
   margin: 0;
   padding-left: 0;
 }
 
-#scrollArea ul li {
+.clusterize-scroll ul li {
   border-bottom: 1px solid #e3e3e3;
 }
 
