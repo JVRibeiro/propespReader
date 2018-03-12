@@ -124,11 +124,12 @@ let qrScan = {
   saveScannedData: function (data) { // qrScan.saveScannedData(data);
     let read, proc, act, enc, dec;
 
-    if (data.match(/\n/g) !== null || data.match(/\"/g) !== null) {
+    if (data.match(/\n/g) !== null || data.match(/\"/g) !== null || data.match(/\s/g) !== null) {
       // console.log('QR have line breaks!');
       // Processed data
       proc = data.replace(/\n/gi, '');
       proc = proc.replace(/\\"/g, '"');
+      proc = proc.replace(/\s/g, '');
     } else {
       proc = data;
     }
@@ -139,17 +140,18 @@ let qrScan = {
     // qrScan.log("Dados lidos: " + read);
 
     if (proc.match(/^\{(.*)\}/g) !== null) {
-      // console.log('QR is not encoded!');
-      // console.log('QR content: ' + data);
+      console.log('QR is not encoded!');
+      console.log('QR content: ' + data);
 
       // Processed data
       proc = data.replace(/\n/gi, '');
       proc = proc.replace(/\\"/g, '"');
+      proc = proc.replace(/\s/g, '');
     } else {
 
-      if (data.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\: \x7b(.*)\x7d\x7d/g) === null) {
-        // console.log('QR is already encoded!');
-        // console.log('QR content: ' + data);
+      if (data.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) === null) {
+        console.log('QR is already encoded!');
+        console.log('QR content: ' + data);
 
         // Actual string Array
         act = data;
@@ -161,6 +163,8 @@ let qrScan = {
 
         data = dec.toString(CryptoJS.enc.Utf8);
         // console.log('Decoded QR: ' + data);
+
+        proc = data;
       }
     }
 
@@ -169,7 +173,7 @@ let qrScan = {
 
 
     // If matches: {"propesp":{(.*)}}
-    if (proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\: \x7b(.*)\x7d\x7d/g)) {
+    if (proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g)) {
       // Animation
       qrScan.animate._snap();
       qrScan.animate._success();
@@ -205,6 +209,8 @@ let qrScan = {
       qrScan.animate._error();
 
       qrScan.rejected.push(JSON.parse(data));
+
+      console.log("Dados rejeitados: " + data);
 
       // Actual string Array
       act = JSON.stringify(qrScan.rejected);
@@ -265,7 +271,7 @@ let qrScan = {
       }
 
     }
-    
+
     if (string === 'rejected' || string === undefined) {
       rejected_li_arr = [];
 
