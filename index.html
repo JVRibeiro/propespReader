@@ -315,8 +315,8 @@
     // because the registering of a service worker doesn't need to be executed on the first load of the page.
   </script-->
 
-  <script async src="external/material.min.js"></script>
-  <script async src="external/jquery.min.js"></script>
+  <script src="external/material.min.js"></script>
+  <script src="external/jquery.min.js"></script>
 </head>
 
 <body>
@@ -426,8 +426,18 @@
 <script defer src="external/clusterize.min.js"></script>
 <script defer src="external/instascan.min.js"></script>
 <script defer src="js/scanner.js"></script>
-<script>
-  $('document').ready(function() {
+<script defer>
+  var domReady = function(ready) {
+    if (document.readyState != 'loading') return ready();
+    document.addEventListener('DOMContentLoaded', ready);
+
+    function _ready() {
+      document.removeEventListener('DOMContentLoaded', ready);
+      ready();
+    }
+  }
+
+  domReady(function() {
     qrScan.animate._pageLoaded();
   });
 </script>

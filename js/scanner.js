@@ -373,5 +373,4 @@ $('.mdl-layout__tab').on('click', function() {
     },100);
   }
 });
-
 //})();
