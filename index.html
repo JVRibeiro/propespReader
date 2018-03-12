@@ -12,13 +12,17 @@
   <link rel="manifest" href="manifest.json">
 
   <link rel='icon' href='img/launcher-icon-1x.png' />
-  <link rel='icon' href='img/launcher-icon-2x.png' />
-  <link rel='icon' href='img/launcher-icon-4x.png' />
-  <link rel='icon' href='img/launcher-icon-8x.png' />
 
   <style>
     body {
       overflow: hidden;
+    }
+
+    .preloadImgs {
+      background-image: url(img/ui/qr-frame.svg),
+      url(img/ui/light/ic_done_48dp.svg),
+      url(img/ui/light/ic_clear_48dp.svg);
+      opacity: 0;
     }
 
     .loading-spinner {
@@ -50,13 +54,6 @@
       100% {
         transform: rotate(360deg);
       }
-    }
-
-    .preloadImgs {
-      background-image: url(img/ui/qr-frame.svg);
-      background-image: url(img/ui/light/ic_done_48dp.svg);
-      background-image: url(img/ui/light/ic_clear_48dp.svg);
-      opacity: 0;
     }
 
     #pageLoader {
@@ -251,8 +248,8 @@
     }
   </style>
 
-  <link rel="stylesheet" href="css/material-icons.css" />
-  <link rel="stylesheet" href="css/material.indigo-green.min.css" />
+  <link async rel="stylesheet" href="css/material-icons.css" />
+  <link async rel="stylesheet" href="css/material.indigo-green.min.css" />
   <link defer rel="stylesheet" href="css/clusterize.min.css" />
   <link defer rel="stylesheet" href="css/main.css" />
 
@@ -344,7 +341,7 @@
 
     <div class="qrScan-drawer mdl-layout__drawer">
       <header class="qrScan-drawer-header mdl-color--indigo-500">
-        <img src="https://getmdl.io/templates/dashboard/images/user.jpg" class="qrScan-avatar">
+        <img src="img/ui/ic_account_circle_white_48dp.svg" class="qrScan-avatar">
         <div class="qrScan-avatar-dropdown">
           <span>hello@example.com</span>
           <div class="mdl-layout-spacer"></div>
@@ -421,9 +418,9 @@
 
 </body>
 
-<script defer src="external/cripto-aes.min.js"></script>
-<script defer src="external/adapter.min.js"></script>
-<script defer src="external/clusterize.min.js"></script>
+<script async src="external/cripto-aes.min.js"></script>
+<script async src="external/adapter.min.js"></script>
+<script async src="external/clusterize.min.js"></script>
 <script defer src="external/instascan.min.js"></script>
 <script defer src="js/scanner.js"></script>
 <script defer>
