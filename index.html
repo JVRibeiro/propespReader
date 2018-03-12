@@ -21,7 +21,9 @@
     .preloadImgs {
       background-image: url(img/ui/qr-frame.svg),
       url(img/ui/light/ic_done_48dp.svg),
-      url(img/ui/light/ic_clear_48dp.svg);
+      url(img/ui/light/ic_clear_48dp.svg),
+      url(img/launcher-icon-8x.png),
+      url(img/ui/ufpa.svg);
       opacity: 0;
     }
 
@@ -116,12 +118,27 @@
       padding: 16px;
       height: 151px;
       color: #fff;
+      background-image: url(img/launcher-icon-8x.png);
+      background-size: 130%;
+      background-position: 50%;
+      box-shadow: inset 0 -60px 25px rgba(0, 0, 0, 0.4);
+      position: relative;
     }
 
     .qrScan-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 24px;
+      width: 60px;
+      height: 60px;
+      background-color: #fff;
+      background-image: url(img/ui/ufpa.svg);
+      background-size: 120%;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: absolute;
+      bottom: -16px;
+      left: 16px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      overflow: hidden;
     }
 
     .qrScan-avatar-dropdown {
@@ -353,7 +370,7 @@
     <header class="mdl-layout__header noSelect">
       <div class="mdl-layout__header-row">
         <!-- Title -->
-        <span class="mdl-layout-title">QR Code Scanner</span>
+        <span class="mdl-layout-title">PROPESP QR Scanner</span>
       </div>
       <!-- Tabs -->
       <div class="mdl-layout__tab-bar">
@@ -365,33 +382,13 @@
 
     <div class="qrScan-drawer mdl-layout__drawer">
       <header class="qrScan-drawer-header mdl-color--indigo-500">
-        <img src="img/ui/ic_account_circle_white_48dp.svg" class="qrScan-avatar">
-        <div class="qrScan-avatar-dropdown">
-          <span>hello@example.com</span>
-          <div class="mdl-layout-spacer"></div>
-          <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-              <i class="material-icons" role="presentation">arrow_drop_down</i>
-              <span class="visuallyhidden">Accounts</span>
-            </button>
-          <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-            <li class="mdl-menu__item">hello@example.com</li>
-            <li class="mdl-menu__item">info@example.com</li>
-            <li class="mdl-menu__item"><i class="material-icons">add</i>Add another account...</li>
-          </ul>
-        </div>
+        <div class="qrScan-avatar"></div>
       </header>
       <nav class="qrScan-navigation mdl-navigation">
-        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
-        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>Inbox</a>
-        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">delete</i>Trash</a>
-        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">report</i>Spam</a>
-        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Forums</a>
-        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flag</i>Updates</a>
-        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">local_offer</i>Promos</a>
-        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">shopping_cart</i>Purchases</a>
-        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Social</a>
-        <div class="mdl-layout-spacer"></div>
-        <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Início</a>
+        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flag</i>QRs salvos</a>
+        <a class="mdl-navigation__link" href="#null"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">delete</i>QRs rejeitados</a>
+        <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i>Tutorial</a>
       </nav>
     </div>
 
