@@ -122,6 +122,7 @@ let qrScan = {
   },
 
   saveScannedData: function (data) { // qrScan.saveScannedData(data);
+    console.log('Iniciando verificação...');
     var read, proc, qrPretest, act, enc, dec, isQRValid, isMaybeValid, isMaybeEncoded, isEncoded;
 
     if (data.match(/\n/g) !== null ||
