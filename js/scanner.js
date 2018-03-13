@@ -122,7 +122,7 @@ let qrScan = {
   },
 
   saveScannedData: function (data) { // qrScan.saveScannedData(data);
-    var read, proc, qrPretest, act, enc, dec, isQRValid, isMaybeEncoded, isEncoded;
+    var read, proc, qrPretest, act, enc, dec, isQRValid, isMaybeValid, isMaybeEncoded, isEncoded;
 
     if (data.match(/\n/g) !== null ||
         data.match(/\\\"/g) !== null ||
@@ -151,32 +151,27 @@ let qrScan = {
     // qrScan.log("Dados lidos: " + read);
 
     if (proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
-      console.log("QR Code is maybe valid!");
+      isMaybeValid = true;
       isEncoded = false;
 
       data = proc;
-
-      // console.log('Type of [data]: ' + typeof proc);
     }
     //
     else if (proc.match(/^\{(.*)\}/g) === null && proc.match(/\s/g) === null) {
-      console.log("QR Code is maybe valid!");
-      console.log('QR Code is maybe encoded. Validating...');
+      isMaybeValid = true;
       isMaybeEncoded = true;
     }
-    //
-    else {
-      isQRValid = false;
-    }
 
-    qrPretest = (isQRValid !== false) ? 'maybe valid' : 'invalid';
+    qrPretest = (isMaybeValid) ? 'maybe valid' : 'invalid';
     console.log("isQRValid (pretest): " + qrPretest);
 
 
     // Actual string Array
     act = proc;
 
-    if (isMaybeEncoded) {
+    if (isMaybeEncoded && isMaybeValid) {
+      console.log('QR Code is maybe encoded. Validating...');
+
       dec = CryptoJS.AES.decrypt(act, "propespti2013");
       full_dec = dec.toString(CryptoJS.enc.Utf8);
 
@@ -184,9 +179,11 @@ let qrScan = {
     }
 
     // Is encoded
-    if (isEncoded && isQRValid !== false) {
+    if (isEncoded && isMaybeValid) {
+      console.log("QR Code is maybe valid!");
       // QR is encoded
       console.log('QR Code is encoded!');
+
       console.log('Checking authencity...');
 
       // Decrypt data
@@ -199,7 +196,8 @@ let qrScan = {
       // console.log('QR Code [data] updated: ' + data);
     }
     // Is not encoded
-    else if (!isEncoded && isQRValid !== false) {
+    else if (!isEncoded && isMaybeValid) {
+      console.log("QR Code is maybe valid!");
       // QR is not encoded
       console.log('QR Code is not encoded!');
       console.log('Checking authencity...');
