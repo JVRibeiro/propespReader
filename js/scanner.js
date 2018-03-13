@@ -122,66 +122,112 @@ let qrScan = {
   },
 
   saveScannedData: function (data) { // qrScan.saveScannedData(data);
-    let read, proc, act, enc, dec, isQRValid;
+    var read, proc, qrPretest, act, enc, dec, isQRValid, isMaybeEncoded, isEncoded;
 
-    if (data.match(/\n/g) !== null || data.match(/\"/g) !== null || data.match(/\s/g) !== null) {
+    if (data.match(/\n/g) !== null ||
+        data.match(/\\\"/g) !== null ||
+        data.match(/\s/g) !== null) {
       // console.log('QR have line breaks!');
       // Processed data
       proc = data.replace(/\n/gi, '');
-      proc = proc.replace(/\\"/g, '"');
-      proc = proc.replace(/\s/g, '');
-    } else {
+      // console.log('QR have escaped double quotes!');
+      // Processed data
+      proc = proc.replace(/\\\"/g, '"');
+      // console.log('QR have white spaces!');
+      // Processed data
+      proc = proc.replace(/\"\: \"/g, '":"').replace(/\", \"/g, '","').replace(/\"\: \{\"/g, '":{"');
+    }
+    //
+    else {
       proc = data;
     }
+
+    console.log('QR Code content: ' + data);
+    console.log('QR Code processed: ' + proc);
 
     // Read data
     // read = data.replace(/\n/gi, '<br>');
     // console.log("Dados lidos: " + data);
     // qrScan.log("Dados lidos: " + read);
 
-    if (proc.match(/^\{(.*)\}/g) !== null &&
-        proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
-      console.log('QR is not encoded!');
-      console.log('QR content: ' + data);
-      console.log('Checking authencity...');
+    if (proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
+      console.log("QR Code is maybe valid!");
+      isEncoded = false;
+
+      data = proc;
+
+      // console.log('Type of [data]: ' + typeof proc);
     }
     //
-    else if (proc.match(/^\{(.*)\}/g) !== null &&
-               proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) === null) {
-    console.log('QR possibly encoded. Validating...');
+    else if (proc.match(/^\{(.*)\}/g) === null && proc.match(/\s/g) === null) {
+      console.log("QR Code is maybe valid!");
+      console.log('QR Code is maybe encoded. Validating...');
+      isMaybeEncoded = true;
+    }
+    //
+    else {
+      isQRValid = false;
+    }
 
-    // QR is encoded
-      console.log('QR is already encoded!');
-      console.log('QR content: ' + data);
+    qrPretest = (isQRValid !== false) ? 'maybe valid' : 'invalid';
+    console.log("isQRValid (pretest): " + qrPretest);
+
+
+    // Actual string Array
+    act = proc;
+
+    if (isMaybeEncoded) {
+      dec = CryptoJS.AES.decrypt(act, "propespti2013");
+      full_dec = dec.toString(CryptoJS.enc.Utf8);
+
+      isEncoded = (full_dec.match(/^\{(.*)\}/g) !== null) ? true : false;
+    }
+
+    // Is encoded
+    if (isEncoded && isQRValid !== false) {
+      // QR is encoded
+      console.log('QR Code is encoded!');
       console.log('Checking authencity...');
 
-      // Decode QR
-      // Actual string Array
-      act = proc;
-      enc = act;
-
-
-      // Decrypted data
+      // Decrypt data
       // CryptoJS.AES.decrypt(enc, "key");
-      dec = CryptoJS.AES.decrypt(enc, "propespti2013");
-      // Decrypted data to string
+      dec = CryptoJS.AES.decrypt(act, "propespti2013");
+
+      // Decrypt data to string
       data = dec.toString(CryptoJS.enc.Utf8);
 
-      // console.log('Decoded QR: ' + data);
-
-      // Check QR authencity
-      if (data.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
-        isQRValid = true;
-      } else {
-        isQRValid = false;
-      }
+      // console.log('QR Code [data] updated: ' + data);
     }
+    // Is not encoded
+    else if (!isEncoded && isQRValid !== false) {
+      // QR is not encoded
+      console.log('QR Code is not encoded!');
+      console.log('Checking authencity...');
+
+      data = act;
+    }
+
+    // console.log('Decoded QR: ' + data);
+    // console.log('Type of [data]: ' + typeof data);
+
+    // Check QR authencity
+    if (data.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
+      isQRValid = true;
+
+      console.log("QR Code is valid!");
+    } else {
+      isQRValid = false;
+
+      console.log("QR Code is invalid!");
+    }
+
+
+    // console.log("data (updated): " + data);
+    // console.log("isQRValid: " + isQRValid);
 
     // Check QR Code authencity
     // Is valid
     if (isQRValid) {
-      console.log("QR Code is valid!");
-
       // Animation
       qrScan.animate._snap();
       qrScan.animate._success();
@@ -210,8 +256,6 @@ let qrScan = {
     }
     // Is invalid
     else {
-      console.log("QR Code inválido!");
-
       // console.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
       // qrScan.log('QR Code inválido! Escaneie um QR Code pertencente à PROPESP.');
 
@@ -219,7 +263,11 @@ let qrScan = {
       qrScan.animate._snap();
       qrScan.animate._error();
 
-      qrScan.rejected.push(JSON.parse(data));
+      if (data.match(/^\{(.*)\}/g) !== null) {
+        qrScan.rejected.push(JSON.parse(data));
+      } else {
+        qrScan.rejected.push(data);
+      }
 
       console.log("Dados rejeitados: " + data);
 
@@ -550,14 +598,14 @@ scanner.addListener('inactive', function () {
 
   for (let i = 0; i < navLinks.length; i++) {
     // Close drawer on link click
-    navLinks[i].addEventListener('click', function() {
+    navLinks[i].addEventListener('click', function() { // jshint ignore:line
       for (let j = 0; j < layout.length; j++) {
         layout[j].MaterialLayout.toggleDrawer();
       }
     });
 
     // Clear rejected list
-    navLinks[1].addEventListener('click', function() {
+    navLinks[1].addEventListener('click', function() { // jshint ignore:line
       qrScan.clearRejected();
 
       setTimeout(function () {
