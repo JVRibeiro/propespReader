@@ -24,7 +24,7 @@ try {
   file_put_contents('results.json', $json);
 
   // Open a new window with out JSON file (just for testing purposes)
-  echo '<pre>'.$json.'</pre>';
+  echo '<script>window.open("results.json");</script>';
 }
 catch (PDOException $e) {
     echo $e->getMessage();
