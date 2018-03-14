@@ -1,0 +1,19 @@
+- Armazenar dados;
+	- Dados estão encriptados;
+
+- Sincronizar dados;
+	- Ler tabela 'bolsistas', via Ajax, acessando 'retrieve_scholarship_holders.php';
+	- Checar se bolsista existe usando o valor de 'cpf';
+		- Se existir, checar demais dados;
+		- Se não, mover para 'rejeitados' e apagar de 'salvos';
+			- Se todos os dados baterem, armazenar o valor de 'id_bolsista' e lançar presença;
+
+	- Lançar presença;
+		- Ler tabela 'presenca', via Ajax, acessando 'access_presence_list.php';
+		- Procurar pelo valor de 'id_bolsista' que bate com o 'id_bolsista' armazenado;
+			- Se existir, alterar o valor de 'presente' para 'nao';
+			- Se não, retornar mensagem de erro e registrar;
+		- Enviar solicitação, via ajax, com o JSON atualizado para 'sync.php';
+			- Link: https://stackoverflow.com/questions/22179620/sending-data-via-ajax
+		- 'sync.php' analisará e gravará os dados do JSON atualizado na tabela 'presenca'.
+			- Link: http://mrbool.com/how-to-insert-retrieve-json-data-to-from-database-using-php/36810
