@@ -510,7 +510,19 @@ let qrScan = {
   },
 
   sync: function () {
-    
+    $('#mdl-syncing-icon').addClass('syncing');
+
+    $.ajax({
+      url: "./classes/usuarios.php",
+      success: function (result) {
+        $('#mdl-syncing-icon').removeClass('syncing');
+        console.log(result);
+      },
+      error: function () {
+        $('#mdl-syncing-icon').removeClass('syncing');
+        console.log('Erro ao sincronizar');
+      }
+    });
   }
 };
 
@@ -609,6 +621,11 @@ scanner.addListener('inactive', function () {
 
     // Clear rejected list
     navLinks[1].addEventListener('click', function() { // jshint ignore:line
+      qrScan.sync();
+    });
+
+    // Clear rejected list
+    navLinks[2].addEventListener('click', function() { // jshint ignore:line
       qrScan.clearRejected();
 
       setTimeout(function () {
@@ -620,38 +637,38 @@ scanner.addListener('inactive', function () {
 
   /* Tabs */
   $('.mdl-layout__tab')
-  .on('mousedown', function () {
-    // console.log('mousedown');
-    qrScan.checkTab(this);
-  })
-  .on('touchstart', function () {
-    // console.log('touchstart');
-    qrScan.checkTab(this);
-  })
-  .on('click', function() {
-    if (this.href.match("#scroll-tab-1") && !isCameraTabActive) {
-      // console.log('Camera activated.');
-      isCameraTabActive = true;
+    .on('mousedown', function () {
+      // console.log('mousedown');
+      qrScan.checkTab(this);
+    })
+    .on('touchstart', function () {
+      // console.log('touchstart');
+      qrScan.checkTab(this);
+    })
+    .on('click', function() {
+      if (this.href.match("#scroll-tab-1") && !isCameraTabActive) {
+        // console.log('Camera activated.');
+        isCameraTabActive = true;
 
-      qrScan.clearHTML('contentAreaSaved');
-      qrScan.clearHTML('contentAreaRejected');
+        qrScan.clearHTML('contentAreaSaved');
+        qrScan.clearHTML('contentAreaRejected');
 
-      scanner.start(cameraGlobal);
-    } else if (!this.href.match("#scroll-tab-1") && isCameraTabActive) {
-      // console.log('Camera deactivated.');
-      isCameraTabActive = false;
+        scanner.start(cameraGlobal);
+      } else if (!this.href.match("#scroll-tab-1") && isCameraTabActive) {
+        // console.log('Camera deactivated.');
+        isCameraTabActive = false;
 
-      setTimeout(function () {
-        scanner.stop();
-      }, 500);
-    }
+        setTimeout(function () {
+          scanner.stop();
+        }, 500);
+      }
 
-    if (this.href.match("#scroll-tab-2")) {
-      qrScan.clearHTML('contentAreaRejected');
-    } else if (this.href.match("#scroll-tab-3")) {
-      qrScan.clearHTML('contentAreaSaved');
-    }
-  });
+      if (this.href.match("#scroll-tab-2")) {
+        qrScan.clearHTML('contentAreaRejected');
+      } else if (this.href.match("#scroll-tab-3")) {
+        qrScan.clearHTML('contentAreaSaved');
+      }
+    });
 })();
 
 
