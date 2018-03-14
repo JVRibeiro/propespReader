@@ -1,4 +1,5 @@
 <?php
+header('Content-type:application/json;charset=utf-8');
 
 $host = 'localhost';
 $username = 'root';
@@ -21,10 +22,7 @@ try {
   $json = json_encode($result, JSON_UNESCAPED_SLASHES);
 
   // Write in a JSON file
-  file_put_contents('results.json', $json);
-
-  // Open a new window with out JSON file (just for testing purposes)
-  echo '<script>window.open("results.json");</script>';
+  echo $json;
 }
 catch (PDOException $e) {
     echo $e->getMessage();

@@ -128,12 +128,12 @@
 }
 
 .syncing {
-  animation-name: spin;
+  animation-name: syncing;
   animation-duration: .5s;
   animation-iteration-count: infinite;
 }
 
-@keyframes spin {
+@keyframes syncing {
   0% {
     transform: rotate(0deg);
   }

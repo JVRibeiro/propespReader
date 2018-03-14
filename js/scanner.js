@@ -5,7 +5,12 @@ scanner = {};
 
 //(function () {
 // Force removing outline on focus
-$('.mdl-layout__drawer-button').removeAttr('tabindex');
+(function () {
+  let drawer = document.querySelectorAll('.mdl-layout__drawer-button');
+  for (let i = 0; i < drawer.length; i++) {
+    drawer[i].removeAttribute('tabindex');
+  }
+})();
 
 let logIsEnabled, snapTimeout, toastTimeout, cameraGlobal, actualLiArr, actualScrollEl, actualContentEl;
 
@@ -240,8 +245,7 @@ let qrScan = {
 
       // Encrypted data
       // CryptoJS.AES.encrypt(act, "key");
-      enc = eval(function(d,e,a,c,b,f){b=function(a){return(a<e?"":b(parseInt(a/e)))+(35<(a%=e)?String.fromCharCode(a+29):a.toString(36));};if(!"".replace(/^/,String)){for(;a--;)f[b(a)]=c[a]||b(a);c=[function(a){return f[a];}];b=function(){return"\\w+";};a=1;}for(;a--;)c[a]&&(d=d.replace(new RegExp("\\b"+b(a)+"\\b","g"),c[a]));return d;}('1a k=["\\11\\14\\n\\X\\o\\p\\9\\j\\9\\r\\9\\t\\9\\j\\9\\m\\9\\D\\9\\j\\9\\l\\9\\A\\9\\v\\9\\N\\9\\G\\9\\10\\p\\x\\p\\9\\m\\9\\I\\9\\17\\9\\r\\9\\H\\9\\j\\9\\l\\p\\x\\p\\9\\1b\\9\\1e\\9\\C\\p\\q\\Y\\Z\\o\\n\\o\\E\\q\\q\\o\\n\\o\\F\\q\\q\\12\\13\\x\\n\\o\\s\\q\\15","\\h","\\18\\y\\C\\H\\z","\\h\\h\\h\\i\\l\\s\\h\\1f\\s\\i\\A\\l\\v\\l\\h\\i\\l\\E\\h\\i\\m\\r\\h\\i\\l\\n\\h\\i\\j\\j\\h\\i\\l\\j\\h\\i\\m\\1g\\h\\i\\m\\D\\h\\i\\j\\E\\h\\i\\j\\s\\h\\i\\j\\F\\h\\M\\t\\B\\h\\i\\m\\O\\h\\i\\m\\j\\h\\i\\l\\D\\h\\i\\n\\F\\h\\i\\n\\r\\h\\i\\r\\j\\h\\P\\B\\Q\\y\\z\\R\\S\\T\\h\\t\\v\\z","\\B\\G\\y\\C\\t\\v\\G","","\\9\\U\\V","\\9\\A","\\I"];W(u(b,c,d,e,f,g){f=u(a){w a.16(c)};J(!k[5][k[4]](/^/,19)){K(d--){g[f(d)]=e[d]||f(d)};e=[u(a){w g[a]}];f=u(){w k[6]};d=1};K(d--){J(e[d]){b=b[k[4]](1c 1d(k[7]+f(d)+k[7],k[8]),e[d])}};w b}(k[0],L,L,k[3][k[2]](k[1]),0,{}))', // jshint ignore:line
-      62,79,"         x5C        x7C x78 x33 _0x75df x37 x36 x34 x5B x22 x5D x35 x30 x61 function x63 return x2C x70 x74 x62 x72 x6C x39 x32 x31 x65 x69 x67 if while 24 x76 x64 x45 x43 x79 x6F x4A x53 x77 x2B eval x3D x3B x6D x38 x66 x28 x6E x20 x29 toString x68 x73 String var x6A new RegExp x6B x5F x46".split(" "),0,{}));
+      enc =  CryptoJS.AES.encrypt(act, 'propespti2013');
       // console.log("Dados codificados: " + enc);
       // qrScan.log("Dados codificados: " + enc);
 
@@ -327,7 +331,7 @@ let qrScan = {
           '<li class="mdl-list__item mdl-list__item--two-line">' +
             '<span class="mdl-list__item-primary-content">' +
               '<span>' + qrScan.data[i].propesp.nome + '</span>' +
-            '<span class="mdl-list__item-sub-title">Matrícula: ' + qrScan.data[i].propesp.matricula + '</span>' +
+            '<span class="mdl-list__item-sub-title">RG: ' + qrScan.data[i].propesp.rg + '</span>' +
             '</span>' +
           '</li>'
         );
@@ -510,16 +514,32 @@ let qrScan = {
   },
 
   sync: function () {
-    $('#mdl-syncing-icon').addClass('syncing');
+    document.getElementById('mdl-syncing-icon').classList.add('syncing');
 
     $.ajax({
-      url: "./classes/usuarios.php",
+      url: "./classes/retrieve_scholarship_holders.php",
       success: function (result) {
-        $('#mdl-syncing-icon').removeClass('syncing');
+
         console.log(result);
+
+        // Check cpf
+        for (let i = 0; i < qrScan.data.length; i++) {
+
+          for (let j = 0; j < result.length; j++) {
+            if (qrScan.data[i].propesp.rg === result[j].rg) {
+              console.log('CPF de ' + JSON.stringify(qrScan.data[i].propesp) + ' encontrado em: ' + JSON.stringify(result[j]));
+              break;
+            } else {
+              console.log('CPF não encontrado!');
+            }
+          }
+
+        }
+
+        document.getElementById('mdl-syncing-icon').classList.remove('syncing');
       },
       error: function () {
-        $('#mdl-syncing-icon').removeClass('syncing');
+        document.getElementById('mdl-syncing-icon').classList.remove('syncing');
         console.log('Erro ao sincronizar');
       }
     });
