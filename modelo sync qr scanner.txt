@@ -3,10 +3,10 @@
 
 - Sincronizar dados;
 	- Ler tabela 'bolsistas', via Ajax, acessando 'retrieve_scholarship_holders.php';
-	- Checar se bolsista existe usando o valor de 'cpf';
-		- Se existir, checar demais dados;
-		- Se não, mover para 'rejeitados' e apagar de 'salvos';
-			- Se todos os dados baterem, armazenar o valor de 'id_bolsista' e lançar presença;
+	- Checar se bolsista existe usando o valor de 'cpf' e 'nome';
+		- Se existir, retornar valor de 'id' e armazenar em um array;
+		- Se não, marcar como 'não encontrado';
+	- Lançar presença aos bolsistas que passaram na verificação;
 
 	- Lançar presença;
 		- Ler tabela 'presenca', via Ajax, acessando 'access_presence_list.php';

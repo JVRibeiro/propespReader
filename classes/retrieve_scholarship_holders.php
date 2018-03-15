@@ -13,7 +13,7 @@ try {
   // echo 'Connected to database <br />';
 
   // Get data from database
-  $stmt = $connect->prepare("SELECT nome, matricula, cpf FROM bolsistas");
+  $stmt = $connect->prepare("SELECT id, nome, cpf FROM bolsistas");
   $stmt->execute();
 
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

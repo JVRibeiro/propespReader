@@ -18,6 +18,7 @@ let isCameraTabActive = true;
 
 let saved_li_arr = [];
 let rejected_li_arr = [];
+let syncArr = [];
 
 let qrScan = {
   data: [], // qrScan.data
@@ -321,6 +322,8 @@ let qrScan = {
   },
 
   updateHTMLArray: function (string) { // qrScan.updateHTMLArray('data'|'rejected'|undefined);
+    let now = new Date();
+
     if (string === 'data' || string === undefined) {
       saved_li_arr = [];
 
@@ -331,7 +334,8 @@ let qrScan = {
           '<li class="mdl-list__item mdl-list__item--two-line">' +
             '<span class="mdl-list__item-primary-content">' +
               '<span>' + qrScan.data[i].propesp.nome + '</span>' +
-            '<span class="mdl-list__item-sub-title">RG: ' + qrScan.data[i].propesp.rg + '</span>' +
+            '<span class="mdl-list__item-sub-title">CPF: ' + qrScan.data[i].propesp.cpf + ' / ' +
+            'Escaneado: ' + now.toLocaleString() + '</span>' +
             '</span>' +
           '</li>'
         );
@@ -398,7 +402,7 @@ let qrScan = {
     },
 
     _success: function () { // qrScan.animate._success();
-      $('.error').removeClass('snap-status-in snap-status-out');
+      document.querySelector('.error').classList.remove('snap-status-in', 'snap-status-out');
       if (snapTimeout !== undefined) clearTimeout(snapTimeout);
 
       $('.success')
@@ -419,7 +423,7 @@ let qrScan = {
     },
 
     _error: function () { // qrScan.animate._error();
-      $('.success').removeClass('snap-status-in snap-status-out');
+      document.querySelector('.success').classList.remove('snap-status-in', 'snap-status-out');
       if (snapTimeout !== undefined) clearTimeout(snapTimeout);
 
       $('.error')
@@ -519,22 +523,37 @@ let qrScan = {
     $.ajax({
       url: "./classes/retrieve_scholarship_holders.php",
       success: function (result) {
+        let found, index;
 
         console.log(result);
 
         // Check cpf
+        client:
         for (let i = 0; i < qrScan.data.length; i++) {
-
+          api:
           for (let j = 0; j < result.length; j++) {
-            if (qrScan.data[i].propesp.rg === result[j].rg) {
-              console.log('CPF de ' + JSON.stringify(qrScan.data[i].propesp) + ' encontrado em: ' + JSON.stringify(result[j]));
-              break;
-            } else {
-              console.log('CPF não encontrado!');
+            // Check if 'nome' and cpf 'matches'
+            if (qrScan.data[i].propesp.nome === result[j].nome &&
+                qrScan.data[i].propesp.cpf === result[j].cpf) {
+              found = true;
+              index = j;
+
+              console.log('Encontrado: ' + qrScan.data[i].propesp.nome);
+
+              break api;
             }
           }
 
+          if (found) {
+            // Add 'id' from the matched item in 'syncArr' array
+            syncArr.push(result[index].id);
+            found = undefined;
+          } else {
+            console.log('Não encontrado: ' + qrScan.data[i].propesp.nome);
+          }
         }
+
+        console.log(syncArr);
 
         document.getElementById('mdl-syncing-icon').classList.remove('syncing');
       },
