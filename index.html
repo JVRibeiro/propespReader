@@ -1,21 +1,25 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang='pt-br'>
 
 <head>
   <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <meta name="theme-color" content="#2e69bc" />
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+  <meta name='theme-color' content='#2e69bc' />
 
   <title>PROPESP QR Code Scanner</title>
 
-  <link rel="manifest" href="manifest.json">
+  <link rel='manifest' href='manifest.json'>
 
   <link rel='icon' href='img/launcher-icon-1x.png' />
 
   <style>
     body {
       overflow: hidden;
+    }
+
+    .transparent {
+      opacity: 0 !important;
     }
 
     .preloadImgs {
@@ -290,9 +294,9 @@
     }
   </style>
 
-  <link async rel="stylesheet" href="css/material.indigo-green.min.css" />
-  <link defer rel="stylesheet" href="css/clusterize.min.css" />
-  <link defer rel="stylesheet" href="css/main.css" />
+  <link async rel='stylesheet' href='css/material.indigo-green.min.css' />
+  <link defer rel='stylesheet' href='css/clusterize.min.css' />
+  <link defer rel='stylesheet' href='css/main.css' />
 
   <!--script>
     if ('serviceWorker' in navigator) {
@@ -308,6 +312,11 @@
         });
       });
     }
+
+    // Request a one-off sync:
+    navigator.serviceWorker.ready.then(function(swRegistration) {
+      return swRegistration.sync.register('backgroundSync');
+    });
 
     // make the whole serviceworker process into a promise so later on we can
     // listen to it and in case new content is available a toast will be shown
@@ -353,101 +362,103 @@
     // because the registering of a service worker doesn't need to be executed on the first load of the page.
   </script-->
 
-  <script src="external/material.min.js"></script>
-  <script src="external/jquery.min.js"></script>
+  <script src='external/material.min.js'></script>
+  <script src='external/jquery.min.js'></script>
 </head>
 
 <body>
-  <div id="pageLoader">
-    <div class="loading-spinner">
-      <div class="loading-spinner-simple"></div>
+  <div id='pageLoader'>
+    <div class='loading-spinner'>
+      <div class='loading-spinner-simple'></div>
     </div>
   </div>
 
-  <div class="preloadImgs"></div>
+  <div class='preloadImgs'></div>
 
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
-    <header class="mdl-layout__header noSelect">
-      <div class="mdl-layout__header-row">
+  <div class='mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs'>
+    <header class='mdl-layout__header noSelect'>
+      <div class='mdl-layout__header-row'>
         <!-- Title -->
-        <span class="mdl-layout-title">PROPESP QR Scanner</span>
+        <span class='mdl-layout-title'>PROPESP QR Scanner</span>
+
+        <a id='manualSync'><i id='mdl-syncing-icon' class='mdl-color-text--white material-icons' role='presentation'>sync</i></a>
       </div>
       <!-- Tabs -->
-      <div class="mdl-layout__tab-bar">
-        <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Ler código</a>
-        <a href="#scroll-tab-2" class="mdl-layout__tab">Salvos</a>
-        <a href="#scroll-tab-3" class="mdl-layout__tab">Rejeitados</a>
+      <div class='mdl-layout__tab-bar'>
+        <a href='#scroll-tab-1' class='mdl-layout__tab is-active'>Ler código</a>
+        <a href='#scroll-tab-2' class='mdl-layout__tab'>Salvos</a>
+        <a href='#scroll-tab-3' class='mdl-layout__tab'>Rejeitados</a>
       </div>
     </header>
 
-    <div class="qrScan-drawer mdl-layout__drawer">
-      <header class="qrScan-drawer-header mdl-color--indigo-500">
-        <div class="qrScan-avatar"></div>
+    <div class='qrScan-drawer mdl-layout__drawer'>
+      <header class='qrScan-drawer-header mdl-color--indigo-500'>
+        <div class='qrScan-avatar'></div>
       </header>
-      <nav class="qrScan-navigation mdl-navigation">
-        <a class="mdl-navigation__link" href="./"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Início</a>
-        <a class="mdl-navigation__link" href="#sync"><i id="mdl-syncing-icon" class="mdl-color-text--blue-grey-400 material-icons" role="presentation">sync</i>Sincronizar</a>
-        <a class="mdl-navigation__link" href="#clRe" id='clRe'><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">delete</i>QRs rejeitados</a>
-        <a class="mdl-navigation__link" href="./tutorial/"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i>Tutorial</a>
+      <nav class='qrScan-navigation mdl-navigation'>
+        <a class='mdl-navigation__link' href='./'><i class='mdl-color-text--blue-grey-400 material-icons' role='presentation'>home</i>Início</a>
+        <!--a class='mdl-navigation__link' href='#sync' id=''><i class='mdl-color-text--blue-grey-400 material-icons' role='presentation'>sync</i>Sincronizar</a-->
+        <!--a class='mdl-navigation__link' href='#clRe' id='clRe'><i class='mdl-color-text--blue-grey-400 material-icons' role='presentation'>delete</i>Limpar rejeitados</a-->
+        <a class='mdl-navigation__link' href='./tutorial/'><i class='mdl-color-text--blue-grey-400 material-icons' role='presentation'>help_outline</i>Tutorial</a>
       </nav>
     </div>
 
     <!-- Ler codigo -->
-    <main class="mdl-layout__content">
-      <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
-        <div class="page-content">
-          <div id="cameraCanvas">
-            <div class="frame"></div>
-            <div class="snap"></div>
-            <div class="success"></div>
-            <div class="error"></div>
-            <div class="loading">
-              <div class="loading-spinner">
-                <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
+    <main class='mdl-layout__content'>
+      <section class='mdl-layout__tab-panel is-active' id='scroll-tab-1'>
+        <div class='page-content'>
+          <div id='cameraCanvas'>
+            <div class='frame'></div>
+            <div class='snap'></div>
+            <div class='success'></div>
+            <div class='error'></div>
+            <div class='loading'>
+              <div class='loading-spinner'>
+                <div class='mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active'></div>
               </div>
             </div>
 
-            <video id="webcameraPreview" playsinline autoplay muted loop></video>
+            <video id='webcameraPreview' playsinline autoplay muted loop></video>
           </div>
         </div>
       </section>
 
       <!-- Salvos -->
-      <section class="mdl-layout__tab-panel" id="scroll-tab-2">
-        <div class="page-content">
+      <section class='mdl-layout__tab-panel' id='scroll-tab-2'>
+        <div class='page-content'>
           <div class='savedItems'>
             <div id='scrollAreaSaved' class='clusterize-scroll'>
-              <ul id="contentAreaSaved" class="mdl-list clusterize-content"></ul>
+              <ul id='contentAreaSaved' class='mdl-list clusterize-content'></ul>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Salvos -->
-      <section class="mdl-layout__tab-panel" id="scroll-tab-3">
-        <div class="page-content">
+      <section class='mdl-layout__tab-panel' id='scroll-tab-3'>
+        <div class='page-content'>
           <div class='savedItems'>
             <div id='scrollAreaRejected' class='clusterize-scroll'>
-              <ul id="contentAreaRejected" class="mdl-list clusterize-content"></ul>
+              <ul id='contentAreaRejected' class='mdl-list clusterize-content'></ul>
             </div>
           </div>
         </div>
       </section>
 
-      <div id="snap-status-toast" class="mdl-js-snackbar mdl-snackbar">
-        <div class="mdl-snackbar__text"></div>
-        <button class="mdl-snackbar__action" type="button"></button>
+      <div id='snap-status-toast' class='mdl-js-snackbar mdl-snackbar'>
+        <div class='mdl-snackbar__text'></div>
+        <button class='mdl-snackbar__action' type='button'></button>
       </div>
     </main>
   </div>
-  <script src="external/instascan.compressed.js"></script>
-  <script src="external/clusterize.min.js"></script>
-  <script src="external/cripto-aes.min.js"></script>
-  <script src="external/adapter.min.js"></script>
-  <script defer src="js/scanner.js"></script>
+  <script src='external/instascan.compressed.js'></script>
+  <script src='external/clusterize.min.js'></script>
+  <script src='external/cripto-aes.min.js'></script>
+  <script src='external/adapter.min.js'></script>
+  <script defer src='js/scanner.js'></script>
   <script defer>
     var domReady = function(ready) {
-      if (document.readyState != 'loading') return ready();
+      if (document.readyState !== 'loading') return ready();
       document.addEventListener('DOMContentLoaded', ready);
 
       function _ready() {

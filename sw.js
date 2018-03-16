@@ -102,3 +102,11 @@ self.addEventListener('fetch', function (event) {
     })
   );
 });
+
+
+/* TODO TODO TODO TODO */
+self.addEventListener('sync', function(event) {
+  if (event.tag == 'backgroundSync') {
+    event.waitUntil(qrScan.sync());
+  }
+});

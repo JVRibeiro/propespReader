@@ -12,6 +12,7 @@ scanner = {};
   }
 })();
 
+const x = '\x70\x72\x6f\x70\x65\x73\x70';
 let logIsEnabled, snapTimeout, toastTimeout, cameraGlobal, actualLiArr, actualScrollEl, actualContentEl;
 
 let isCameraTabActive = true;
@@ -154,8 +155,8 @@ let qrScan = {
 
     // Read data
     // read = data.replace(/\n/gi, '<br>');
-    // console.log("Dados lidos: " + data);
-    // qrScan.log("Dados lidos: " + read);
+    // console.log('Dados lidos: ' + data);
+    // qrScan.log('Dados lidos: ' + read);
 
     if (proc.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
       isMaybeValid = true;
@@ -170,7 +171,7 @@ let qrScan = {
     }
 
     qrPretest = (isMaybeValid) ? 'maybe valid' : 'invalid';
-    console.log("isQRValid (pretest): " + qrPretest);
+    console.log('isQRValid (pretest): ' + qrPretest);
 
 
     // Actual string Array
@@ -179,7 +180,7 @@ let qrScan = {
     if (isMaybeEncoded && isMaybeValid) {
       console.log('QR Code is maybe encoded. Validating...');
 
-      dec = CryptoJS.AES.decrypt(act, "propespti2013");
+      dec = CryptoJS.AES.decrypt(act, 'propespti2013');
       full_dec = dec.toString(CryptoJS.enc.Utf8);
 
       isEncoded = (full_dec.match(/^\{(.*)\}/g) !== null) ? true : false;
@@ -187,15 +188,15 @@ let qrScan = {
 
     // Is encoded
     if (isEncoded && isMaybeValid) {
-      console.log("QR Code is maybe valid!");
+      console.log('QR Code is maybe valid!');
       // QR is encoded
       console.log('QR Code is encoded!');
 
       console.log('Checking authencity...');
 
       // Decrypt data
-      // CryptoJS.AES.decrypt(enc, "key");
-      dec = CryptoJS.AES.decrypt(act, "propespti2013");
+      // CryptoJS.AES.decrypt(enc, 'key');
+      dec = CryptoJS.AES.decrypt(act, 'propespti2013');
 
       // Decrypt data to string
       data = dec.toString(CryptoJS.enc.Utf8);
@@ -204,7 +205,7 @@ let qrScan = {
     }
     // Is not encoded
     else if (!isEncoded && isMaybeValid) {
-      console.log("QR Code is maybe valid!");
+      console.log('QR Code is maybe valid!');
       // QR is not encoded
       console.log('QR Code is not encoded!');
       console.log('Checking authencity...');
@@ -219,16 +220,16 @@ let qrScan = {
     if (data.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null) {
       isQRValid = true;
 
-      console.log("QR Code is valid!");
+      console.log('QR Code is valid!');
     } else {
       isQRValid = false;
 
-      console.log("QR Code is invalid!");
+      console.log('QR Code is invalid!');
     }
 
 
-    // console.log("data (updated): " + data);
-    // console.log("isQRValid: " + isQRValid);
+    // console.log('data (updated): ' + data);
+    // console.log('isQRValid: ' + isQRValid);
 
     // Check QR Code authencity
     // Is valid
@@ -241,21 +242,21 @@ let qrScan = {
 
       // Actual string Array
       act = JSON.stringify(qrScan.data);
-      // console.log("Dados salvos em RAM: " + act);
-      // qrScan.log("Dados salvos em RAM: " + act);
+      // console.log('Dados salvos em RAM: ' + act);
+      // qrScan.log('Dados salvos em RAM: ' + act);
 
       // Encrypted data
-      // CryptoJS.AES.encrypt(act, "key");
+      // CryptoJS.AES.encrypt(act, 'key');
       enc =  CryptoJS.AES.encrypt(act, 'propespti2013');
-      // console.log("Dados codificados: " + enc);
-      // qrScan.log("Dados codificados: " + enc);
+      // console.log('Dados codificados: ' + enc);
+      // qrScan.log('Dados codificados: ' + enc);
 
       localStorage.setItem('data', enc);
-      qrScan.animate._showToast('Dados salvos!');
+      qrScan.animate._showToast('Dados salvos!', 1100);
 
       qrScan.updateHTMLArray('data');
 
-      clusterize.update(saved_li_arr);
+      qrScan.updateCluster(saved_li_arr);
       // console.log(qrScan.data.length);
     }
     // Is invalid
@@ -273,34 +274,34 @@ let qrScan = {
         qrScan.rejected.push(data);
       }
 
-      console.log("Dados rejeitados: " + data);
+      console.log('Dados rejeitados: ' + data);
 
       // Actual string Array
       act = JSON.stringify(qrScan.rejected);
-      // console.log("Dados rejeitados salvos em RAM: " + act);
-      // qrScan.log("Dados rejeitados salvos em RAM: " + act);
+      // console.log('Dados rejeitados salvos em RAM: ' + act);
+      // qrScan.log('Dados rejeitados salvos em RAM: ' + act);
 
-      // Encrypted data
-      enc = CryptoJS.AES.encrypt(act, "propespti2013");
-      // console.log("Dados rejeitados codificados: " + enc);
-      // qrScan.log("Dados rejeitados codificados: " + enc);
+      // Encrypt data
+      enc = CryptoJS.AES.encrypt(act, 'propespti2013');
+      // console.log('Dados rejeitados codificados: ' + enc);
+      // qrScan.log('Dados rejeitados codificados: ' + enc);
 
       localStorage.setItem('rejected', enc);
 
-      qrScan.animate._showToast('QR Code inválido!');
+      qrScan.animate._showToast('QR Code inválido!', 1100);
 
       qrScan.updateHTMLArray('rejected');
 
-      clusterize.update(rejected_li_arr);
+      qrScan.updateCluster(rejected_li_arr);
       // console.log(qrScan.data.length);
     }
   },
 
   loadFromLS: function (string) {
     if (string === 'data' || string === undefined) {
-      // Decrypted data
-      // CryptoJS.AES.decrypt(localStorage.getItem('data'), "key");
-      let decData = CryptoJS.AES.decrypt(localStorage.getItem('data'), "propespti2013");
+      // Decrypt data
+      // CryptoJS.AES.decrypt(localStorage.getItem('data'), 'key');
+      let decData = CryptoJS.AES.decrypt(localStorage.getItem('data'), 'propespti2013');
 
       let decString = decData.toString(CryptoJS.enc.Utf8);
 
@@ -309,13 +310,13 @@ let qrScan = {
 
     if (string === 'rejected' || string === undefined) {
       // Decrypted data
-      // CryptoJS.AES.decrypt(localStorage.getItem('rejected'), "key");
-      let decRej = CryptoJS.AES.decrypt(localStorage.getItem('rejected'), "propespti2013");
+      // CryptoJS.AES.decrypt(localStorage.getItem('rejected'), 'key');
+      let decRej = CryptoJS.AES.decrypt(localStorage.getItem('rejected'), 'propespti2013');
 
       let decRejString = decRej.toString(CryptoJS.enc.Utf8);
 
-      // console.log("Dados decodificados: " + decString);
-      // qrScan.log("Dados decodificados: " + decString);
+      // console.log('Dados decodificados: ' + decString);
+      // qrScan.log('Dados decodificados: ' + decString);
 
       qrScan.rejected = localStorage.getItem('rejected') === null ? qrScan.rejected : JSON.parse(decRejString);
     }
@@ -332,15 +333,14 @@ let qrScan = {
       for (let i = 0; i < data_arr_len; i++) {
         saved_li_arr.push(
           '<li class="mdl-list__item mdl-list__item--two-line">' +
+            '<div class="sh-status"><div data-cpf="' + qrScan.data[i][x].cpf + '" class="sh-status-inner"></div></div>' + // jshint ignore:line
             '<span class="mdl-list__item-primary-content">' +
-              '<span>' + qrScan.data[i].propesp.nome + '</span>' +
-            '<span class="mdl-list__item-sub-title">CPF: ' + qrScan.data[i].propesp.cpf + ' / ' +
-            'Escaneado: ' + now.toLocaleString() + '</span>' +
+              '<span>' + qrScan.data[i][x].nome + '</span>' +
+            '<span class="mdl-list__item-sub-title">CPF: ' + qrScan.data[i][x].cpf +
             '</span>' +
           '</li>'
         );
       }
-
     }
 
     if (string === 'rejected' || string === undefined) {
@@ -366,9 +366,9 @@ let qrScan = {
     rejected_li_arr = [];
 
     qrScan.updateHTMLArray('rejected');
-    clusterize.update(rejected_li_arr);
+    qrScan.updateCluster(rejected_li_arr);
 
-    qrScan.animate._showToast('Lista de rejeitados apagada!');
+    qrScan.animate._showToast('Lista de rejeitados apagada!', 1100);
   },
 
   // create an instance of Instascan QrCode scanner
@@ -379,35 +379,40 @@ let qrScan = {
   /* Animations */
   animate: {
     _snap: function () { // qrScan.animate._snap();
-      $('#cameraCanvas .snap').removeClass('snap-anim');
+      document.querySelector('#cameraCanvas .snap').classList.remove('snap-anim');
 
       $('#cameraCanvas .snap')
         .addClass('snap-anim')
         .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
           function(e) {
           // code to execute after animation ends
-          $('#cameraCanvas .snap').removeClass('snap-anim');
+          document.querySelector('#cameraCanvas .snap').classList.remove('snap-anim');
       });
     },
 
-    _showToast: function (message) { // qrScan.animate._showToast(message);
+    /*
+        @param {string}
+        @param {boolean}
+    */
+    _showToast: function (message, delay) { // qrScan.animate._showToast(message, delay);
       let notification = document.querySelector('.mdl-js-snackbar');
 
+      if (delay == undefined) delay = 300;
+
       if (toastTimeout !== undefined) clearTimeout(toastTimeout);
-      $('.mdl-js-snackbar').removeClass('mdl-snackbar--active');
+      document.querySelector('.mdl-js-snackbar').classList.remove('mdl-snackbar--active');
 
       toastTimeout = setTimeout(function () {
-        notification.MaterialSnackbar.showSnackbar({message: message});
-      }, 1100);
+        notification.MaterialSnackbar.showSnackbar({'message': message});
+      }, delay);
     },
 
     _success: function () { // qrScan.animate._success();
       document.querySelector('.error').classList.remove('snap-status-in', 'snap-status-out');
       if (snapTimeout !== undefined) clearTimeout(snapTimeout);
 
-      $('.success')
-          .removeClass('snap-status-in snap-status-out')
-          .addClass('snap-status-in');
+      document.querySelector('.success').classList.remove('snap-status-in', 'snap-status-out');
+      document.querySelector('.success').classList.add('snap-status-in');
 
       snapTimeout = setTimeout(function() {
         // code to execute after animation ends
@@ -417,7 +422,7 @@ let qrScan = {
           .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
             function(e) {
             // code to execute after animation ends
-            $('.success').removeClass('snap-status-out');
+            document.querySelector('.success').classList.remove('snap-status-out');
         });
       }, 3000);
     },
@@ -426,9 +431,8 @@ let qrScan = {
       document.querySelector('.success').classList.remove('snap-status-in', 'snap-status-out');
       if (snapTimeout !== undefined) clearTimeout(snapTimeout);
 
-      $('.error')
-        .removeClass('snap-status-in snap-status-out')
-        .addClass('snap-status-in');
+      document.querySelector('.error').classList.remove('snap-status-in', 'snap-status-out');
+      document.querySelector('.error').classList.add('snap-status-in');
 
         snapTimeout = setTimeout(function() {
           // code to execute after animation ends
@@ -438,17 +442,45 @@ let qrScan = {
             .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
               function(e) {
               // code to execute after animation ends
-              $('.error').removeClass('snap-status-out');
+              document.querySelector('.error').classList.remove('snap-status-out');
           });
         },3000);
     },
 
     _loading: function (boolean) { // qrScan.animate._loading(boolean);
       if (!boolean) {
-        $('.loading').css('opacity', 0);
+        document.querySelector('.loading').classList.add('transparent');
       } else {
-        $('.loading').css('opacity', 1);
+        document.querySelector('.loading').classList.remove('transparent');
       }
+    },
+
+    _syncing: function (boolean) { // qrScan.animate._syncing(boolean);
+      if (boolean) {
+        document.getElementById('manualSync').classList.add('syncing');
+      } else {
+        document.getElementById('manualSync').classList.remove('syncing');
+      }
+    },
+
+    _changeSyncStatus: function () { // qrScan.animate._changeSyncStatus();
+      let data_len = qrScan.data.length;
+
+      setTimeout(function() {
+        for (let i = 0; i < data_len; i++) {
+          if (qrScan.data[i][x].synced === 1) {
+            $('[data-cpf="' + qrScan.data[i][x].cpf + '"]').removeClass('error').addClass('synced');
+          }
+          //
+          else if (qrScan.data[i][x].synced === 2) {
+            $('[data-cpf="' + qrScan.data[i][x].cpf + '"]').removeClass('synced').addClass('error');
+          }
+          //
+          else {
+            $('[data-cpf="' + qrScan.data[i][x].cpf + '"]').removeClass('synced error');
+          }
+        }
+      }, 300);
     },
 
     _pageLoaded: function () { // qrScan.animate._pageLoaded();
@@ -456,7 +488,6 @@ let qrScan = {
     },
 
     _changeTab: function (tabNum) { // qrScan.animate._changeTab(tabNum);
-
       if (tabNum === 3) {
         actualScrollId = 'scrollAreaRejected';
         actualContentId = 'contentAreaRejected';
@@ -478,17 +509,17 @@ let qrScan = {
 
   // Verify current tab selected
   checkTab: function (target) { // qrScan.checkTab(target);
-    if (target.href.match("#scroll-tab-1")) {
+    if (target.href.match('#scroll-tab-1')) {
       actualScrollId = undefined;
       actualContentId = undefined;
       actualLiArr = undefined;
-    } else if (target.href.match("#scroll-tab-2")) {
+    } else if (target.href.match('#scroll-tab-2')) {
       actualScrollId = 'scrollAreaSaved';
       actualContentId = 'contentAreaSaved';
       actualLiArr = saved_li_arr;
 
       qrScan.newClusterize();
-    } else if (target.href.match("#scroll-tab-3")) {
+    } else if (target.href.match('#scroll-tab-3')) {
       actualScrollId = 'scrollAreaRejected';
       actualContentId = 'contentAreaRejected';
       actualLiArr = rejected_li_arr;
@@ -504,62 +535,102 @@ let qrScan = {
       tag: 'ul',
       scrollId: actualScrollId,
       contentId: actualContentId,
-      no_data_text: 'Nenhum bolsista',
-      callbacks: {
-        clusterChanged: function() {
-          // console.log('cluster changed!');
-        }
-      }
+      no_data_text: 'Nenhum bolsista'
     });
+  },
+
+  updateCluster: function (array) { // qrScan.updateCluster(array);
+    clusterize.update(array);
   },
 
   clearHTML: function (elemId) { // qrScan.clearHTML(elemId);
     document.getElementById(elemId).innerHTML = '';
   },
 
-  sync: function () {
-    document.getElementById('mdl-syncing-icon').classList.add('syncing');
+  sync: function () { // qrScan.sync();
+    qrScan.animate._syncing(true);
+    qrScan.animate._showToast('Sincronizando...');
 
     $.ajax({
-      url: "./classes/retrieve_scholarship_holders.php",
+      url: './classes/retrieve_scholarship_holders.php',
       success: function (result) {
-        let found, index;
+        let found, synced, indexj, indexi;
+        let data_len = qrScan.data.length;
+        let result_len = result.length;
 
-        console.log(result);
+        // console.log(result);
 
         // Check cpf
-        client:
-        for (let i = 0; i < qrScan.data.length; i++) {
-          api:
-          for (let j = 0; j < result.length; j++) {
-            // Check if 'nome' and cpf 'matches'
-            if (qrScan.data[i].propesp.nome === result[j].nome &&
-                qrScan.data[i].propesp.cpf === result[j].cpf) {
-              found = true;
-              index = j;
+        client: for (let i = 0; i < data_len; i++) {
 
-              console.log('Encontrado: ' + qrScan.data[i].propesp.nome);
+          // Already synced
+          if (qrScan.data[i][x].synced === 1) {
+            console.log('Já sincronizado: ' + qrScan.data[i][x].nome);
+          }
+
+          api: for (let j = 0; j < result_len; j++) {
+            // Check if 'nome' and 'cpf' matches and if it was not synced yet
+            if (qrScan.data[i][x].synced === 0 ||
+                qrScan.data[i][x].synced === undefined &&
+                qrScan.data[i][x].nome === result[j].nome &&
+                qrScan.data[i][x].cpf === result[j].cpf) {
+              found = true;
+              indexi = i;
+              indexj = j;
+
+              console.log('Encontrado: ' + qrScan.data[i][x].nome);
 
               break api;
+            } else if (qrScan.data[i][x].synced === 0 ||
+                      qrScan.data[i][x].synced === undefined &&
+                      qrScan.data[i][x].nome !== result[j].nome ||
+                      qrScan.data[i][x].cpf !== result[j].cpf) {
+              found = false;
+              qrScan.data[i][x].synced = 2;
+            } else if (qrScan.data[i][x].synced === 1) {
+              found = false;
+            } else {
+              found = false;
+              qrScan.data[i][x].synced = 2;
             }
           }
 
+          // If found, the scholarship holder (SH) gets marked as 'synced' and encrypted saved data is updated
           if (found) {
+            let act;
+
             // Add 'id' from the matched item in 'syncArr' array
-            syncArr.push(result[index].id);
-            found = undefined;
-          } else {
-            console.log('Não encontrado: ' + qrScan.data[i].propesp.nome);
+            syncArr.push(result[indexj].id);
+
+            qrScan.data[indexi][x].synced = 1;
+
+            // Actual string Array
+            act = JSON.stringify(qrScan.data);
+            // console.log('Dados atualizados: ' + act);
+            // qrScan.log('Dados atualizados: ' + act);
+
+            // Encrypt data
+            enc = CryptoJS.AES.encrypt(act, 'propespti2013');
+
+            localStorage.setItem('data', enc);
+
+            found = false;
           }
         }
 
-        console.log(syncArr);
+        // Show the array with the SH id's
+        // console.log(syncArr);
 
-        document.getElementById('mdl-syncing-icon').classList.remove('syncing');
+        qrScan.animate._changeSyncStatus();
+
+        qrScan.animate._syncing(false);
+        qrScan.animate._showToast('Sincronizado.');
       },
+
       error: function () {
-        document.getElementById('mdl-syncing-icon').classList.remove('syncing');
-        console.log('Erro ao sincronizar');
+        qrScan.animate._syncing(false);
+        // console.error('Erro ao sincronizar.');
+        qrScan.animate._showToast('Erro ao sincronizar.');
       }
     });
   }
@@ -611,7 +682,7 @@ if (localStorage.getItem('rejected') !== null) {
 
 let options = {};
 // init options for scanner
-options = qrScan.initVideoObjectOptions("webcameraPreview");
+options = qrScan.initVideoObjectOptions('webcameraPreview');
 
 let cameraId = 0;
 
@@ -660,11 +731,6 @@ scanner.addListener('inactive', function () {
 
     // Clear rejected list
     navLinks[1].addEventListener('click', function() { // jshint ignore:line
-      qrScan.sync();
-    });
-
-    // Clear rejected list
-    navLinks[2].addEventListener('click', function() { // jshint ignore:line
       qrScan.clearRejected();
 
       setTimeout(function () {
@@ -673,6 +739,11 @@ scanner.addListener('inactive', function () {
       }, 500);
     });
   }
+
+  // Clear rejected list
+  document.getElementById('manualSync').addEventListener('click', function() { // jshint ignore:line
+    qrScan.sync();
+  });
 
   /* Tabs */
   $('.mdl-layout__tab')
@@ -685,7 +756,7 @@ scanner.addListener('inactive', function () {
       qrScan.checkTab(this);
     })
     .on('click', function() {
-      if (this.href.match("#scroll-tab-1") && !isCameraTabActive) {
+      if (this.href.match('#scroll-tab-1') && !isCameraTabActive) {
         // console.log('Camera activated.');
         isCameraTabActive = true;
 
@@ -693,7 +764,7 @@ scanner.addListener('inactive', function () {
         qrScan.clearHTML('contentAreaRejected');
 
         scanner.start(cameraGlobal);
-      } else if (!this.href.match("#scroll-tab-1") && isCameraTabActive) {
+      } else if (!this.href.match('#scroll-tab-1') && isCameraTabActive) {
         // console.log('Camera deactivated.');
         isCameraTabActive = false;
 
@@ -702,14 +773,14 @@ scanner.addListener('inactive', function () {
         }, 500);
       }
 
-      if (this.href.match("#scroll-tab-2")) {
+      if (this.href.match('#scroll-tab-2')) {
         qrScan.clearHTML('contentAreaRejected');
-      } else if (this.href.match("#scroll-tab-3")) {
+      } else if (this.href.match('#scroll-tab-3')) {
         qrScan.clearHTML('contentAreaSaved');
       }
     });
 })();
 
 
-
+// window.qrScan.sync = qrScan.sync;
 //})();

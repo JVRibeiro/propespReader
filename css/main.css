@@ -1,9 +1,54 @@
 /* Saved QRs */
 
+#manualSync {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 56px;
+  height: 56px;
+  text-align: center;
+  line-height: 70px;
+}
+
 .savedItems {
   height: 100%;
   width: 100%;
   position: absolute;
+}
+
+.savedItems .sh-status {
+    width: 72px;
+    height: 72px;
+    margin-left: -16px;
+    position: relative;
+}
+
+.sh-status-inner {
+  width: 40px;
+  height: 40px;
+  background-color: #c5c5c5;
+  background-image: url(../img/ui/light/ic_cloud_off_white_48dp.svg);
+  background-size: 70%;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  -webkit-transition: .2s ease-in-out;
+  transition: .2s ease-in-out;
+}
+
+.sh-status-inner.synced {
+  background-color: #4CAF50;
+  background-image: url(../img/ui/light/ic_cloud_done_white_48dp.svg);
+}
+
+.sh-status-inner.error {
+  background-color: #F44336;
+  background-image: url(../img/ui/light/ic_cloud_off_white_48dp.svg);
 }
 
 .clusterize-scroll {
@@ -18,6 +63,8 @@
 
 .clusterize-scroll ul li {
   border-bottom: 1px solid #e3e3e3;
+  overflow: hidden;
+  overflow-x: scroll;
 }
 
 /* Animations */
@@ -128,16 +175,32 @@
 }
 
 .syncing {
-  animation-name: syncing;
-  animation-duration: .5s;
-  animation-iteration-count: infinite;
+  -webkit-animation-name: syncing;
+          animation-name: syncing;
+  -webkit-animation-duration: .5s;
+          animation-duration: .5s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes syncing {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg);
+  }
 }
 
 @keyframes syncing {
   0% {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
   100% {
-    transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg);
   }
 }
