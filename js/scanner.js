@@ -554,55 +554,88 @@ let qrScan = {
     $.ajax({
       url: './classes/retrieve_scholarship_holders.php',
       success: function (result) {
-        let found, synced, indexj, indexi;
+        let found, synced, error, indexj, indexi;
         let data_len = qrScan.data.length;
         let result_len = result.length;
 
-        // console.log(result);
+        console.log(result);
 
-        // Check cpf
+        //
         client: for (let i = 0; i < data_len; i++) {
+          console.log('data[' + i + ']: ' + qrScan.data[i][x].nome);
 
-          // Already synced
+          // Synced
           if (qrScan.data[i][x].synced === 1) {
+            synced = true;
+            indexi = i;
+
             console.log('Já sincronizado: ' + qrScan.data[i][x].nome);
           }
 
-          api: for (let j = 0; j < result_len; j++) {
-            // Check if 'nome' and 'cpf' matches and if it was not synced yet
-            if (qrScan.data[i][x].synced === 0 ||
-                qrScan.data[i][x].synced === undefined &&
-                qrScan.data[i][x].nome === result[j].nome &&
-                qrScan.data[i][x].cpf === result[j].cpf) {
-              found = true;
-              indexi = i;
-              indexj = j;
+          // Not synced or Synced with error
+          else if (qrScan.data[i][x].synced === 0 || qrScan.data[i][x].synced === undefined || qrScan.data[i][x].synced === 2) {
+            // Synced with error
+            if (qrScan.data[i][x].synced === 2) {
+              synced = true;
+              error = true;
 
-              console.log('Encontrado: ' + qrScan.data[i][x].nome);
+              console.log('Já sincronizado com erro: ' + qrScan.data[i][x].nome);
+            }
+            // Not synced
+            else if (qrScan.data[i][x].synced === 0 || qrScan.data[i][x].synced === undefined) {
+              synced = false;
+              error = false;
+            }
 
-              break api;
-            } else if (qrScan.data[i][x].synced === 0 ||
-                      qrScan.data[i][x].synced === undefined &&
-                      qrScan.data[i][x].nome !== result[j].nome ||
-                      qrScan.data[i][x].cpf !== result[j].cpf) {
-              found = false;
-              qrScan.data[i][x].synced = 2;
-            } else if (qrScan.data[i][x].synced === 1) {
-              found = false;
-            } else {
-              found = false;
-              qrScan.data[i][x].synced = 2;
+            api: for (let j = 0; j < result_len; j++) {
+              console.log('    result[' + j + ']: ' + result[j].nome);
+
+              // SH found
+              if (qrScan.data[i][x].cpf === result[j].cpf) {
+                console.log('    CPF de ' + qrScan.data[i][x].nome + ' encontrado na posição [' + j + ']');
+                console.log('    Verificando nome...');
+
+                if (qrScan.data[i][x].nome === result[j].nome) {
+                  found = true;
+                  error = false;
+                  indexi = i;
+                  indexj = j;
+
+                  console.log('    ' + qrScan.data[i][x].nome + ' encontrado na posição [' + j + ']');
+
+                  break api;
+                }
+                //
+                else {
+                  indexi = i;
+                  console.log('    Nome de ' + qrScan.data[i][x].nome + ' não bate com o CPF.');
+                }
+              }
+              // SH not found
+              else {
+                found = false;
+                error = true;
+                indexi = i;
+
+                if (qrScan.data[i][x].nome === result[j].nome) {
+                  console.log('    CPF de ' + qrScan.data[i][x].nome + ' não bate.');
+                }
+              }
+
+              synced = true;
             }
           }
 
+
           // If found, the scholarship holder (SH) gets marked as 'synced' and encrypted saved data is updated
-          if (found) {
+          // F NS
+          if (found === true && !synced) {
             let act;
+
+            qrScan.data[indexi][x].synced = 1;
 
             // Add 'id' from the matched item in 'syncArr' array
             syncArr.push(result[indexj].id);
-
-            qrScan.data[indexi][x].synced = 1;
 
             // Actual string Array
             act = JSON.stringify(qrScan.data);
@@ -612,11 +645,41 @@ let qrScan = {
             // Encrypt data
             enc = CryptoJS.AES.encrypt(act, 'propespti2013');
 
-            localStorage.setItem('data', enc);
+            // localStorage.setItem('data', enc);
 
-            found = false;
+            console.log('IDs encontrados: ' + syncArr);
+          }
+          // NF NS
+          else if (found === false && !synced) {
+            console.log('qrScan.data['+indexi+'][x].synced = 2');
+            qrScan.data[indexi][x].synced = 2;
+          }
+          // F E
+          else if (found === true && error) {
+            console.log('qrScan.data['+indexi+'][x].synced = 1');
+            qrScan.data[indexi][x].synced = 1;
+            // Add 'id' from the matched item in 'syncArr' array
+            syncArr.push(result[indexj].id);
+
+            console.log('IDs encontrados: ' + syncArr);
+          }
+          // NF E
+          else if (found === false && error) {
+            console.log('qrScan.data['+indexi+'][x].synced = 2');
+            qrScan.data[indexi][x].synced = 2;
+          }
+          // F NE
+          else if (found === true && !error) {
+            console.log('qrScan.data['+indexi+'][x].synced = 1');
+            qrScan.data[indexi][x].synced = 1;
+          }
+          // F NE
+          else if (found === false && !error) {
+            console.log('qrScan.data['+indexi+'][x].synced = 2');
+            qrScan.data[indexi][x].synced = 2;
           }
         }
+
 
         // Show the array with the SH id's
         // console.log(syncArr);
