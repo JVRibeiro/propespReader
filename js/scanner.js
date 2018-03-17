@@ -25,6 +25,11 @@ let qrScan = {
   data: [], // qrScan.data
   rejected: [], // qrScan.rejected
 
+  // Sort the array numerically
+  sortNumber: function(a, b) { // qrScan.sortNumber(a, b);
+      return a - b;
+  },
+
   // HTML element
   initHtmlElement: function (id) { // qrScan.initHtmlElement(id);
     return document.getElementById(id);
@@ -503,7 +508,7 @@ let qrScan = {
       // remove all is-active classes from panels
       $('.mdl-layout__tab-panel').removeClass('is-active');
       // activate desired tab panel
-      $('#scroll-tab-' + tabNum).addClass('is-active');
+      document.querySelector('#scroll-tab-' + tabNum).classList.add('is-active');
     }
   },
 
@@ -547,6 +552,27 @@ let qrScan = {
     document.getElementById(elemId).innerHTML = '';
   },
 
+
+
+
+// TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+  sendResponse: function (a) { // qrScan.sendResponse(a);
+    console.log(a);
+    $.ajax({
+      //all your regular ajax setup stuff except no success: or error:
+      url: './classes/access_presence_list.php',
+      type: "POST",
+      data: null,
+      cache: false,
+      success: function(){
+          console.log('success');
+      },
+      error: function () {
+        console.log('error');
+      }
+    });
+  },
+
   sync: function () { // qrScan.sync();
     qrScan.animate._syncing(true);
     qrScan.animate._showToast('Sincronizando...');
@@ -558,24 +584,28 @@ let qrScan = {
         let data_len = qrScan.data.length;
         let result_len = result.length;
 
+        console.log('\n\n');
         console.log(result);
 
         //
         client: for (let i = 0; i < data_len; i++) {
           console.log('data[' + i + ']: ' + qrScan.data[i][x].nome);
 
-          // Synced
-          if (qrScan.data[i][x].synced === 1) {
-            synced = true;
-            indexi = i;
+          // Synced, Not synced or Synced with error
+          if (qrScan.data[i][x].synced === 0 ||
+              qrScan.data[i][x].synced === undefined ||
+              qrScan.data[i][x].synced === 1 ||
+              qrScan.data[i][x].synced === 2) {
+            // Synced
+            if (qrScan.data[i][x].synced === 1) {
+              synced = true;
+              error = false;
+              indexi = i;
 
-            console.log('Já sincronizado: ' + qrScan.data[i][x].nome);
-          }
-
-          // Not synced or Synced with error
-          else if (qrScan.data[i][x].synced === 0 || qrScan.data[i][x].synced === undefined || qrScan.data[i][x].synced === 2) {
+              console.log('Já sincronizado: ' + qrScan.data[i][x].nome);
+            }
             // Synced with error
-            if (qrScan.data[i][x].synced === 2) {
+            else if (qrScan.data[i][x].synced === 2) {
               synced = true;
               error = true;
 
@@ -585,6 +615,8 @@ let qrScan = {
             else if (qrScan.data[i][x].synced === 0 || qrScan.data[i][x].synced === undefined) {
               synced = false;
               error = false;
+
+              console.log('Não sincronizado: ' + qrScan.data[i][x].nome);
             }
 
             api: for (let j = 0; j < result_len; j++) {
@@ -629,13 +661,16 @@ let qrScan = {
 
           // If found, the scholarship holder (SH) gets marked as 'synced' and encrypted saved data is updated
           // F NS
-          if (found === true && !synced) {
+          if (found === true && synced === false) {
             let act;
-
+            // console.log('qrScan.data['+indexi+'][x].synced = 1');
             qrScan.data[indexi][x].synced = 1;
 
             // Add 'id' from the matched item in 'syncArr' array
             syncArr.push(result[indexj].id);
+            // Remove repeated participants (ES6)
+            syncArr = [...new Set(syncArr)]; // from: https://stackoverflow.com/a/15868720/5125223
+            syncArr.sort(qrScan.sortNumber);
 
             // Actual string Array
             act = JSON.stringify(qrScan.data);
@@ -647,37 +682,64 @@ let qrScan = {
 
             // localStorage.setItem('data', enc);
 
-            console.log('IDs encontrados: ' + syncArr);
-          }
-          // NF NS
-          else if (found === false && !synced) {
-            console.log('qrScan.data['+indexi+'][x].synced = 2');
-            qrScan.data[indexi][x].synced = 2;
+            qrScan.sendResponse(qrScan.data[0]);
+
+            // console.log('IDs encontrados: ' + syncArr);
           }
           // F E
-          else if (found === true && error) {
-            console.log('qrScan.data['+indexi+'][x].synced = 1');
+          else if (found === true && error === true) {
+            // console.log('qrScan.data['+indexi+'][x].synced = 1');
             qrScan.data[indexi][x].synced = 1;
             // Add 'id' from the matched item in 'syncArr' array
             syncArr.push(result[indexj].id);
+            // Remove repeated participants (ES6)
+            syncArr = [...new Set(syncArr)]; // from: https://stackoverflow.com/a/15868720/5125223
+            syncArr.sort(qrScan.sortNumber);
 
-            console.log('IDs encontrados: ' + syncArr);
+            qrScan.sendResponse(qrScan.data[0]);
+
+            // console.log('IDs encontrados: ' + syncArr);
+          }
+          // F NE
+          else if (found === true && error === false) {
+            // console.log('qrScan.data['+indexi+'][x].synced = 1');
+            qrScan.data[indexi][x].synced = 1;
+            // Add 'id' from the matched item in 'syncArr' array
+            syncArr.push(result[indexj].id);
+            // Remove repeated participants (ES6)
+            syncArr = [...new Set(syncArr)]; // from: https://stackoverflow.com/a/15868720/5125223
+            syncArr.sort(qrScan.sortNumber);
+
+            qrScan.sendResponse(qrScan.data[0]);
+
+            // console.log('IDs encontrados: ' + syncArr);
+          }
+
+          // If NOT found...
+          // NF NS
+          else if (found === false && synced === false) {
+            // console.log('qrScan.data['+indexi+'][x].synced = 2');
+            qrScan.data[indexi][x].synced = 2;
+          }
+          // NF S
+          else if (found === false && synced === true) {
+            // console.log('qrScan.data['+indexi+'][x].synced = 2');
+            qrScan.data[indexi][x].synced = 2;
           }
           // NF E
-          else if (found === false && error) {
-            console.log('qrScan.data['+indexi+'][x].synced = 2');
+          else if (found === false && error === true) {
+            // console.log('qrScan.data['+indexi+'][x].synced = 2');
             qrScan.data[indexi][x].synced = 2;
           }
           // F NE
-          else if (found === true && !error) {
-            console.log('qrScan.data['+indexi+'][x].synced = 1');
-            qrScan.data[indexi][x].synced = 1;
-          }
-          // F NE
-          else if (found === false && !error) {
-            console.log('qrScan.data['+indexi+'][x].synced = 2');
+          else if (found === false && error === false) {
+            // console.log('qrScan.data['+indexi+'][x].synced = 2');
             qrScan.data[indexi][x].synced = 2;
           }
+
+          error = undefined;
+          found = undefined;
+          synced = undefined;
         }
 
 
@@ -838,7 +900,10 @@ scanner.addListener('inactive', function () {
 
       if (this.href.match('#scroll-tab-2')) {
         qrScan.clearHTML('contentAreaRejected');
-      } else if (this.href.match('#scroll-tab-3')) {
+        qrScan.animate._changeSyncStatus();
+      }
+
+      else if (this.href.match('#scroll-tab-3')) {
         qrScan.clearHTML('contentAreaSaved');
       }
     });

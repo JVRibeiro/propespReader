@@ -1,11 +1,11 @@
 <?php
-header('Content-type:application/json;charset=utf-8');
+  header('Content-type:application/json;charset=utf-8');
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$db_name = 'qr_scanner';
-$password = '';
+  $host = 'localhost';
+  $username = 'root';
+  $password = '';
+  $db_name = 'qr_scanner';
+  $password = '';
 
 try {
   $connect = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
