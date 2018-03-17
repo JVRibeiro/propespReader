@@ -559,16 +559,18 @@ let qrScan = {
   sendResponse: function (a) { // qrScan.sendResponse(a);
     console.log(a);
     $.ajax({
-      //all your regular ajax setup stuff except no success: or error:
-      url: './classes/access_presence_list.php',
       type: "POST",
-      data: null,
-      cache: false,
-      success: function(){
+      url: "classes/access_presence_list.php",
+      data: a,
+    	cache: false,
+      success: function (response) {
           console.log('success');
+          console.log(response);
       },
-      error: function () {
+      error: function (jqXHR, textStatus, errorThrown) {
         console.log('error');
+        console.log(textStatus);
+        console.log(errorThrown);
       }
     });
   },
@@ -658,89 +660,49 @@ let qrScan = {
             }
           }
 
+          if (found === true) {
+            // If found, the scholarship holder (SH) gets marked as 'synced' and encrypted saved data is updated
+            // F NS
+            if (error !== undefined) {
+              let act;
+              // console.log('qrScan.data['+indexi+'][x].synced = 1');
+              qrScan.data[indexi][x].synced = 1;
+              qrScan.data[indexi][x].id_bolsista = result[indexj].id;
 
-          // If found, the scholarship holder (SH) gets marked as 'synced' and encrypted saved data is updated
-          // F NS
-          if (found === true && synced === false) {
-            let act;
-            // console.log('qrScan.data['+indexi+'][x].synced = 1');
-            qrScan.data[indexi][x].synced = 1;
+              // Add 'id' from the matched item in 'syncArr' array
+              syncArr.push(result[indexj].id);
+              // Remove repeated participants (ES6)
+              syncArr = [...new Set(syncArr)]; // from: https://stackoverflow.com/a/15868720/5125223
+              syncArr.sort(qrScan.sortNumber);
 
-            // Add 'id' from the matched item in 'syncArr' array
-            syncArr.push(result[indexj].id);
-            // Remove repeated participants (ES6)
-            syncArr = [...new Set(syncArr)]; // from: https://stackoverflow.com/a/15868720/5125223
-            syncArr.sort(qrScan.sortNumber);
+              // Actual string Array
+              act = JSON.stringify(qrScan.data);
+              // console.log('Dados atualizados: ' + act);
+              // qrScan.log('Dados atualizados: ' + act);
 
-            // Actual string Array
-            act = JSON.stringify(qrScan.data);
-            // console.log('Dados atualizados: ' + act);
-            // qrScan.log('Dados atualizados: ' + act);
+              // Encrypt data
+              enc = CryptoJS.AES.encrypt(act, 'propespti2013');
 
-            // Encrypt data
-            enc = CryptoJS.AES.encrypt(act, 'propespti2013');
+              // localStorage.setItem('data', enc);
 
-            // localStorage.setItem('data', enc);
-
-            qrScan.sendResponse(qrScan.data[0]);
-
-            // console.log('IDs encontrados: ' + syncArr);
+              // console.log('IDs encontrados: ' + syncArr);
+            }
           }
-          // F E
-          else if (found === true && error === true) {
-            // console.log('qrScan.data['+indexi+'][x].synced = 1');
-            qrScan.data[indexi][x].synced = 1;
-            // Add 'id' from the matched item in 'syncArr' array
-            syncArr.push(result[indexj].id);
-            // Remove repeated participants (ES6)
-            syncArr = [...new Set(syncArr)]; // from: https://stackoverflow.com/a/15868720/5125223
-            syncArr.sort(qrScan.sortNumber);
-
-            qrScan.sendResponse(qrScan.data[0]);
-
-            // console.log('IDs encontrados: ' + syncArr);
-          }
-          // F NE
-          else if (found === true && error === false) {
-            // console.log('qrScan.data['+indexi+'][x].synced = 1');
-            qrScan.data[indexi][x].synced = 1;
-            // Add 'id' from the matched item in 'syncArr' array
-            syncArr.push(result[indexj].id);
-            // Remove repeated participants (ES6)
-            syncArr = [...new Set(syncArr)]; // from: https://stackoverflow.com/a/15868720/5125223
-            syncArr.sort(qrScan.sortNumber);
-
-            qrScan.sendResponse(qrScan.data[0]);
-
-            // console.log('IDs encontrados: ' + syncArr);
-          }
-
-          // If NOT found...
-          // NF NS
-          else if (found === false && synced === false) {
-            // console.log('qrScan.data['+indexi+'][x].synced = 2');
-            qrScan.data[indexi][x].synced = 2;
-          }
-          // NF S
-          else if (found === false && synced === true) {
-            // console.log('qrScan.data['+indexi+'][x].synced = 2');
-            qrScan.data[indexi][x].synced = 2;
-          }
-          // NF E
-          else if (found === false && error === true) {
-            // console.log('qrScan.data['+indexi+'][x].synced = 2');
-            qrScan.data[indexi][x].synced = 2;
-          }
-          // F NE
-          else if (found === false && error === false) {
-            // console.log('qrScan.data['+indexi+'][x].synced = 2');
-            qrScan.data[indexi][x].synced = 2;
+          else {
+            // If NOT found...
+            // NF NS
+            if (error !== undefined) {
+              // console.log('qrScan.data['+indexi+'][x].synced = 2');
+              qrScan.data[indexi][x].synced = 2;
+            }
           }
 
           error = undefined;
           found = undefined;
           synced = undefined;
         }
+
+        qrScan.sendResponse(qrScan.data);
 
 
         // Show the array with the SH id's
