@@ -25,6 +25,9 @@ let qrScan = {
   data: [], // qrScan.data
   rejected: [], // qrScan.rejected
 
+  // DOM
+  LOADING: document.querySelector('.loading'), // qrScan.LOADING
+
   // Sort the array numerically
   sortNumber: function(a, b) { // qrScan.sortNumber(a, b);
       return a - b;
@@ -454,9 +457,9 @@ let qrScan = {
 
     _loading: function (boolean) { // qrScan.animate._loading(boolean);
       if (!boolean) {
-        document.querySelector('.loading').classList.add('transparent');
+        qrScan.LOADING.classList.add('transparent');
       } else {
-        document.querySelector('.loading').classList.remove('transparent');
+        qrScan.LOADING.classList.remove('transparent');
       }
     },
 
@@ -556,28 +559,33 @@ let qrScan = {
 
 
 // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-  sendResponse: function (a) { // qrScan.sendResponse(a);
-    // console.log(a);
+  sendResponse: function (dados) { // qrScan.sendResponse(a);
+    // console.log(dados);
     $.ajax({
       type: "POST",
       url: "classes/access_presence_list.php",
-      data: a,
+      data: {'dados': JSON.stringify(dados)},
     	cache: false,
       success: function (response) {
-        console.log('Sincronizado com sucesso');
-        console.log(response);
+      //console.log('Sincronizado com sucesso');
 
-        qrScan.animate._changeSyncStatus();
-
-        qrScan.animate._syncing(false);
-        qrScan.animate._showToast('Sincronizado.');
+        qrScan.onSendSuccess(response);
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.log('Erro ao sincronizar');
-        console.log(textStatus);
-        console.log(errorThrown);
+        // console.log('Erro ao sincronizar');
+        // console.log(textStatus);
+        // console.log(errorThrown);
       }
     });
+  },
+
+  onSendSuccess: function (response) { // qrScan.onSendSuccess();
+    // console.log(response);
+
+    qrScan.animate._changeSyncStatus();
+
+    qrScan.animate._syncing(false);
+    qrScan.animate._showToast('Sincronizado.');
   },
 
   sync: function () { // qrScan.sync();
@@ -591,8 +599,8 @@ let qrScan = {
         let data_len = qrScan.data.length;
         let result_len = result.length;
 
-        console.log('\n\n');
-        console.log(result);
+        //console.log('\n\n');
+        //console.log(result);
 
         //
         client: for (let i = 0; i < data_len; i++) {

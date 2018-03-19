@@ -1,35 +1,23 @@
 <?php
-/**
-* Send as JSON
-*/
-  //header("Content-Type: application/json", true);
-
-  $host = 'localhost';
-  $username = 'root';
-  $password = '';
-  $db_name = 'qr_scanner';
-  $password = '';
-
+  require_once('connect.php');
 
 try {
-  $connect = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
+  $connect = connectQRApp();
 
+  $json_params = $_POST['dados'];
 
-  function isValidJSON($str) {
-     json_decode($str);
-     return json_last_error() == JSON_ERROR_NONE;
-  }
+  $decoded_params = json_decode($json_params, true);
 
-  $json_params = file_get_contents("php://input");
+  foreach ($decoded_params as $item) {
+    $id_bolsista = $item['propesp']['id_bolsista'];
 
-  if (strlen($json_params) > 0 && isValidJSON($json_params)) {
-    $decoded_params = json_decode($json_params, true);
-    $id_bolsista = $decoded_params['propesp']['id_bolsista'];
+    $sql = 'UPDATE frequencia SET presente=:presente WHERE id_bolsista=:id_bolsista';
+    $item = $connect->prepare($sql);
 
-    foreach ($decoded_params as $elem) {
-        $elem = $connect->prepare('update `presenca` set `presente` = 1 where `id_bolsista` = '.$id_bolsista);
-        $elem->execute();
-    }
+    $item->bindValue(':presente', 1);
+    $item->bindValue(':id_bolsista', $id_bolsista);
+
+    $item->execute();
   }
 }
 
