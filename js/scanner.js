@@ -557,18 +557,23 @@ let qrScan = {
 
 // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
   sendResponse: function (a) { // qrScan.sendResponse(a);
-    console.log(a);
+    // console.log(a);
     $.ajax({
       type: "POST",
       url: "classes/access_presence_list.php",
       data: a,
     	cache: false,
       success: function (response) {
-          console.log('success');
-          console.log(response);
+        console.log('Sincronizado com sucesso');
+        console.log(response);
+
+        qrScan.animate._changeSyncStatus();
+
+        qrScan.animate._syncing(false);
+        qrScan.animate._showToast('Sincronizado.');
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.log('error');
+        console.log('Erro ao sincronizar');
         console.log(textStatus);
         console.log(errorThrown);
       }
@@ -591,73 +596,67 @@ let qrScan = {
 
         //
         client: for (let i = 0; i < data_len; i++) {
-          console.log('data[' + i + ']: ' + qrScan.data[i][x].nome);
+          // console.log('data[' + i + ']: ' + qrScan.data[i][x].nome);
 
-          // Synced, Not synced or Synced with error
-          if (qrScan.data[i][x].synced === 0 ||
-              qrScan.data[i][x].synced === undefined ||
-              qrScan.data[i][x].synced === 1 ||
-              qrScan.data[i][x].synced === 2) {
-            // Synced
-            if (qrScan.data[i][x].synced === 1) {
-              synced = true;
-              error = false;
+          // Synced
+          if (qrScan.data[i][x].synced === 1) {
+            synced = true;
+            error = false;
+            indexi = i;
+
+            // console.log('Já sincronizado: ' + qrScan.data[i][x].nome);
+          }
+          // Synced with error
+          else if (qrScan.data[i][x].synced === 2) {
+            synced = true;
+            error = true;
+
+            // console.log('Já sincronizado com erro: ' + qrScan.data[i][x].nome);
+          }
+          // Not synced
+          else if (qrScan.data[i][x].synced === 0 || qrScan.data[i][x].synced === undefined) {
+            synced = false;
+            error = false;
+
+            // console.log('Não sincronizado: ' + qrScan.data[i][x].nome);
+          }
+
+          api: for (let j = 0; j < result_len; j++) {
+            // console.log('    result[' + j + ']: ' + result[j].nome);
+
+            // SH found
+            if (qrScan.data[i][x].cpf === result[j].cpf) {
+              // console.log('    CPF de ' + qrScan.data[i][x].nome + ' encontrado na posição [' + j + ']');
+              // console.log('    Verificando nome...');
+
+              if (qrScan.data[i][x].nome === result[j].nome) {
+                found = true;
+                error = false;
+                indexi = i;
+                indexj = j;
+
+                // console.log('    ' + qrScan.data[i][x].nome + ' encontrado na posição [' + j + ']');
+
+                break api;
+              }
+              //
+              else {
+                indexi = i;
+                // console.log('    Nome de ' + qrScan.data[i][x].nome + ' não bate com o CPF.');
+              }
+            }
+            // SH not found
+            else {
+              found = false;
+              error = true;
               indexi = i;
 
-              console.log('Já sincronizado: ' + qrScan.data[i][x].nome);
-            }
-            // Synced with error
-            else if (qrScan.data[i][x].synced === 2) {
-              synced = true;
-              error = true;
-
-              console.log('Já sincronizado com erro: ' + qrScan.data[i][x].nome);
-            }
-            // Not synced
-            else if (qrScan.data[i][x].synced === 0 || qrScan.data[i][x].synced === undefined) {
-              synced = false;
-              error = false;
-
-              console.log('Não sincronizado: ' + qrScan.data[i][x].nome);
-            }
-
-            api: for (let j = 0; j < result_len; j++) {
-              console.log('    result[' + j + ']: ' + result[j].nome);
-
-              // SH found
-              if (qrScan.data[i][x].cpf === result[j].cpf) {
-                console.log('    CPF de ' + qrScan.data[i][x].nome + ' encontrado na posição [' + j + ']');
-                console.log('    Verificando nome...');
-
-                if (qrScan.data[i][x].nome === result[j].nome) {
-                  found = true;
-                  error = false;
-                  indexi = i;
-                  indexj = j;
-
-                  console.log('    ' + qrScan.data[i][x].nome + ' encontrado na posição [' + j + ']');
-
-                  break api;
-                }
-                //
-                else {
-                  indexi = i;
-                  console.log('    Nome de ' + qrScan.data[i][x].nome + ' não bate com o CPF.');
-                }
+              if (qrScan.data[i][x].nome === result[j].nome) {
+                // console.log('    CPF de ' + qrScan.data[i][x].nome + ' não bate.');
               }
-              // SH not found
-              else {
-                found = false;
-                error = true;
-                indexi = i;
-
-                if (qrScan.data[i][x].nome === result[j].nome) {
-                  console.log('    CPF de ' + qrScan.data[i][x].nome + ' não bate.');
-                }
-              }
-
-              synced = true;
             }
+
+            synced = true;
           }
 
           if (found === true) {
@@ -707,11 +706,6 @@ let qrScan = {
 
         // Show the array with the SH id's
         // console.log(syncArr);
-
-        qrScan.animate._changeSyncStatus();
-
-        qrScan.animate._syncing(false);
-        qrScan.animate._showToast('Sincronizado.');
       },
 
       error: function () {
