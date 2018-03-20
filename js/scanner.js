@@ -573,8 +573,8 @@ let qrScan = {
       },
       error: function (jqXHR, textStatus, errorThrown) {
         // console.log('Erro ao sincronizar');
-        // console.log(textStatus);
-        // console.log(errorThrown);
+
+        qrScan.onSendError(response);
       }
     });
   },
@@ -586,6 +586,16 @@ let qrScan = {
 
     qrScan.animate._syncing(false);
     qrScan.animate._showToast('Sincronizado.');
+  },
+
+  onSendError: function (jqXHR, textStatus, errorThrown) { // qrScan.onSendSuccess();
+    // console.log(textStatus);
+    // console.log(errorThrown);
+
+    qrScan.animate._changeSyncStatus();
+
+    qrScan.animate._syncing(false);
+    qrScan.animate._showToast('Erro ao sincronizar.');
   },
 
   sync: function () { // qrScan.sync();
@@ -669,7 +679,6 @@ let qrScan = {
 
           if (found === true) {
             // If found, the scholarship holder (SH) gets marked as 'synced' and encrypted saved data is updated
-            // F NS
             if (error !== undefined) {
               let act;
               // console.log('qrScan.data['+indexi+'][x].synced = 1');
@@ -690,14 +699,13 @@ let qrScan = {
               // Encrypt data
               enc = CryptoJS.AES.encrypt(act, 'propespti2013');
 
-              // localStorage.setItem('data', enc);
+              localStorage.setItem('data', enc);
 
               // console.log('IDs encontrados: ' + syncArr);
             }
           }
           else {
             // If NOT found...
-            // NF NS
             if (error !== undefined) {
               // console.log('qrScan.data['+indexi+'][x].synced = 2');
               qrScan.data[indexi][x].synced = 2;
