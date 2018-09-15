@@ -1,0 +1,30 @@
+{
+  "short_name": "PROPESP QR",
+  "name": "PROPESP QR Code Scanner",
+  "icons": [{
+      "src": "img/launcher-icon-1x.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "img/launcher-icon-2x.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "img/launcher-icon-4x.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "img/launcher-icon-8x.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#2e69bc",
+  "background_color": "#f2f7ff",
+  "start_url": "/propespReader/?utm_source=homescreen"
+}

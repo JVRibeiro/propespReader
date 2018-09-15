@@ -297,8 +297,6 @@
     </style>
 
     <link async rel='stylesheet' href='./assets/libs/material/material.indigo-green.min.css' />
-    <link async rel='stylesheet' href='./assets/libs/materialize/css/materialize.min.css' />
-    <link async rel='stylesheet' href='./assets/libs/materialize/css/materialize.custom.css' />
     <link defer rel='stylesheet' href='./assets/libs/clusterize/clusterize.min.css' />
     <link defer rel='stylesheet' href='./assets/css/main.css' />
 
@@ -365,10 +363,9 @@
     // to avoid using the global namespace for such a thing.
     // because the registering of a service worker doesn't need to be executed on the first load of the page.
   </script-->
-    <script src='./assets/libs/jquery/jquery.min.js'></script>
-    <script src='./assets/libs/materialize/js/materialize.min.js'></script>
-    <script src='./assets/libs/material/material.min.js'></script>
 
+    <script src='./assets/libs/material/material.min.js'></script>
+    <script src='./assets/libs/jquery/jquery.min.js'></script>
   </head>
 
   <body>
@@ -380,40 +377,37 @@
 
     <div class='preloadImgs'></div>
 
-    <div class='mdl-layout mdl-js-layout'>
-      <nav class='nav-extended noSelect'>
-        <div class='nav-wrapper'>
+    <div class='mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs'>
+      <header class='mdl-layout__header noSelect'>
+        <div class='mdl-layout__header-row'>
           <!-- Title -->
-          <a href='#!' class='brand-logo'><i class='material-icons'>crop_free</i> PROPESP Reader</a>
+          <span class='mdl-layout-title'>PROPESP QR Scanner</span>
 
-          <a id='manualSync' class='top-options'><i class='material-icons'>sync</i></a>
-          <a id='dropdown-menu' class='top-options dropdown-trigger' data-target='dropdown1'><i class='material-icons'>more_vert</i></a>
-          <ul id='dropdown1' class='dropdown-content'>
-            <li><a href="#!">one</a></li>
-            <li><a href="#!">two</a></li>
-            <li class="divider" tabindex="-1"></li>
-            <li><a href="#!" onclick='qrScan.clearRejected();'><i class="material-icons">delete_forever</i>Limpar rejeitados</a></li>
-          </ul>
+          <a id='manualSync'><i id='mdl-syncing-icon' class='mdl-color-text--white material-icons' role='presentation'>sync</i></a>
         </div>
         <!-- Tabs -->
-        <div class='nav-content'>
-          <div class='col s12'>
-            <ul class='tabs tabs-transparent'>
-              <li class='tab col s4'><a class='active' href='#scroll-tab-1'><i class='material-icons'>camera_alt</i></a></li>
-              <li class='tab col s4'><a class='' href='#scroll-tab-2'>Salvos</a></li>
-              <li class='tab col s4'><a class='' href='#scroll-tab-3'>Rejeitados</a></li>
-            </ul>
-          </div>
-          <!--div id='test1' class='col s12'>Test 1</div>
-          <div id='test2' class='col s12'>Test 2</div>
-          <div id='test3' class='col s12'>Test 3</div>
-          <div id='test4' class='col s12'>Test 4</div-->
+        <div class='mdl-layout__tab-bar'>
+          <a href='#scroll-tab-1' class='mdl-layout__tab is-active'>Ler código</a>
+          <a href='#scroll-tab-2' class='mdl-layout__tab'>Salvos</a>
+          <a href='#scroll-tab-3' class='mdl-layout__tab'>Rejeitados</a>
         </div>
-      </nav>
+      </header>
+
+      <div class='qrScan-drawer mdl-layout__drawer'>
+        <header class='qrScan-drawer-header mdl-color--indigo-500'>
+          <div class='qrScan-avatar'></div>
+        </header>
+        <nav class='qrScan-navigation mdl-navigation'>
+          <a class='mdl-navigation__link' href='./'><i class='mdl-color-text--blue-grey-400 material-icons' role='presentation'>home</i>Início</a>
+          <!--a class='mdl-navigation__link' href='#sync' id=''><i class='mdl-color-text--blue-grey-400 material-icons' role='presentation'>sync</i>Sincronizar</a-->
+          <!--a class='mdl-navigation__link' href='#clRe' id='clRe'><i class='mdl-color-text--blue-grey-400 material-icons' role='presentation'>delete</i>Limpar rejeitados</a-->
+          <a class='mdl-navigation__link' href='./tutorial/'><i class='mdl-color-text--blue-grey-400 material-icons' role='presentation'>help_outline</i>Tutorial</a>
+        </nav>
+      </div>
 
       <!-- Ler codigo -->
       <main class='mdl-layout__content'>
-        <div class='pp-tab--section' id='scroll-tab-1'>
+        <section class='mdl-layout__tab-panel is-active' id='scroll-tab-1'>
           <div class='page-content'>
             <div id='cameraCanvas'>
               <div class='frame'></div>
@@ -429,10 +423,10 @@
               <video id='webcameraPreview' playsinline autoplay muted loop></video>
             </div>
           </div>
-        </div>
+        </section>
 
         <!-- Salvos -->
-        <div class='pp-tab--section' id='scroll-tab-2'>
+        <section class='mdl-layout__tab-panel' id='scroll-tab-2'>
           <div class='page-content'>
             <div class='savedItems'>
               <div id='scrollAreaSaved' class='clusterize-scroll'>
@@ -440,10 +434,10 @@
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         <!-- Salvos -->
-        <div class='pp-tab--section' id='scroll-tab-3'>
+        <section class='mdl-layout__tab-panel' id='scroll-tab-3'>
           <div class='page-content'>
             <div class='savedItems'>
               <div id='scrollAreaRejected' class='clusterize-scroll'>
@@ -451,7 +445,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
         <div id='snap-status-toast' class='mdl-js-snackbar mdl-snackbar'>
           <div class='mdl-snackbar__text'></div>
@@ -464,7 +458,6 @@
     <script src='./assets/libs/criptojs/cripto-aes.min.js'></script>
     <script src='./assets/libs/instascan/adapter.min.js'></script>
     <script defer src='./assets/js/scanner.js'></script>
-    <script defer src='./assets/js/main.js'></script>
     <script defer>
       var domReady = function(ready)
       {
