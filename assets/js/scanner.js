@@ -208,7 +208,7 @@ let qrScan = {
 
       let decRejString = decRej.toString(CryptoJS.enc.Utf8);
 
-      console.log('Dados decodificados: ' + decString);
+      console.log('Dados decodificados: ' + decRejString);
 
       qrScan.rejected = localStorage.getItem('rejected') === null ? qrScan.rejected : JSON.parse(decRejString);
     }
@@ -281,10 +281,6 @@ let qrScan = {
       });
     },
 
-    /**
-      * @param {string}
-      * @param {number}
-    */
     _showToast: function (message, delay) { // qrScan.animate._showToast(message, delay);
       let notification = document.querySelector('.mdl-js-snackbar');
 
@@ -417,9 +413,7 @@ let qrScan = {
         qrScan.onSendSuccess(response);
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.log('Erro ao sincronizar');
-
-        qrScan.onSendError(response);
+        qrScan.onSendError(jqXHR, textStatus, errorThrown);
       }
     });
   },
@@ -434,13 +428,13 @@ let qrScan = {
   },
 
   onSendError: function (jqXHR, textStatus, errorThrown) { // qrScan.onSendSuccess();
-    console.log(textStatus);
-    console.log(errorThrown);
-
     qrScan.animate._changeSyncStatus();
 
     qrScan.animate._syncing(false);
     qrScan.animate._showToast('Erro ao sincronizar.');
+
+    console.error(jqXHR.responseText);
+    console.error('Erro ao sincronizar (' + textStatus + '): ' + errorThrown);
   },
 
   sync: function () { // qrScan.sync();
@@ -566,12 +560,8 @@ let qrScan = {
         console.log(syncArr);
       },
 
-      error: function () {
-        qrScan.animate._syncing(false);
-
-        console.error('Erro ao sincronizar.');
-
-        qrScan.animate._showToast('Erro ao sincronizar.');
+      error: function (jqXHR, textStatus, errorThrown) {
+        qrScan.onSendError(jqXHR, textStatus, errorThrown);
       }
     });
   }

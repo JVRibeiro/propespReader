@@ -35,12 +35,8 @@ $('.tabs').tabs({
       actualContentId = 'contentAreaSaved';
       actualLiArr = saved_li_arr;
 
-      setTimeout(function () {
-        qrScan.clearHTML('contentAreaRejected');
-      }, 300);
-
       qrScan.newClusterize();
-      //qrScan.clearHTML('contentAreaRejected');
+      qrScan.clearHTML('contentAreaRejected');
       qrScan.animate._changeSyncStatus();
     }
     else if ($('a[href="#scroll-tab-3"]').hasClass('active')) {
@@ -48,12 +44,8 @@ $('.tabs').tabs({
       actualContentId = 'contentAreaRejected';
       actualLiArr = rejected_li_arr;
 
-      setTimeout(function () {
-        qrScan.clearHTML('contentAreaSaved');
-      }, 300);
-
       qrScan.newClusterize();
-      //qrScan.clearHTML('contentAreaSaved');
+      qrScan.clearHTML('contentAreaSaved');
     }
   }
 });
