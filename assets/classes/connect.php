@@ -4,7 +4,7 @@ function connectQRApp() {
   $host = 'localhost';
   $username = 'root';
   $password = '';
-  $db_name = 'qr_scanner';
+  $db_name = 'beja_seminariopibic';
   $password = '';
   $charset = 'utf8';
 

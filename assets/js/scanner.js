@@ -399,10 +399,14 @@ let qrScan = {
 
 // TODO: Work on the PHP side
   sendResponse: function (dados) { // qrScan.sendResponse(a);
+    let protocol = 'http://';
+    let host = 'localhost/propespReader';
+    let path = 'assets/classes/access_presence_list.php';
+
     // console.log(dados);
     $.ajax({
       type: 'POST',
-      url: 'http://seminariopibic.ufpa.br/classes/classes/access_presence_list.php',
+      url: protocol + host + '/' + path,
       data: {
         'dados': JSON.stringify(dados)
       },
@@ -438,11 +442,15 @@ let qrScan = {
   },
 
   sync: function () { // qrScan.sync();
+    let protocol = 'http://';
+    let host = 'localhost/propespReader';
+    let path = 'assets/classes/retrieve_scholarship_holders.php';
+
     qrScan.animate._syncing(true);
     qrScan.animate._showToast('Sincronizando...');
 
     $.ajax({
-      url: 'http://seminariopibic.ufpa.br/classes/retrieve_scholarship_holders.php',
+      url: protocol + host + '/' + path,
       success: function (result) {
         let found, synced, error, indexj, indexi;
         let data_len = qrScan.data.length;
@@ -483,7 +491,7 @@ let qrScan = {
 
             // SH found
             if (qrScan.data[i][x].id === result[j].id) {
-              console.log('    CPF de ' + qrScan.data[i][x].nome + ' encontrado na posição [' + j + ']');
+              console.log('    ID de ' + qrScan.data[i][x].nome + ' encontrado na posição [' + j + ']');
               console.log('    Verificando nome...');
 
               if (qrScan.data[i][x].nome === result[j].nome) {

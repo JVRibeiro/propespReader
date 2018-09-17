@@ -4,7 +4,7 @@
   $host = 'localhost';
   $username = 'root';
   $password = '';
-  $db_name = 'qr_scanner';
+  $db_name = 'beja_seminariopibic';
   $password = '';
 
 try {
@@ -13,7 +13,7 @@ try {
   // echo 'Connected to database <br />';
 
   // Get data from database
-  $stmt = $connect->prepare("SELECT id, nome, cpf FROM bolsistas");
+  $stmt = $connect->prepare("SELECT id FROM inscricao_2018");
   $stmt->execute();
 
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -9,13 +9,13 @@ try {
   $decoded_params = json_decode($json_params, true);
 
   foreach ($decoded_params as $item) {
-    $id_bolsista = $item['propesp']['id_bolsista'];
+    $id = $item['propesp']['id'];
 
-    $sql = 'UPDATE frequencia SET presente=:presente WHERE id_bolsista=:id_bolsista';
+    $sql = 'UPDATE inscricao_2018 SET frequencia=:frequencia WHERE id=:id';
     $item = $connect->prepare($sql);
 
-    $item->bindValue(':presente', 1);
-    $item->bindValue(':id_bolsista', $id_bolsista);
+    $item->bindValue(':frequencia', 1);
+    $item->bindValue(':id', $id);
 
     $item->execute();
   }
