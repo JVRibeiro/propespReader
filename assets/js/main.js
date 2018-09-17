@@ -18,16 +18,16 @@ $('.tabs').tabs({
       qrScan.clearHTML('contentAreaSaved');
       qrScan.clearHTML('contentAreaRejected');
 
-      scanner.start(cameraGlobal);
+      setTimeout(function () {
+        scanner.start(cameraGlobal);
+      }, 1500);
     }
     else if (!$('a[href="#scroll-tab-1"]').hasClass('active') && isCameraTabActive) {
       console.log('Camera deactivated.');
 
       isCameraTabActive = false;
 
-      setTimeout(function () {
-        scanner.stop();
-      }, 500);
+      scanner.stop();
     }
 
     if ($('a[href="#scroll-tab-2"]').hasClass('active')) {
