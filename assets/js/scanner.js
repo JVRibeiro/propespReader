@@ -402,7 +402,7 @@ let qrScan = {
     // console.log(dados);
     $.ajax({
       type: 'POST',
-      url: 'assets/classes/access_presence_list.php',
+      url: 'http://seminariopibic.ufpa.br/classes/classes/access_presence_list.php',
       data: {
         'dados': JSON.stringify(dados)
       },
@@ -442,7 +442,7 @@ let qrScan = {
     qrScan.animate._showToast('Sincronizando...');
 
     $.ajax({
-      url: 'assets/classes/retrieve_scholarship_holders.php',
+      url: 'http://seminariopibic.ufpa.br/classes/retrieve_scholarship_holders.php',
       success: function (result) {
         let found, synced, error, indexj, indexi;
         let data_len = qrScan.data.length;
