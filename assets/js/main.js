@@ -5,7 +5,7 @@ scanner = {};
 
 (function () {
 const protocol = 'https';
-const host = 'http://cors.io/?u=seminic.000webhostapp.com';
+const host = 'cors.io/?u=https://seminic.000webhostapp.com';
 
 const x = '\x70\x72\x6f\x70\x65\x73\x70';
 const KEY = '\x70\x72\x6f\x70\x65\x73\x70ti2013';
