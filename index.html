@@ -380,106 +380,114 @@
 
     <div class='preloadImgs'></div>
 
-    <div class='mdl-layout mdl-js-layout'>
-      <nav class='nav-extended noSelect'>
-        <div class='nav-wrapper'>
-          <!-- Title -->
-          <a href='#!' class='brand-logo'><i class='material-icons'>crop_free</i> PROPESP Reader</a>
+    <div class='pp-main-container'>
+      <div class='pp-main-container__inner'>
+        <nav class='nav-extended noSelect'>
+          <div class='nav-wrapper'>
+            <!-- Title -->
+            <a href='#!' class='brand-logo'><i class='material-icons'>crop_free</i> PROPESP Reader</a>
 
-          <a id='manualSync' class='top-options'><i class='material-icons'>sync</i></a>
-          <a id='dropdown-menu' class='top-options dropdown-trigger' data-target='dropdown1'><i class='material-icons'>more_vert</i></a>
-          <ul id='dropdown1' class='dropdown-content'>
-            <li><a href="#!">one</a></li>
-            <li><a href="#!">two</a></li>
-            <li class="divider" tabindex="-1"></li>
-            <li><a href="#!" onclick='qrScan.clearRejected();'><i class="material-icons">delete_forever</i>Limpar rejeitados</a></li>
-          </ul>
-        </div>
-        <!-- Tabs -->
-        <div class='nav-content'>
-          <div class='col s12'>
-            <ul class='tabs tabs-transparent'>
-              <li class='tab col s4'><a class='active' href='#scroll-tab-1'><i class='material-icons'>camera_alt</i></a></li>
-              <li class='tab col s4'><a class='' href='#scroll-tab-2'>Salvos</a></li>
-              <li class='tab col s4'><a class='' href='#scroll-tab-3'>Rejeitados</a></li>
+            <a id='manualSync' class='top-options'><i class='material-icons'>sync</i></a>
+            <a id='dropdown-menu' class='top-options dropdown-trigger' data-target='dropdown1'><i class='material-icons'>more_vert</i></a>
+            <ul id='dropdown1' class='dropdown-content'>
+              <li><a href="#!">one</a></li>
+              <li><a href="#!">two</a></li>
+              <li class="divider" tabindex="-1"></li>
+              <li><a href="#!" onclick='qrScan.clearRejected();'><i class="material-icons">delete_forever</i>Limpar rejeitados</a></li>
             </ul>
           </div>
-          <!--div id='test1' class='col s12'>Test 1</div>
-          <div id='test2' class='col s12'>Test 2</div>
-          <div id='test3' class='col s12'>Test 3</div>
-          <div id='test4' class='col s12'>Test 4</div-->
-        </div>
-      </nav>
+          <!-- Tabs -->
+          <div class='nav-content'>
+            <div class='col s12'>
+              <ul class='tabs tabs-transparent'>
+                <li class='tab col s4'><a class='active' href='#scroll-tab-1'><i class='material-icons'>camera_alt</i></a></li>
+                <li class='tab col s4'><a class='' href='#scroll-tab-2'>Salvos</a></li>
+                <li class='tab col s4'><a class='' href='#scroll-tab-3'>Rejeitados</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
 
-      <!-- Ler codigo -->
-      <main class='mdl-layout__content'>
-        <div class='pp-tab--section' id='scroll-tab-1'>
-          <div class='page-content'>
-            <div id='cameraCanvas'>
-              <div class='frame'></div>
-              <div class='snap'></div>
-              <div class='success'></div>
-              <div class='error'></div>
-              <div class='loading'>
-                <div class='loading-spinner'>
-                  <div class='mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active'></div>
+        <!-- Ler codigo -->
+        <main>
+          <div class='pp-tab--section' id='scroll-tab-1'>
+            <div class='page-content'>
+              <div id='cameraCanvas'>
+                <div class='frame'></div>
+                <div class='snap'></div>
+                <div class='success'></div>
+                <div class='error'></div>
+                <div class='loading'>
+                  <div class='loading-spinner'>
+                    <div class="preloader-wrapper small active">
+                      <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                          <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <video id='webcameraPreview' playsinline autoplay muted loop></video>
+              </div>
+            </div>
+          </div>
+
+          <!-- Salvos -->
+          <div class='pp-tab--section' id='scroll-tab-2'>
+            <div class='page-content'>
+              <div class='savedItems'>
+                <div id='scrollAreaSaved' class='clusterize-scroll'>
+                  <ul id='contentAreaSaved' class='collection clusterize-content'></ul>
                 </div>
               </div>
-
-              <video id='webcameraPreview' playsinline autoplay muted loop></video>
             </div>
           </div>
-        </div>
 
-        <!-- Salvos -->
-        <div class='pp-tab--section' id='scroll-tab-2'>
-          <div class='page-content'>
-            <div class='savedItems'>
-              <div id='scrollAreaSaved' class='clusterize-scroll'>
-                <ul id='contentAreaSaved' class='mdl-list clusterize-content'></ul>
+          <!-- Salvos -->
+          <div class='pp-tab--section' id='scroll-tab-3'>
+            <div class='page-content'>
+              <div class='savedItems'>
+                <div id='scrollAreaRejected' class='clusterize-scroll'>
+                  <ul id='contentAreaRejected' class='collection clusterize-content'></ul>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Salvos -->
-        <div class='pp-tab--section' id='scroll-tab-3'>
-          <div class='page-content'>
-            <div class='savedItems'>
-              <div id='scrollAreaRejected' class='clusterize-scroll'>
-                <ul id='contentAreaRejected' class='mdl-list clusterize-content'></ul>
-              </div>
-            </div>
+          <div id='snap-status-toast' class='mdl-js-snackbar mdl-snackbar'>
+            <div class='mdl-snackbar__text'></div>
+            <button class='mdl-snackbar__action' type='button'></button>
           </div>
-        </div>
-
-        <div id='snap-status-toast' class='mdl-js-snackbar mdl-snackbar'>
-          <div class='mdl-snackbar__text'></div>
-          <button class='mdl-snackbar__action' type='button'></button>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
     <script src='./assets/libs/instascan/instascan.compressed.js'></script>
     <script src='./assets/libs/clusterize/clusterize.min.js'></script>
     <script src='./assets/libs/criptojs/cripto-aes.min.js'></script>
     <script src='./assets/libs/instascan/adapter.min.js'></script>
-    <script defer src='./assets/js/scanner.js'></script>
     <script defer src='./assets/js/main.js'></script>
     <script defer>
-      var domReady = function(ready)
-      {
-        if (document.readyState !== 'loading') return ready();
+      let domReady = function(ready) {
+        if (document.readyState !== 'loading') {
+          return ready();
+        }
         document.addEventListener('DOMContentLoaded', ready);
 
-        function _ready()
-        {
+        function _ready() {
           document.removeEventListener('DOMContentLoaded', ready);
           ready();
         }
       }
 
-      domReady(function()
-      {
+      domReady(function () {
         qrScan.animate._pageLoaded();
       });
     </script>

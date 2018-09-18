@@ -200,6 +200,7 @@ tr td:last-child :not('.datepicker-table tr td') {
 /* COLLECTIONS */
 .collection {
   border: 1px solid rgba(0, 0, 0, 0.04);
+  overflow: auto;
 }
 
 .collection .collection-item {
