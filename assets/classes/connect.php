@@ -1,11 +1,10 @@
 <?php
 
 function connectQRApp() {
-  $host = 'localhost';
-  $username = 'root';
-  $password = '';
+  $host = 'beja.ufpa.br';
+  $username = 'seminariopibic';
+  $password = 'd2JjcnFGMHVkeHQyaGRY';
   $db_name = 'beja_seminariopibic';
-  $password = '';
   $charset = 'utf8';
 
   $connect = new PDO("mysql:host=$host;dbname=$db_name;charset=$charset", $username, $password);
