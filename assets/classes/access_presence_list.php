@@ -1,5 +1,6 @@
 <?php
   require_once('connect.php');
+  header('Access-Control-Allow-Origin: https://seminic.000webhostapp.com');
 
 try {
   $connect = connectQRApp();

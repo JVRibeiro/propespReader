@@ -1,4 +1,5 @@
 <?php
+  header('Access-Control-Allow-Origin: https://seminic.000webhostapp.com');
   header('Content-type:application/json;charset=utf-8');
 
   $host = 'beja.ufpa.br';
@@ -25,5 +26,5 @@ try {
   echo $json;
 }
 catch (PDOException $e) {
-    echo $e->getMessage();
+    //echo $e->getMessage();
 }
