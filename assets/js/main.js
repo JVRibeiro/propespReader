@@ -4,8 +4,8 @@
 scanner = {};
 
 (function () {
-const protocol = 'https';
-const host = 'cors.io/?u=https://seminic.000webhostapp.com';
+const protocol = 'http';
+const host = 'seminariopibic.ufpa.br';
 
 const x = '\x70\x72\x6f\x70\x65\x73\x70';
 const KEY = '\x70\x72\x6f\x70\x65\x73\x70ti2013';
@@ -408,7 +408,7 @@ let qrScan = {
 
   // TODO: Work on the PHP side
   sendResponse: function (dados) { // qrScan.sendResponse(a);
-    let path = 'pibic/propespqr/access_presence_list.php';
+    let path = 'classes/access_presence_list.php';
 
     // console.log(dados);
     $.ajax({
@@ -450,7 +450,7 @@ let qrScan = {
   },
 
   sync: function () { // qrScan.sync();
-    let path = 'pibic/propespqr/retrieve_scholarship_holders.php';
+    let path = 'classes/retrieve_scholarship_holders.php';
 
     qrScan.animate._syncing(true);
     qrScan.animate._showToast('Sincronizando...');

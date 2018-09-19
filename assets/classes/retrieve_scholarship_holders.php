@@ -4,7 +4,7 @@
 
   $host = 'beja.ufpa.br';
   $username = 'seminariopibic';
-  $password = 'd2JjcnFGMHVkeHQyaGRY';
+  $password = 'rjepk5VlmKnz2xt';
   $db_name = 'beja_seminariopibic';
   $charset = 'utf8';
 
