@@ -284,7 +284,7 @@ let qrScan = {
     let h = now.getHours();
     let mi = now.getMinutes();
 
-    qrScan.saveToFile(qrScan.dataRaw, 'propespqr-' + '-' + d + '-' + m + '-' + y + '-' + h + '-' + mi, 'text/plain');
+    qrScan.saveToFile(qrScan.dataRaw, 'propespqr-' + '-' + d + '-' + m + '-' + y + '-' + h + '-' + mi + '.p', 'text/plain');
   },
 
   // create an instance of Instascan QrCode scanner
