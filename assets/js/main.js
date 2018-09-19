@@ -3,8 +3,8 @@
 // instascan scanner object
 scanner = {};
 
-const protocol = 'http';
-const host = 'seminariopibic.ufpa.br';
+//const protocol = 'http';
+//const host = 'seminariopibic.ufpa.br';
 
 const x = '\x70\x72\x6f\x70\x65\x73\x70';
 const KEY = '\x70\x72\x6f\x70\x65\x73\x70ti2013';
@@ -270,6 +270,17 @@ let qrScan = {
     a.click();
   },
 
+  saveJSON: () => {
+    let now = new Date();
+    let d = now.getDay();
+    let m = now.getMonth() + 1;
+    let y = now.getFullYear();
+    let h = now.getHours();
+    let mi = now.getMinutes();
+
+    qrScan.saveToFile(JSON.stringify(qrScan.data), 'propespqr-'+ campi + '-' + d + '-' + m + '-' + y + '-' + h + '-' + mi +'.json', 'text/json');
+  },
+
   // create an instance of Instascan QrCode scanner
   initScanner: function (options) { // qrScan.initScanner(options);
     scanner = new Instascan.Scanner(options);
@@ -349,7 +360,7 @@ let qrScan = {
         qrScan.LOADING.classList.remove('transparent');
       }
     },
-
+/*
     _syncing: function (boolean) { // qrScan.animate._syncing(boolean);
       if (boolean) {
         document.getElementById('manualSync').classList.add('syncing');
@@ -385,7 +396,7 @@ let qrScan = {
           }
         }
       //}, 0);
-    },
+    },*/
 
     _pageLoaded: function () { // qrScan.animate._pageLoaded();
       document.getElementById('pageLoader').style.display = 'none';
@@ -412,9 +423,7 @@ let qrScan = {
   },
 
 
-
-
-  // TODO: Work on the PHP side
+/*
   sendResponse: function (dados) { // qrScan.sendResponse(a);
     let path = 'classes/access_presence_list.php';
 
@@ -563,6 +572,7 @@ let qrScan = {
       }
     });
   }
+  */
 };
 
 
@@ -683,7 +693,7 @@ $('.tabs').tabs({
       actualLiArr = saved_li_arr;
 
       qrScan.newClusterize();
-      qrScan.animate._changeSyncStatus();
+      //qrScan.animate._changeSyncStatus();
 
       contentAreaSaved.scrollTop = contentAreaSaved.scrollHeight; // Scroll to to the end of the list
     }
