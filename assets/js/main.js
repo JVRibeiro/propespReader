@@ -195,24 +195,28 @@ let qrScan = {
   },
 
   loadFromLS: function (string) {
-    if (string === 'data' || string === undefined) {
+    if (string === 'data') {
+      let dataRaw = localStorage.getItem(string);
       // Decrypt data
-      let decData = CryptoJS.AES.decrypt(localStorage.getItem('data'), KEY);
+      let decData = CryptoJS.AES.decrypt(dataRaw, KEY);
 
       let decString = decData.toString(CryptoJS.enc.Utf8);
 
-      qrScan.data = localStorage.getItem('data') === null ? qrScan.data : JSON.parse(decString);
+      qrScan.data = dataRaw === null ? qrScan.data : JSON.parse(decString);
+      qrScan.dataRaw = dataRaw;
     }
 
-    if (string === 'rejected' || string === undefined) {
+    if (string === 'rejected') {
+      let rejectedRaw = localStorage.getItem(string);
       // Decrypted data
-      let decRej = CryptoJS.AES.decrypt(localStorage.getItem('rejected'), KEY);
+      let decRej = CryptoJS.AES.decrypt(rejectedRaw, KEY);
 
       let decRejString = decRej.toString(CryptoJS.enc.Utf8);
 
       // console.log('Dados rejeitados decodificados: ' + decRejString);
 
       qrScan.rejected = localStorage.getItem('rejected') === null ? qrScan.rejected : JSON.parse(decRejString);
+      qrScan.rejectedRaw = rejectedRaw;
     }
   },
 
