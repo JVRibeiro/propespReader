@@ -1,6 +1,6 @@
 <?php
-  header('Access-Control-Allow-Origin: https://seminic.000webhostapp.com');
   header('Content-type:application/json;charset=utf-8');
+  header('Access-Control-Allow-Origin: http://jvribeiro.github.io');
 
   $host = 'beja.ufpa.br';
   $username = 'seminariopibic';
@@ -8,23 +8,22 @@
   $db_name = 'beja_seminariopibic';
   $charset = 'utf8';
 
-try {
-  $connect = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
-  /*** echo a message saying we have connected ***/
-  // echo 'Connected to database <br />';
+  $connect = new PDO("mysql:host=$host;dbname=$db_name;charset=$charset", $username, $password);
+  $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  // Get data from database
-  $stmt = $connect->prepare("SELECT id FROM inscricao_2018");
-  $stmt->execute();
+  try {
+    // Get data from database
+    $stmt = $connect->prepare("SELECT id FROM inscricao_2018");
+    $stmt->execute();
 
-  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  // Convert retrieved data to JSON
-  $json = json_encode($result, JSON_UNESCAPED_SLASHES);
+    // Convert retrieved data to JSON
+    $json = json_encode($result, JSON_UNESCAPED_SLASHES);
 
-  // Write in a JSON file
-  echo $json;
-}
-catch (PDOException $e) {
-    //echo $e->getMessage();
-}
+
+    echo $json;
+  }
+  catch (PDOException $e) {
+      echo $e->getMessage();
+  }
