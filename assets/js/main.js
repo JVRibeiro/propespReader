@@ -282,7 +282,7 @@ let qrScan = {
     let h = now.getHours();
     let mi = now.getMinutes();
 
-    qrScan.saveToFile(JSON.stringify(qrScan.data), 'propespqr-'+ campi + '-' + d + '-' + m + '-' + y + '-' + h + '-' + mi +'.json', 'text/json');
+    qrScan.saveToFile(JSON.stringify(qrScan.data), 'propespqr-' + '-' + d + '-' + m + '-' + y + '-' + h + '-' + mi +'.json', 'text/json');
   },
 
   // create an instance of Instascan QrCode scanner
