@@ -231,7 +231,8 @@ let qrScan = {
       for (let i = 0; i < data_arr_len; i++) {
         saved_li_arr.push(
           '<li class="collection-item avatar" data-id="' + qrScan.data[i][x].id + '">' +
-            '<i class="material-icons circle">cloud_off</i>' +
+            //'<i class="material-icons circle">cloud_off</i>' +
+            '<i class="material-icons circle green">done</i>' +
             '<span class="title">' + qrScan.data[i][x].nome + '</span>' +
             '<p class="grey-text">Não sincronizado<br>' +
           '</li>'
@@ -246,7 +247,8 @@ let qrScan = {
 
       for (let i = 0; i < rejected_arr_len; i++) {
         rejected_li_arr.push(
-          '<li class="collection-item">' +
+          '<li class="collection-item avatar">' +
+            '<i class="material-icons circle">close</i>' +
             '<span class="title">' + JSON.stringify(qrScan.rejected[i]) + '</span>' +
           '</li>'
         );
@@ -282,7 +284,7 @@ let qrScan = {
     let h = now.getHours();
     let mi = now.getMinutes();
 
-    qrScan.saveToFile(JSON.stringify(qrScan.data), 'propespqr-' + '-' + d + '-' + m + '-' + y + '-' + h + '-' + mi +'.json', 'text/json');
+    qrScan.saveToFile(qrScan.dataRaw, 'propespqr-' + '-' + d + '-' + m + '-' + y + '-' + h + '-' + mi, 'text/plain');
   },
 
   // create an instance of Instascan QrCode scanner
