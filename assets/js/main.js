@@ -645,10 +645,11 @@ scanner.addListener('inactive', function () {
 
 
 // Clear rejected list
+/*
 document.getElementById('manualSync').addEventListener('click', function() { // jshint ignore:line
   qrScan.sync();
 });
-
+*/
 $('.dropdown-trigger').dropdown({
   constrainWidth: false
 });
