@@ -3,7 +3,6 @@
 // instascan scanner object
 scanner = {};
 
-(function () {
 const protocol = 'http';
 const host = 'seminariopibic.ufpa.br';
 
@@ -260,6 +259,15 @@ let qrScan = {
     qrScan.updateCluster(rejected_li_arr);
 
     qrScan.animate._showToast('Lista de rejeitados apagada!', 1100);
+  },
+
+  saveToFile: (content, fileName, contentType) => { // qrScan.saveToFile(content, fileName, contentType);
+    let a = document.createElement("a");
+    let file = new Blob([content], {type: contentType});
+
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
   },
 
   // create an instance of Instascan QrCode scanner
@@ -690,7 +698,3 @@ $('.tabs').tabs({
     }
   }
 });
-
-
-window.qrScan = qrScan;
-})();
