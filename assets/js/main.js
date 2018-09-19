@@ -276,7 +276,7 @@ let qrScan = {
 
   saveJSON: () => {
     let now = new Date();
-    let d = now.getDay();
+    let d = now.getDate();
     let m = now.getMonth() + 1;
     let y = now.getFullYear();
     let h = now.getHours();
