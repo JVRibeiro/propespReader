@@ -115,15 +115,14 @@ let qrScan = {
 
       dec = CryptoJS.AES.decrypt(data, KEY);
       full_dec = dec.toString(CryptoJS.enc.Utf8);
-      data = full_dec;
 
-      isEncoded = data.match(/^\{(.*)\}/g) !== null ? true : false;
+      isEncoded = full_dec.match(/^\{(.*)\}/g) !== null ? true : false;
 
       // Check if QR is encoded
       if (isEncoded) {
         console.log('QR Code is encoded! Checking authenticity...');
 
-        isQRValid = data.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null ? true : false;
+        isQRValid = full_dec.match(/^\x7b\"\x70\x72\x6f\x70\x65\x73\x70\"\:\x7b(.*)\x7d\x7d/g) !== null ? true : false;
       }
       else {
         // QR is not encoded
@@ -137,13 +136,13 @@ let qrScan = {
     // Check if QR is valid
     if (isQRValid) {
       console.log('QR Code is valid!');
-      console.log('QR data: ' + data);
+      console.log('QR full_dec: ' + full_dec);
 
       // Animation
       qrScan.animate._snap();
       qrScan.animate._success();
 
-      qrScan.data.push(JSON.parse(data));
+      qrScan.data.push(JSON.parse(full_dec));
 
       // Actual string Array
       act = JSON.stringify(qrScan.data);
@@ -169,14 +168,9 @@ let qrScan = {
       qrScan.animate._snap();
       qrScan.animate._error();
 
-      if (data.match(/^\{(.*)\}/g) !== null) {
-        qrScan.rejected.push(JSON.parse(data));
-      }
-      else {
-        qrScan.rejected.push(data);
-      }
+      qrScan.rejected.push(full_dec);
 
-      console.log('Dados rejeitados: ' + data);
+      console.log('Dados rejeitados: ' + full_dec);
 
       // Actual string Array
       act = JSON.stringify(qrScan.rejected);
