@@ -169,6 +169,7 @@
       }
     </style>
 
+    <link async rel='stylesheet' href='./assets/libs/materialize/css/material-icons.css' />
     <link async rel='stylesheet' href='./assets/libs/materialize/css/materialize.min.css' />
     <link async rel='stylesheet' href='./assets/libs/materialize/css/materialize.custom.css' />
     <link defer rel='stylesheet' href='./assets/libs/clusterize/clusterize.min.css' />
@@ -261,11 +262,11 @@
             <!--a id='manualSync' class='pp-main-options'><i class='material-icons'>sync</i></a-->
             <a class='pp-main-options dropdown-trigger' data-target='pp-main-menu'><i class='material-icons'>more_vert</i></a>
             <ul id='pp-main-menu' class='dropdown-content'>
-              <li><a onclick='qrScan.reload();'><i class="material-icons">sync</i> Reiniciar</a></li>
-              <li><a onclick='qrScan.saveJSON();'><i class="material-icons">file_download</i> Baixar dados</a></li>
-              <li class="divider" tabindex="-1"></li>
-              <li><a onclick='qrScan.clearSaved();'><i class="material-icons">delete_forever</i>Limpar salvos</a></li>
-              <li><a onclick='qrScan.clearRejected();'><i class="material-icons">delete_forever</i>Limpar rejeitados</a></li>
+              <li><a onclick='qrScan.reload();'><i class='material-icons'>sync</i> Reiniciar</a></li>
+              <li><a onclick='qrScan.saveJSON();'><i class='material-icons'>file_download</i> Baixar dados</a></li>
+              <li class='divider' tabindex='-1'></li>
+              <li><a onclick='qrScan.clearSaved();'><i class='material-icons'>delete_forever</i>Limpar salvos</a></li>
+              <li><a onclick='qrScan.clearRejected();'><i class='material-icons'>delete_forever</i>Limpar rejeitados</a></li>
             </ul>
           </div>
           <!-- Tabs -->
@@ -290,16 +291,16 @@
               <div class='pp-scanner--status__error'></div>
               <div class='pp-scanner--status__loading'>
                 <div class='pp-loading-page--spinner'>
-                  <div class="preloader-wrapper small active">
-                    <div class="spinner-layer spinner-blue-only">
-                      <div class="circle-clipper left">
-                        <div class="circle"></div>
+                  <div class='preloader-wrapper small active'>
+                    <div class='spinner-layer spinner-blue-only'>
+                      <div class='circle-clipper left'>
+                        <div class='circle'></div>
                       </div>
-                      <div class="gap-patch">
-                        <div class="circle"></div>
+                      <div class='gap-patch'>
+                        <div class='circle'></div>
                       </div>
-                      <div class="circle-clipper right">
-                        <div class="circle"></div>
+                      <div class='circle-clipper right'>
+                        <div class='circle'></div>
                       </div>
                     </div>
                   </div>
