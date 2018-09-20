@@ -153,7 +153,7 @@ let qrScan = {
       enc =  CryptoJS.AES.encrypt(act, KEY);
       console.log('Dados codificados: ' + enc);
 
-      qrScan.dataRaw = enc;
+      qrScan.dataRaw = enc.toString();
 
       localStorage.setItem('data', enc);
       qrScan.animate._showToast('Dados salvos!', 1100);
@@ -186,7 +186,7 @@ let qrScan = {
       enc = CryptoJS.AES.encrypt(act, KEY);
       console.log('Dados rejeitados codificados: ' + enc);
 
-      qrScan.rejectedRaw = enc;
+      qrScan.rejectedRaw = enc.toString();
 
       localStorage.setItem('rejected', enc);
 
