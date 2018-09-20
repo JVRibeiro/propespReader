@@ -22,7 +22,7 @@ let qrScan = {
   rejected: [], // qrScan.rejected
 
   // DOM
-  LOADING: document.querySelector('.loading'), // qrScan.LOADING
+  LOADING: document.querySelector('.pp-scanner--status__loading'), // qrScan.LOADING
 
   // Sort the array numerically
   sortNumber: function(a, b) { // qrScan.sortNumber(a, b);
@@ -102,7 +102,7 @@ let qrScan = {
     // Pretest
     console.log('Executing pretest...');
     if (data.match(/(\n|\s|\{|\()/g) === null) {
-      isMaybeValid = true; 
+      isMaybeValid = true;
     }
     else {
       isMaybeValid = false;
@@ -155,7 +155,7 @@ let qrScan = {
       qrScan.dataRaw = enc.toString();
 
       localStorage.setItem('data', enc);
-      qrScan.animate._showToast('Dados salvos!', 1100);
+      qrScan.animate._showToast('Dados salvos!', 2000);
 
       qrScan.updateHTMLArray('data');
 
@@ -184,7 +184,7 @@ let qrScan = {
 
       localStorage.setItem('rejected', enc);
 
-      qrScan.animate._showToast('QR Code inválido!', 1100);
+      qrScan.animate._showToast('QR Code inválido!', 2000);
 
       qrScan.updateHTMLArray('rejected');
 
@@ -265,7 +265,7 @@ let qrScan = {
     qrScan.updateHTMLArray('data');
     qrScan.updateCluster(saved_li_arr);
 
-    qrScan.animate._showToast('Lista de dados salvos apagada!', 1100);
+    qrScan.animate._showToast('Lista de dados salvos apagada!', 2000);
   },
 
   clearRejected: function () { // qrScan.clearRejected();
@@ -276,7 +276,7 @@ let qrScan = {
     qrScan.updateHTMLArray('rejected');
     qrScan.updateCluster(rejected_li_arr);
 
-    qrScan.animate._showToast('Lista de rejeitados apagada!', 1100);
+    qrScan.animate._showToast('Lista de rejeitados apagada!', 2000);
   },
 
   saveToFile: (content, fileName, contentType) => { // qrScan.saveToFile(content, fileName, contentType);
@@ -307,66 +307,69 @@ let qrScan = {
   /* Animations */
   animate: {
     _snap: function () { // qrScan.animate._snap();
-      document.querySelector('#cameraCanvas .snap').classList.remove('snap-anim');
+      document.querySelector('.pp-scanner--status .pp-scanner--status__snap').classList.remove('snap-anim');
 
-      $('#cameraCanvas .snap')
+      $('.pp-scanner--status .pp-scanner--status__snap')
         .addClass('snap-anim')
         .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
           function(e) {
           // code to execute after animation ends
-          document.querySelector('#cameraCanvas .snap').classList.remove('snap-anim');
+          document.querySelector('.pp-scanner--status .pp-scanner--status__snap').classList.remove('snap-anim');
       });
     },
 
-    _showToast: function (message, delay) { // qrScan.animate._showToast(message, delay);
-      let notification = document.querySelector('.mdl-js-snackbar');
+    _showToast: function (message, duration) { // qrScan.animate._showToast(message, duration);
+      //let notification = document.querySelector('.mdl-js-snackbar');
 
-      if (delay == undefined) delay = 300;
+      if (duration == undefined) duration = 5000;
 
-      if (toastTimeout !== undefined) clearTimeout(toastTimeout);
-      document.querySelector('.mdl-js-snackbar').classList.remove('mdl-snackbar--active');
+      M.Toast.dismissAll();
 
-      toastTimeout = setTimeout(function () {
-        notification.MaterialSnackbar.showSnackbar({'message': message});
-      }, delay);
+      //if (toastTimeout !== undefined) clearTimeout(toastTimeout);
+      //document.querySelector('.mdl-js-snackbar').classList.remove('mdl-snackbar--active');
+
+      //toastTimeout = setTimeout(function () {
+      //  notification.MaterialSnackbar.showSnackbar({'message': message});
+        M.toast({html: message, displayLength: duration});
+      //}, duration);
     },
 
     _success: function () { // qrScan.animate._success();
-      document.querySelector('.error').classList.remove('snap-status-in', 'snap-status-out');
+      document.querySelector('.pp-scanner--status__error').classList.remove('snap-status-in', 'snap-status-out');
       if (snapTimeout !== undefined) clearTimeout(snapTimeout);
 
-      document.querySelector('.success').classList.remove('snap-status-in', 'snap-status-out');
-      document.querySelector('.success').classList.add('snap-status-in');
+      document.querySelector('.pp-scanner--status__success').classList.remove('snap-status-in', 'snap-status-out');
+      document.querySelector('.pp-scanner--status__success').classList.add('snap-status-in');
 
       snapTimeout = setTimeout(function() {
         // code to execute after animation ends
-        $('.success')
+        $('.pp-scanner--status__success')
           .removeClass('snap-status-in')
           .addClass('snap-status-out')
           .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
             function(e) {
             // code to execute after animation ends
-            document.querySelector('.success').classList.remove('snap-status-out');
+            document.querySelector('.pp-scanner--status__success').classList.remove('snap-status-out');
         });
       }, 3000);
     },
 
     _error: function () { // qrScan.animate._error();
-      document.querySelector('.success').classList.remove('snap-status-in', 'snap-status-out');
+      document.querySelector('.pp-scanner--status__success').classList.remove('snap-status-in', 'snap-status-out');
       if (snapTimeout !== undefined) clearTimeout(snapTimeout);
 
-      document.querySelector('.error').classList.remove('snap-status-in', 'snap-status-out');
-      document.querySelector('.error').classList.add('snap-status-in');
+      document.querySelector('.pp-scanner--status__error').classList.remove('snap-status-in', 'snap-status-out');
+      document.querySelector('.pp-scanner--status__error').classList.add('snap-status-in');
 
         snapTimeout = setTimeout(function() {
           // code to execute after animation ends
-          $('.error')
+          $('.pp-scanner--status__error')
             .removeClass('snap-status-in')
             .addClass('snap-status-out')
             .one('webkitAnimationEnd oanimationend msAnimationEnd animationend',
               function(e) {
               // code to execute after animation ends
-              document.querySelector('.error').classList.remove('snap-status-out');
+              document.querySelector('.pp-scanner--status__error').classList.remove('snap-status-out');
           });
         },3000);
     },
@@ -417,7 +420,7 @@ let qrScan = {
     },*/
 
     _pageLoaded: function () { // qrScan.animate._pageLoaded();
-      document.getElementById('pageLoader').style.display = 'none';
+      document.querySelector('.pp-loading-page').style.display = 'none';
     }
   },
 
@@ -598,8 +601,8 @@ let qrScan = {
 var clusterize = new Clusterize({
   rows: saved_li_arr,
   tag: 'ul',
-  scrollId: 'scrollAreaSaved',
-  contentId: 'contentAreaSaved',
+  scrollId: 'pp-scanned-list__cluster-scroll--saved',
+  contentId: 'pp-scanned-list__cluster-content--saved',
   no_data_text: 'Nenhum bolsista',
   callbacks: {
     clusterChanged: function() {
@@ -630,7 +633,7 @@ if (localStorage.getItem('rejected') !== null) {
 
 let options = {};
 // init options for scanner
-options = qrScan.initVideoObjectOptions('webcameraPreview');
+options = qrScan.initVideoObjectOptions('pp-scanner--camera');
 
 let cameraId = 0;
 
@@ -682,8 +685,8 @@ $('.tabs').tabs({
     const tab2 = document.querySelector('a[href="#scroll-tab-2"]').classList.contains('active');
     const tab3 = document.querySelector('a[href="#scroll-tab-3"]').classList.contains('active');
 
-    let contentAreaSaved = document.getElementById('contentAreaSaved');
-    let contentAreaRejected = document.getElementById('contentAreaRejected');
+    let contentAreaSaved = document.getElementById('pp-scanned-list__cluster-content--saved');
+    let contentAreaRejected = document.getElementById('pp-scanned-list__cluster-content--rejected');
 
     if (tab1 && !isCameraTabActive) {
       console.log('Camera activated.');
@@ -693,8 +696,8 @@ $('.tabs').tabs({
 
       isCameraTabActive = true;
 
-      //qrScan.clearHTML('contentAreaSaved');
-      //qrScan.clearHTML('contentAreaRejected');
+      //qrScan.clearHTML('pp-scanned-list__cluster-content--saved');
+      //qrScan.clearHTML('pp-scanned-list__cluster-content--rejected');
 
       setTimeout(function () {
         scanner.start(cameraGlobal);
@@ -709,8 +712,8 @@ $('.tabs').tabs({
     }
 
     if (tab2) {
-      actualScrollId = 'scrollAreaSaved';
-      actualContentId = 'contentAreaSaved';
+      actualScrollId = 'pp-scanned-list__cluster-scroll--saved';
+      actualContentId = 'pp-scanned-list__cluster-content--saved';
       actualLiArr = saved_li_arr;
 
       qrScan.newClusterize();
@@ -719,8 +722,8 @@ $('.tabs').tabs({
       contentAreaSaved.scrollTop = contentAreaSaved.scrollHeight; // Scroll to to the end of the list
     }
     else if (tab3) {
-      actualScrollId = 'scrollAreaRejected';
-      actualContentId = 'contentAreaRejected';
+      actualScrollId = 'pp-scanned-list__cluster-scroll--rejected';
+      actualContentId = 'pp-scanned-list__cluster-content--rejected';
       actualLiArr = rejected_li_arr;
 
       qrScan.newClusterize();

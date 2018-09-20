@@ -5,9 +5,9 @@
     <!-- Required meta tags -->
     <meta charset='utf-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
-    <meta name='theme-color' content='#2e69bc' />
+    <meta name='theme-color' content='#035b8a' />
 
-    <title>PROPESP QR Code Scanner</title>
+    <title>PROPESP Reader</title>
 
     <link rel='manifest' href='manifest.json'>
 
@@ -18,23 +18,7 @@
         overflow: hidden;
       }
 
-      .transparent {
-        opacity: 0 !important;
-      }
-
-      .preloadImgs {
-        background-image: url(./assets/img/ui/qr-frame.svg),
-        url(./assets/img/ui/light/ic_done_48dp.svg),
-        url(./assets/img/ui/light/ic_clear_48dp.svg),
-        url(./assets/img/ui/propesp-qr.svg),
-        url(./assets/img/ui/light/ic_cloud_off_white_48dp.svg),
-        url(./assets/img/ui/light/ic_cloud_done_white_48dp.svg),
-        url(./assets/img/ui/ufpa.svg);
-        opacity: 0;
-      }
-
       /* fallback */
-
       @font-face {
         font-family: 'Material Icons';
         font-style: normal;
@@ -42,23 +26,50 @@
         src: url(./assets/fonts/material-icons.woff2) format('woff2');
       }
 
-      .material-icons {
-        font-family: 'Material Icons';
-        font-weight: normal;
-        font-style: normal;
-        font-size: 24px;
-        line-height: 1;
-        letter-spacing: normal;
-        text-transform: none;
-        display: inline-block;
-        white-space: nowrap;
-        word-wrap: normal;
-        direction: ltr;
-        -webkit-font-feature-settings: 'liga';
-        -webkit-font-smoothing: antialiased;
+      div:focus,
+      div:active,
+      button:focus,
+      button:active,
+      a:focus,
+      a:active {
+        outline: none;
       }
 
-      .loading-spinner {
+      .transparent {
+        opacity: 0 !important;
+      }
+
+      .pp-images-preloader {
+        background-image: url(./assets/img/ui/qr-frame.svg);
+        opacity: 0;
+      }
+
+      .pp-no-select {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent; // i.e. Nexus5/Chrome and Kindle Fire HD 7''
+        outline: none !important;
+        -webkit-user-modify: read-only;
+      }
+
+      .pp-loading-page {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #f2f7ff;
+        text-align: center;
+        z-index: 100;
+      }
+
+      .pp-loading-page--spinner {
         width: 100%;
         height: 30px;
         position: absolute;
@@ -66,7 +77,7 @@
         transform: translateY(-50%);
       }
 
-      .loading-spinner-simple {
+      .pp-loading-page--spinner__circle {
         width: 40px;
         height: 40px;
         border: 4px solid #3f51b5;
@@ -84,110 +95,13 @@
         0% {
           transform: rotate(0deg);
         }
+
         100% {
           transform: rotate(360deg);
         }
       }
 
-      #pageLoader {
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #f2f7ff;
-        text-align: center;
-        z-index: 100;
-      }
-
-      .page-content {
-        text-align: center;
-      }
-
-      .scannerPage {
-        background-color: #000;
-      }
-
-      .qrScan-drawer-header {
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        display: -ms-flexbox;
-        display: -webkit-box;
-        display: flex;
-        -ms-flex-direction: column;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        flex-direction: column;
-        -ms-flex-pack: end;
-        -webkit-box-pack: end;
-        justify-content: flex-end;
-        padding: 16px;
-        height: 151px;
-        color: #fff;
-        background-image: url(./assets/img/ui/propesp-qr.svg);
-        background-size: 130%;
-        background-position: 70%;
-        box-shadow: inset 0 -60px 25px rgba(0, 0, 0, 0.4);
-        position: relative;
-      }
-
-      .qrScan-avatar {
-        width: 60px;
-        height: 60px;
-        background-color: #fff;
-        background-image: url(./assets/img/ui/ufpa.svg);
-        background-size: 120%;
-        background-position: center;
-        background-repeat: no-repeat;
-        position: absolute;
-        bottom: -16px;
-        left: 16px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        border-radius: 50%;
-        overflow: hidden;
-      }
-
-      .qrScan-avatar-dropdown {
-        display: -ms-flexbox;
-        display: -webkit-box;
-        display: flex;
-        position: relative;
-        -ms-flex-direction: row;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        flex-direction: row;
-        -ms-flex-align: center;
-        -webkit-box-align: center;
-        align-items: center;
-        width: 100%;
-      }
-
-      .qrScan-drawer {
-        border: none !important;
-      }
-
-      .qrScan-layout .qrScan-navigation .mdl-navigation__link {
-        display: -ms-flexbox !important;
-        display: -webkit-box !important;
-        display: flex !important;
-        -ms-flex-direction: row;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        flex-direction: row;
-        -ms-flex-align: center;
-        -webkit-box-align: center;
-        align-items: center;
-        color: rgba(255, 255, 255, 0.56);
-        font-weight: 500;
-      }
-
-      .qrScan-navigation .mdl-navigation__link .material-icons {
-        font-size: 24px;
-        color: rgba(255, 255, 255, 0.56);
-        margin-right: 32px;
-      }
-
-      #cameraCanvas {
+      .pp-scanner--status {
         width: 100%;
         height: 100%;
         position: absolute;
@@ -195,7 +109,7 @@
         background-color: #000;
       }
 
-      #cameraCanvas .frame {
+      .pp-scanner--status .pp-scanner--status__frame {
         width: 100%;
         height: 100%;
         background-image: url(./assets/img/ui/qr-frame.svg);
@@ -207,7 +121,7 @@
         left: 0;
       }
 
-      #cameraCanvas .snap {
+      .pp-scanner--status .pp-scanner--status__snap {
         width: 100%;
         height: 100%;
         -webkit-box-shadow: inset 0 0 30px 15px rgba(255, 255, 255, 0.7);
@@ -216,7 +130,7 @@
         opacity: 0;
       }
 
-      #cameraCanvas .success {
+      .pp-scanner--status .pp-scanner--status__success {
         width: 100%;
         height: 100%;
         background-color: rgba(1, 158, 115, 0.5);
@@ -228,7 +142,7 @@
         opacity: 0;
       }
 
-      #cameraCanvas .error {
+      .pp-scanner--status .pp-scanner--status__error {
         width: 100%;
         height: 100%;
         background-color: rgba(162, 17, 17, 0.5);
@@ -240,7 +154,7 @@
         opacity: 0;
       }
 
-      #cameraCanvas .loading {
+      .pp-scanner--status .pp-scanner--status__loading {
         width: 100%;
         height: 100%;
         position: absolute;
@@ -248,55 +162,13 @@
         transform: scale(2);
       }
 
-      video {
+      #pp-scanner--camera {
         width: 100%;
         height: 100%;
         background-color: #000;
       }
-
-      #log {
-        text-align: left;
-        padding: 30px 16px 25px 16px;
-        word-wrap: break-word;
-      }
-
-      .red {
-        color: #d62b2b;
-      }
-
-      .purple {
-        color: #d62bcf;
-      }
-
-      .grey {
-        color: #b5b5b5;
-      }
-
-      .noSelect {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-        -webkit-tap-highlight-color: transparent; // i.e. Nexus5/Chrome and Kindle Fire HD 7''
-        outline: none !important;
-        -webkit-user-modify: read-only;
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-      }
-
-      div:focus,
-      div:active,
-      button:focus,
-      button:active,
-      a:focus,
-      a:active {
-        outline: none;
-      }
     </style>
 
-    <link async rel='stylesheet' href='./assets/libs/material/material.indigo-green.min.css' />
     <link async rel='stylesheet' href='./assets/libs/materialize/css/materialize.min.css' />
     <link async rel='stylesheet' href='./assets/libs/materialize/css/materialize.custom.css' />
     <link defer rel='stylesheet' href='./assets/libs/clusterize/clusterize.min.css' />
@@ -372,30 +244,28 @@
   </head>
 
   <body>
-    <div id='pageLoader'>
-      <div class='loading-spinner'>
-        <div class='loading-spinner-simple'></div>
+    <div class='pp-images-preloader'></div>
+
+    <div class='pp-loading-page'>
+      <div class='pp-loading-page--spinner'>
+        <div class='pp-loading-page--spinner__circle'></div>
       </div>
     </div>
 
-    <div class='preloadImgs'></div>
-
     <div class='pp-main-container'>
       <div class='pp-main-container__inner'>
-        <nav class='nav-extended noSelect'>
+        <nav class='nav-extended pp-no-select'>
           <div class='nav-wrapper'>
-            <!-- Title -->
-            <a href='#!' class='brand-logo'><i class='material-icons'>crop_free</i> PROPESP Reader</a>
+            <span class='brand-logo'><i class='material-icons'>crop_free</i> PROPESP Reader</span>
 
-            <!--a id='manualSync' class='top-options'><i class='material-icons'>sync</i></a-->
-            <a id='dropdown-menu' class='top-options dropdown-trigger' data-target='dropdown1'><i class='material-icons'>more_vert</i></a>
-            <ul id='dropdown1' class='dropdown-content'>
-              <!--li><a onclick='qrScan.saveJSON();'><i class="material-icons">file_upload</i> Restaurar backup</a></li-->
+            <!--a id='manualSync' class='pp-main-options'><i class='material-icons'>sync</i></a-->
+            <a class='pp-main-options dropdown-trigger' data-target='pp-main-menu'><i class='material-icons'>more_vert</i></a>
+            <ul id='pp-main-menu' class='dropdown-content'>
               <li><a onclick='qrScan.reload();'><i class="material-icons">sync</i> Reiniciar</a></li>
               <li><a onclick='qrScan.saveJSON();'><i class="material-icons">file_download</i> Baixar dados</a></li>
               <li class="divider" tabindex="-1"></li>
-              <li><a href="#!" onclick='qrScan.clearSaved();'><i class="material-icons">delete_forever</i>Limpar salvos</a></li>
-              <li><a href="#!" onclick='qrScan.clearRejected();'><i class="material-icons">delete_forever</i>Limpar rejeitados</a></li>
+              <li><a onclick='qrScan.clearSaved();'><i class="material-icons">delete_forever</i>Limpar salvos</a></li>
+              <li><a onclick='qrScan.clearRejected();'><i class="material-icons">delete_forever</i>Limpar rejeitados</a></li>
             </ul>
           </div>
           <!-- Tabs -->
@@ -413,69 +283,61 @@
         <!-- Ler codigo -->
         <main>
           <div class='pp-tab--section' id='scroll-tab-1'>
-            <div class='page-content'>
-              <div id='cameraCanvas'>
-                <div class='frame'></div>
-                <div class='snap'></div>
-                <div class='success'></div>
-                <div class='error'></div>
-                <div class='loading'>
-                  <div class='loading-spinner'>
-                    <div class="preloader-wrapper small active">
-                      <div class="spinner-layer spinner-blue-only">
-                        <div class="circle-clipper left">
-                          <div class="circle"></div>
-                        </div>
-                        <div class="gap-patch">
-                          <div class="circle"></div>
-                        </div>
-                        <div class="circle-clipper right">
-                          <div class="circle"></div>
-                        </div>
+            <div class='pp-scanner--status'>
+              <div class='pp-scanner--status__frame'></div>
+              <div class='pp-scanner--status__snap'></div>
+              <div class='pp-scanner--status__success'></div>
+              <div class='pp-scanner--status__error'></div>
+              <div class='pp-scanner--status__loading'>
+                <div class='pp-loading-page--spinner'>
+                  <div class="preloader-wrapper small active">
+                    <div class="spinner-layer spinner-blue-only">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div>
+                      <div class="gap-patch">
+                        <div class="circle"></div>
+                      </div>
+                      <div class="circle-clipper right">
+                        <div class="circle"></div>
                       </div>
                     </div>
                   </div>
                 </div>
-
-                <video id='webcameraPreview' playsinline autoplay muted loop></video>
               </div>
+
+              <video id='pp-scanner--camera' playsinline autoplay muted loop></video>
             </div>
           </div>
 
           <!-- Salvos -->
           <div class='pp-tab--section' id='scroll-tab-2'>
-            <div class='page-content'>
-              <div class='savedItems'>
-                <div id='scrollAreaSaved' class='clusterize-scroll'>
-                  <ul id='contentAreaSaved' class='collection clusterize-content'></ul>
-                </div>
+            <div class='pp-scanned-list'>
+              <div id='pp-scanned-list__cluster-scroll--saved' class='clusterize-scroll'>
+                <ul id='pp-scanned-list__cluster-content--saved' class='collection clusterize-content'></ul>
               </div>
             </div>
           </div>
 
           <!-- Salvos -->
           <div class='pp-tab--section' id='scroll-tab-3'>
-            <div class='page-content'>
-              <div class='savedItems'>
-                <div id='scrollAreaRejected' class='clusterize-scroll'>
-                  <ul id='contentAreaRejected' class='collection clusterize-content'></ul>
-                </div>
+            <div class='pp-scanned-list'>
+              <div id='pp-scanned-list__cluster-scroll--rejected' class='clusterize-scroll'>
+                <ul id='pp-scanned-list__cluster-content--rejected' class='collection clusterize-content'></ul>
               </div>
             </div>
-          </div>
-
-          <div id='snap-status-toast' class='mdl-js-snackbar mdl-snackbar'>
-            <div class='mdl-snackbar__text'></div>
-            <button class='mdl-snackbar__action' type='button'></button>
           </div>
         </main>
       </div>
     </div>
+
     <script src='./assets/libs/instascan/instascan.compressed.js'></script>
     <script src='./assets/libs/clusterize/clusterize.min.js'></script>
     <script src='./assets/libs/criptojs/cripto-aes.min.js'></script>
     <script src='./assets/libs/instascan/adapter.min.js'></script>
+
     <script defer src='./assets/js/main.js'></script>
+
     <script defer>
       let domReady = function(ready) {
         if (document.readyState !== 'loading') {
@@ -489,7 +351,7 @@
         }
       }
 
-      domReady(function () {
+      domReady(function() {
         qrScan.animate._pageLoaded();
       });
     </script>
