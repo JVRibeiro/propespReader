@@ -253,11 +253,15 @@ let qrScan = {
         rejected_li_arr.push(
           '<li class="collection-item avatar">' +
             '<i class="material-icons circle">close</i>' +
-            '<span class="title">' + JSON.stringify(qrScan.rejected[i]) + '</span>' +
+            '<span class="title">' + qrScan.rejected[i] + '</span>' +
           '</li>'
         );
       }
     }
+  },
+
+  reload: () => { // qrScan.reload();
+    document.location.reload();
   },
 
   clearSaved: function () { // qrScan.clearSaved();
