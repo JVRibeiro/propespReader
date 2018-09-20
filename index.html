@@ -390,9 +390,10 @@
             <!--a id='manualSync' class='top-options'><i class='material-icons'>sync</i></a-->
             <a id='dropdown-menu' class='top-options dropdown-trigger' data-target='dropdown1'><i class='material-icons'>more_vert</i></a>
             <ul id='dropdown1' class='dropdown-content'>
-              <li><a onclick='qrScan.saveJSON();'><i class="material-icons">file_upload</i> Restaurar backup</a></li>
+              <!--li><a onclick='qrScan.saveJSON();'><i class="material-icons">file_upload</i> Restaurar backup</a></li-->
               <li><a onclick='qrScan.saveJSON();'><i class="material-icons">file_download</i> Baixar dados</a></li>
               <li class="divider" tabindex="-1"></li>
+              <li><a href="#!" onclick='qrScan.clearData();'><i class="material-icons">delete_forever</i>Limpar salvos</a></li>
               <li><a href="#!" onclick='qrScan.clearRejected();'><i class="material-icons">delete_forever</i>Limpar rejeitados</a></li>
             </ul>
           </div>

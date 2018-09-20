@@ -153,6 +153,8 @@ let qrScan = {
       enc =  CryptoJS.AES.encrypt(act, KEY);
       console.log('Dados codificados: ' + enc);
 
+      qrScan.dataRaw = enc;
+
       localStorage.setItem('data', enc);
       qrScan.animate._showToast('Dados salvos!', 1100);
 
@@ -183,6 +185,8 @@ let qrScan = {
       // Encrypt data
       enc = CryptoJS.AES.encrypt(act, KEY);
       console.log('Dados rejeitados codificados: ' + enc);
+
+      qrScan.rejectedRaw = enc;
 
       localStorage.setItem('rejected', enc);
 
@@ -254,6 +258,17 @@ let qrScan = {
         );
       }
     }
+  },
+
+  clearSaved: function () { // qrScan.clearSaved();
+    localStorage.removeItem('data');
+    qrScan.data = [];
+    saved_li_arr = [];
+
+    qrScan.updateHTMLArray('data');
+    qrScan.updateCluster(saved_li_arr);
+
+    qrScan.animate._showToast('Lista de dados salvos apagada!', 1100);
   },
 
   clearRejected: function () { // qrScan.clearRejected();
@@ -662,6 +677,7 @@ $('.dropdown-trigger').dropdown({
 
 $('.tabs').tabs({
   swipeable: true,
+  responsiveThreshold: 30,
   duration: 200,
   onShow: () => {
     const tab1 = document.querySelector('a[href="#scroll-tab-1"]').classList.contains('active');
