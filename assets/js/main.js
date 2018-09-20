@@ -234,11 +234,10 @@ let qrScan = {
 
       for (let i = 0; i < data_arr_len; i++) {
         saved_li_arr.push(
-          '<li class="collection-item avatar" data-id="' + qrScan.data[i][x].id + '">' +
+          '<li class="collection-item avatar  valign-wrapper" data-id="' + qrScan.data[i][x].id + '">' +
             //'<i class="material-icons circle">cloud_off</i>' +
             '<i class="material-icons circle green">done</i>' +
             '<span class="title">' + qrScan.data[i][x].nome + '</span>' +
-            '<p class="grey-text">Não sincronizado<br>' +
           '</li>'
         );
       }
@@ -676,7 +675,9 @@ document.getElementById('manualSync').addEventListener('click', function() { // 
 });
 */
 $('.dropdown-trigger').dropdown({
-  constrainWidth: false
+  constrainWidth: false,
+  inDuration: 300,
+  outDuration: 300
 });
 
 $('.tabs').tabs({
