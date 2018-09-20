@@ -681,7 +681,6 @@ $('.dropdown-trigger').dropdown({
 
 $('.tabs').tabs({
   swipeable: true,
-  responsiveThreshold: 30,
   duration: 200,
   onShow: () => {
     const tab1 = document.querySelector('a[href="#scroll-tab-1"]').classList.contains('active');
