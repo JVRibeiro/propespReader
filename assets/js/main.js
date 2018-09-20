@@ -102,7 +102,7 @@ let qrScan = {
     // Pretest
     console.log('Executing pretest...');
     if (data.match(/(\n|\s|\{|\()/g) === null) {
-      isMaybeValid = true;
+      isMaybeValid = true; 
     }
     else {
       isMaybeValid = false;
@@ -173,7 +173,7 @@ let qrScan = {
       console.log('Dados rejeitados: ' + full_dec);
 
       // Actual string Array
-      act = JSON.stringify(qrScan.rejected);
+      act = qrScan.rejected;
       console.log('Dados rejeitados salvos em RAM: ' + act);
 
       // Encrypt data
@@ -213,7 +213,7 @@ let qrScan = {
 
       // console.log('Dados rejeitados decodificados: ' + decRejString);
 
-      qrScan.rejected = localStorage.getItem('rejected') === null ? qrScan.rejected : JSON.parse(decRejString);
+      qrScan.rejected = localStorage.getItem('rejected') === null ? qrScan.rejected : decRejString;
       qrScan.rejectedRaw = rejectedRaw;
     }
   },
