@@ -175,69 +175,69 @@
     <link defer rel='stylesheet' href='./assets/libs/clusterize/clusterize.min.css' />
     <link defer rel='stylesheet' href='./assets/css/main.css' />
 
-    <!--script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('sw.js', {
-          scope: '.' // <- THIS BIT IS REQUIRED
-        }).then(function(registration) {
-          // Registration was successful
-          console.log('ServiceWorker registration successful with scope: ' + registration.scope);
-        }).catch(function(err) {
-          // registration failed :(
-          console.log('ServiceWorker registration failed: ' + err);
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js', {
+            scope: '.' // <- THIS BIT IS REQUIRED
+          }).then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ' + registration.scope);
+          }).catch(function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ' + err);
+          });
         });
-      });
-    }
-
-    // Request a one-off sync:
-    navigator.serviceWorker.ready.then(function(swRegistration) {
-      return swRegistration.sync.register('backgroundSync');
-    });
-
-    // make the whole serviceworker process into a promise so later on we can
-    // listen to it and in case new content is available a toast will be shown
-    window.isUpdateAvailable = new Promise(function(resolve, reject) {
-      // lazy way of disabling service workers while developing
-      if ('serviceWorker' in navigator && ['localhost', '127'].indexOf(location.hostname) === -1) {
-        // register service worker file
-        navigator.serviceWorker.register('sw.js')
-          .then(reg => {
-            reg.onupdatefound = () => {
-              const installingWorker = reg.installing;
-              installingWorker.onstatechange = () => {
-                switch (installingWorker.state) {
-                  case 'installed':
-                    if (navigator.serviceWorker.controller) {
-                      // new update available
-                      resolve(true);
-                    } else {
-                      // no update available
-                      resolve(false);
-                    }
-                    break;
-                }
-              };
-            };
-          })
-          .catch(err => console.error('[SW ERROR]', err));
       }
-    });
 
-    // listen to the service worker promise in index.html to see if there has been a new update.
-    // condition: the service-worker.js needs to have some kind of change - e.g. increment CACHE_VERSION.
-    window['isUpdateAvailable']
-      .then(isAvailable => {
-        if (isAvailable) {
-          alert('O app foi atualizado. Reinicie para aplicar as atualizações.');
+      // Request a one-off sync:
+      navigator.serviceWorker.ready.then(function(swRegistration) {
+        return swRegistration.sync.register('backgroundSync');
+      });
+
+      // make the whole serviceworker process into a promise so later on we can
+      // listen to it and in case new content is available a toast will be shown
+      window.isUpdateAvailable = new Promise(function(resolve, reject) {
+        // lazy way of disabling service workers while developing
+        if ('serviceWorker' in navigator && ['localhost', '127'].indexOf(location.hostname) === -1) {
+          // register service worker file
+          navigator.serviceWorker.register('sw.js')
+            .then(reg => {
+              reg.onupdatefound = () => {
+                const installingWorker = reg.installing;
+                installingWorker.onstatechange = () => {
+                  switch (installingWorker.state) {
+                    case 'installed':
+                      if (navigator.serviceWorker.controller) {
+                        // new update available
+                        resolve(true);
+                      } else {
+                        // no update available
+                        resolve(false);
+                      }
+                      break;
+                  }
+                };
+              };
+            })
+            .catch(err => console.error('[SW ERROR]', err));
         }
       });
 
-    // Update:
-    // this also can be incorporated right into e.g. your run() function in angular,
-    // to avoid using the global namespace for such a thing.
-    // because the registering of a service worker doesn't need to be executed on the first load of the page.
-  </script-->
+      // listen to the service worker promise in index.html to see if there has been a new update.
+      // condition: the service-worker.js needs to have some kind of change - e.g. increment CACHE_VERSION.
+      window['isUpdateAvailable']
+        .then(isAvailable => {
+          if (isAvailable) {
+            alert('O app foi atualizado. Reinicie para aplicar as atualizações.');
+          }
+        });
+
+      // Update:
+      // this also can be incorporated right into e.g. your run() function in angular,
+      // to avoid using the global namespace for such a thing.
+      // because the registering of a service worker doesn't need to be executed on the first load of the page.
+    </script>
     <script src='./assets/libs/jquery/jquery.min.js'></script>
     <script src='./assets/libs/materialize/js/materialize.min.js'></script>
     <script src='./assets/libs/material/material.min.js'></script>
