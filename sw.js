@@ -4,15 +4,18 @@ let CACHE_VERSION = '0.0.63';
 let CACHE_NAME = 'scannerCache';
 let urlsToCache = [
   'index.html',
-  'css/main.css',
-  'js/scanner.js',
-  'css/material-icons.css',
-  'fonts/material-icons.woff2',
-  'css/material.indigo-green.min.css',
-  'external/material.min.js',
-  'external/jquery.min.js',
-  'external/instascan.min.js',
-  'external/cripto-aes.min.js'
+  'assets/css/main.min.css',
+  'assets/js/main.min.js',
+  'assets/libs/materialize/css/material-icons.css',
+  'assets/libs/materialize/css/material-icons.woff2',
+  'assets/libs/materialize/css/materialize.min.css',
+  'assets/libs/materialize/js/materialize.min.js',
+  'assets/libs/jquery/jquery.min.js',
+  'assets/libs/instascan/adapter.min.js',
+  'assets/libs/instascan/instascan.compressed.js',
+  'assets/libs/criptojs/cripto-aes.min.js',
+  'assets/libs/clusterize/clusterize.min.css',
+  'assets/libs/clusterize/clusterize.min.js'
 ];
 
 // clear old caches
